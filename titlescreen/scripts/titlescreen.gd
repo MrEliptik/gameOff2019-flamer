@@ -14,21 +14,33 @@ func _physics_process(delta):
 		$Selector1.visible = true;
 		$Selector2.visible = false;
 		$Selector3.visible = false;
-	if $Menu/CenterRow/Buttons/OptionsButton.is_hovered() == true:
-		$Menu/CenterRow/Buttons/OptionsButton.grab_focus()
+		$Selector4.visible = false;
+	elif $Menu/CenterRow/Buttons/TutorialButton.is_hovered() == true:
+		$Menu/CenterRow/Buttons/TutorialButton.grab_focus()
 		$Selector1.visible = false;
 		$Selector2.visible = true;
 		$Selector3.visible = false;
-	if $Menu/CenterRow/Buttons/ExitButton.is_hovered() == true:
-		$Menu/CenterRow/Buttons/ExitButton.grab_focus()
+		$Selector4.visible = false;
+	elif $Menu/CenterRow/Buttons/OptionsButton.is_hovered() == true:
+		$Menu/CenterRow/Buttons/OptionsButton.grab_focus()
 		$Selector1.visible = false;
 		$Selector2.visible = false;
 		$Selector3.visible = true;
+		$Selector4.visible = false;
+	elif $Menu/CenterRow/Buttons/ExitButton.is_hovered() == true:
+		$Menu/CenterRow/Buttons/ExitButton.grab_focus()
+		$Selector1.visible = false;
+		$Selector2.visible = false;
+		$Selector3.visible = false;
+		$Selector4.visible = true;
 		
 func _on_button_pressed(scene_to_load):
-	scene_path_to_load = scene_to_load
-	$FadeIn.show()
-	$FadeIn.fade_in()
+	if scene_to_load == "-1": 
+		get_tree().quit()
+	else:	
+		scene_path_to_load = scene_to_load
+		$FadeIn.show()
+		$FadeIn.fade_in()
 
 func _on_FadeIn_fade_finished():
 	get_tree().change_scene(scene_path_to_load)
