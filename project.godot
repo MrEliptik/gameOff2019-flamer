@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="game_jam_nov_2019"
-run/main_scene="res://game.tscn"
+run/main_scene="res://game/level_1/scenes/game.tscn"
 config/icon="res://icon.png"
 
 [display]

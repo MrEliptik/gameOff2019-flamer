@@ -139,7 +139,7 @@ func _physics_process(delta):
 			if control_type == CONTROLLER.GAMEPAD:
 				Input.start_joy_vibration(0, 1, 1, 0.4)
 			$AnimatedSprite.play("dead")
-			get_tree().change_scene("res://Dead_screen.tscn")
+			get_tree().change_scene("res://game/Dead_screen.tscn")
 		else:
 			print(collision.collider)
 

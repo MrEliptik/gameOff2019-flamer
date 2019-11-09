@@ -1,8 +1,8 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Node2D.gd" type="Script" id=1]
+[ext_resource path="res://game/level_1/scripts/Node2D.gd" type="Script" id=1]
 [ext_resource path="res://tileset.png" type="Texture" id=2]
-[ext_resource path="res://KinematicBody2D.gd" type="Script" id=3]
+[ext_resource path="res://game/level_1/scripts/KinematicBody2D.gd" type="Script" id=3]
 [ext_resource path="res://transparent PNG/idle/frame-1.png" type="Texture" id=4]
 [ext_resource path="res://transparent PNG/idle/frame-2.png" type="Texture" id=5]
 [ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=6]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://game/ReturnToTitle.gd" type="Script" id=1]
+[ext_resource path="res://titlescreen/scripts/ReturnToTitle.gd" type="Script" id=1]
 [ext_resource path="res://fonts/game_64.tres" type="DynamicFont" id=2]
 
 [node name="Play" type="Control"]

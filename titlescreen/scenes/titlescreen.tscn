@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://titlescreen.gd" type="Script" id=1]
+[ext_resource path="res://titlescreen/scripts/titlescreen.gd" type="Script" id=1]
 [ext_resource path="res://background.png" type="Texture" id=2]
 [ext_resource path="res://run_anim.tres" type="Texture" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
@@ -19,7 +19,7 @@ bg_color = Color( 1, 0, 0.909804, 0.290196 )
 border_color = Color( 0, 0, 0, 0.0588235 )
 border_blend = true
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 1, 1, 1, 0.372549 )
 border_blend = true
 corner_radius_top_left = 5
@@ -29,7 +29,7 @@ corner_radius_bottom_left = 5
 corner_detail = 100
 anti_aliasing_size = 5
 
-[sub_resource type="AnimatedTexture" id=5]
+[sub_resource type="AnimatedTexture" id=3]
 flags = 4
 frames = 4
 fps = 10.0
@@ -117,7 +117,7 @@ margin_top = 94.0
 margin_right = 382.0
 margin_bottom = 154.0
 custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 3 )
+custom_styles/focus = SubResource( 2 )
 scene_to_load = "res://game.tscn"
 
 [node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 6 )]
@@ -125,7 +125,7 @@ margin_top = 174.0
 margin_right = 382.0
 margin_bottom = 234.0
 custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 3 )
+custom_styles/focus = SubResource( 2 )
 scene_to_load = "res://game/Options.tscn"
 
 [node name="ExitButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
@@ -133,7 +133,7 @@ margin_top = 254.0
 margin_right = 382.0
 margin_bottom = 314.0
 custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 3 )
+custom_styles/focus = SubResource( 2 )
 scene_to_load = "res://game/Exit.tscn"
 
 [node name="CenterContainer" type="CenterContainer" parent="Menu/CenterRow"]
@@ -147,7 +147,7 @@ size_flags_vertical = 3
 margin_left = 37.0
 margin_right = 344.0
 margin_bottom = 409.0
-texture = SubResource( 5 )
+texture = SubResource( 3 )
 
 [node name="Version" type="Label" parent="Menu"]
 margin_top = 413.0
