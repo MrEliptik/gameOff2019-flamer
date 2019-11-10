@@ -1,19 +1,24 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://game/level_1/scripts/Node2D.gd" type="Script" id=1]
 [ext_resource path="res://tileset.png" type="Texture" id=2]
 [ext_resource path="res://game/level_1/scripts/KinematicBody2D.gd" type="Script" id=3]
 [ext_resource path="res://transparent PNG/idle/frame-1.png" type="Texture" id=4]
 [ext_resource path="res://transparent PNG/idle/frame-2.png" type="Texture" id=5]
-[ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=6]
-[ext_resource path="res://transparent PNG/faint/frame-2.png" type="Texture" id=7]
-[ext_resource path="res://transparent PNG/faint/frame-3.png" type="Texture" id=8]
-[ext_resource path="res://transparent PNG/run/frame-1.png" type="Texture" id=9]
-[ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=10]
-[ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=11]
-[ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=12]
+[ext_resource path="res://transparent PNG/run/frame-1.png" type="Texture" id=6]
+[ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=7]
+[ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=8]
+[ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=9]
+[ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=10]
+[ext_resource path="res://transparent PNG/faint/frame-2.png" type="Texture" id=11]
+[ext_resource path="res://transparent PNG/faint/frame-3.png" type="Texture" id=12]
 [ext_resource path="res://transparent PNG/jump fall/frame.png" type="Texture" id=13]
 [ext_resource path="res://transparent PNG/jump up/frame.png" type="Texture" id=14]
+[ext_resource path="res://score.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Vignette_shader.tres" type="Material" id=17]
+[ext_resource path="res://game/level_1/scenes/ColorRect.gd" type="Script" id=18]
+[ext_resource path="res://log.tscn" type="PackedScene" id=19]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -65,15 +70,15 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "dead",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "run",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "dead",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 13 ) ],
 "loop": true,
@@ -117,18 +122,31 @@ frames = SubResource( 5 )
 animation = "idle"
 
 [node name="Camera2D" type="Camera2D" parent="player"]
+editor/display_folded = true
 offset = Vector2( 200, 50 )
 current = true
 smoothing_enabled = true
 smoothing_speed = 4.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
+
+[node name="HUD" parent="player/Camera2D/CanvasLayer" instance=ExtResource( 15 )]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="player/Camera2D"]
+
+[node name="Dead_screen" parent="player/Camera2D/CanvasLayer2" instance=ExtResource( 16 )]
+visible = false
 
 [node name="Timer" type="Timer" parent="player"]
 wait_time = 0.5
 one_shot = true
 
 [node name="Ground" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Ground"]
+editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D"]
 position = Vector2( 5282.48, 1233.63 )
@@ -152,4 +170,14 @@ margin_left = 4.0
 margin_top = 13.0
 margin_right = 4.0
 margin_bottom = 27.0
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = ExtResource( 17 )
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0, 0, 0, 1 )
+script = ExtResource( 18 )
+
+[node name="Log" parent="." instance=ExtResource( 19 )]
+position = Vector2( 658.539, 393.133 )
 [connection signal="timeout" from="player/Timer" to="player" method="_on_Timer_timeout"]
