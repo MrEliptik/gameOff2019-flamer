@@ -5,15 +5,15 @@
 [ext_resource path="res://game/level_1/scripts/KinematicBody2D.gd" type="Script" id=3]
 [ext_resource path="res://transparent PNG/idle/frame-1.png" type="Texture" id=4]
 [ext_resource path="res://transparent PNG/idle/frame-2.png" type="Texture" id=5]
-[ext_resource path="res://transparent PNG/run/frame-1.png" type="Texture" id=6]
-[ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=7]
-[ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=8]
-[ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=9]
-[ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=10]
-[ext_resource path="res://transparent PNG/faint/frame-2.png" type="Texture" id=11]
-[ext_resource path="res://transparent PNG/faint/frame-3.png" type="Texture" id=12]
-[ext_resource path="res://transparent PNG/jump fall/frame.png" type="Texture" id=13]
-[ext_resource path="res://transparent PNG/jump up/frame.png" type="Texture" id=14]
+[ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=6]
+[ext_resource path="res://transparent PNG/faint/frame-2.png" type="Texture" id=7]
+[ext_resource path="res://transparent PNG/faint/frame-3.png" type="Texture" id=8]
+[ext_resource path="res://transparent PNG/jump fall/frame.png" type="Texture" id=9]
+[ext_resource path="res://transparent PNG/jump up/frame.png" type="Texture" id=10]
+[ext_resource path="res://transparent PNG/run/frame-1.png" type="Texture" id=11]
+[ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=12]
+[ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=13]
+[ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=14]
 [ext_resource path="res://score.tscn" type="PackedScene" id=15]
 [ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Vignette_shader.tres" type="Material" id=17]
@@ -70,30 +70,30 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
-"loop": true,
-"name": "run",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "dead",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ) ],
+"frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "jump_fall",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ) ],
+"frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "fall",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
+"frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "jump_up",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "run",
+"speed": 15.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=6]

@@ -1,50 +1,52 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://titlescreen/scripts/titlescreen.gd" type="Script" id=1]
-[ext_resource path="res://background.png" type="Texture" id=2]
-[ext_resource path="res://run_anim.tres" type="Texture" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
-[ext_resource path="res://buttons/PlayButton.tscn" type="PackedScene" id=5]
-[ext_resource path="res://buttons/TutorialButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://buttons/OptionsButton.tscn" type="PackedScene" id=7]
-[ext_resource path="res://buttons/ExitButton.tscn" type="PackedScene" id=8]
-[ext_resource path="res://transparent PNG/run/frame-1.png" type="Texture" id=9]
-[ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=10]
-[ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=11]
-[ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=12]
-[ext_resource path="res://fonts/ROBO.ttf" type="DynamicFontData" id=13]
-[ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=14]
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 0, 0.909804, 0.290196 )
-border_color = Color( 0, 0, 0, 0.0588235 )
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 1, 1, 0.372549 )
-border_blend = true
-corner_radius_top_left = 5
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 5
-corner_detail = 100
-anti_aliasing_size = 5
+[ext_resource path="res://run_anim.tres" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://buttons/PlayButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://buttons/TutorialButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://buttons/OptionsButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://buttons/ExitButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://sprites/flamer/front-256/sprite_00.png" type="Texture" id=8]
+[ext_resource path="res://sprites/flamer/front-256/sprite_01.png" type="Texture" id=9]
+[ext_resource path="res://sprites/flamer/front-256/sprite_02.png" type="Texture" id=10]
+[ext_resource path="res://sprites/flamer/front-256/sprite_03.png" type="Texture" id=11]
+[ext_resource path="res://sprites/flamer/front-256/sprite_04.png" type="Texture" id=12]
+[ext_resource path="res://sprites/flamer/front-256/sprite_05.png" type="Texture" id=13]
+[ext_resource path="res://sprites/flamer/front-256/sprite_06.png" type="Texture" id=14]
+[ext_resource path="res://sprites/flamer/front-256/sprite_07.png" type="Texture" id=15]
+[ext_resource path="res://sprites/flamer/front-256/sprite_08.png" type="Texture" id=16]
+[ext_resource path="res://sprites/flamer/front-256/sprite_09.png" type="Texture" id=17]
+[ext_resource path="res://fonts/ROBO.ttf" type="DynamicFontData" id=18]
+[ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=19]
 
 [sub_resource type="AnimatedTexture" id=3]
 flags = 4
-frames = 4
-fps = 10.0
-frame_0/texture = ExtResource( 9 )
-frame_1/texture = ExtResource( 10 )
+frames = 10
+fps = 8.0
+frame_0/texture = ExtResource( 8 )
+frame_1/texture = ExtResource( 9 )
 frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 11 )
+frame_2/texture = ExtResource( 10 )
 frame_2/delay_sec = 0.0
-frame_3/texture = ExtResource( 12 )
+frame_3/texture = ExtResource( 11 )
 frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 12 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 13 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 14 )
+frame_6/delay_sec = 0.0
+frame_7/texture = ExtResource( 15 )
+frame_7/delay_sec = 0.0
+frame_8/texture = ExtResource( 16 )
+frame_8/delay_sec = 0.0
+frame_9/texture = ExtResource( 17 )
+frame_9/delay_sec = 0.0
 
 [sub_resource type="DynamicFont" id=4]
 size = 20
-font_data = ExtResource( 13 )
+font_data = ExtResource( 18 )
 
 [node name="Titlescreen" type="Control"]
 anchor_right = 1.0
@@ -58,49 +60,51 @@ script = ExtResource( 1 )
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -0.663422
-margin_right = -0.663452
+margin_left = -2.33359
+margin_right = -2.33362
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer"]
-margin_left = 448.0
-margin_top = 252.0
-margin_right = 1472.0
-margin_bottom = 828.0
+margin_left = 960.0
+margin_top = 540.0
+margin_right = 960.0
+margin_bottom = 540.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 2 )
 
 [node name="Selector1" type="TextureRect" parent="."]
 margin_left = 101.42
-margin_top = 495.972
+margin_top = 449.972
 margin_right = 172.42
-margin_bottom = 562.972
+margin_bottom = 516.972
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="Selector2" type="TextureRect" parent="."]
+visible = false
 margin_left = 101.42
-margin_top = 576.814
+margin_top = 530.814
 margin_right = 172.42
-margin_bottom = 643.814
+margin_bottom = 597.814
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="Selector3" type="TextureRect" parent="."]
+visible = false
 margin_left = 101.42
-margin_top = 654.972
+margin_top = 608.972
 margin_right = 172.42
-margin_bottom = 721.972
+margin_bottom = 675.972
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="Selector4" type="TextureRect" parent="."]
+visible = false
 margin_left = 101.42
-margin_top = 738.855
+margin_top = 692.855
 margin_right = 172.42
-margin_bottom = 805.855
+margin_bottom = 759.855
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="Menu" type="VBoxContainer" parent="."]
 margin_left = 189.0
@@ -112,71 +116,68 @@ margin_bottom = 1032.0
 visible = false
 margin_right = 768.0
 margin_bottom = 64.0
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 stretch_mode = 4
 
 [node name="CenterRow" type="HBoxContainer" parent="Menu"]
 margin_right = 1627.0
-margin_bottom = 409.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
 margin_right = 811.0
-margin_bottom = 409.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
 alignment = 1
 
-[node name="PlayButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 5 )]
-margin_top = 54.0
+[node name="PlayButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
 margin_right = 811.0
-margin_bottom = 114.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 2 )
+margin_bottom = 60.0
 
-[node name="TutorialButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 6 )]
-margin_top = 134.0
+[node name="TutorialButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 5 )]
+margin_top = 80.0
 margin_right = 811.0
-margin_bottom = 194.0
+margin_bottom = 140.0
 
-[node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
-margin_top = 214.0
+[node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 6 )]
+margin_top = 160.0
 margin_right = 811.0
-margin_bottom = 274.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 2 )
+margin_bottom = 220.0
 
-[node name="ExitButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 8 )]
-margin_top = 294.0
+[node name="ExitButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 7 )]
+margin_top = 240.0
 margin_right = 811.0
-margin_bottom = 354.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 2 )
+margin_bottom = 300.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Menu/CenterRow"]
 margin_left = 815.0
 margin_right = 1627.0
-margin_bottom = 409.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Characters" type="TextureRect" parent="Menu/CenterRow/CenterContainer"]
-margin_left = 252.0
-margin_right = 559.0
-margin_bottom = 409.0
+margin_left = 278.0
+margin_top = 22.0
+margin_right = 534.0
+margin_bottom = 278.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = SubResource( 3 )
 
 [node name="Version" type="Label" parent="Menu"]
-margin_top = 413.0
+margin_top = 304.0
 margin_right = 1627.0
 margin_bottom = 573.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 4 )
 text = "Version 1.0
 MrEliptik"
+valign = 2
 
-[node name="FadeIn" parent="." instance=ExtResource( 14 )]
+[node name="FadeIn" parent="." instance=ExtResource( 19 )]
 visible = false
 [connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]

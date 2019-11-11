@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://buttons/menuButton.gd" type="Script" id=1]
-[ext_resource path="res://fonts/game_64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/vikingHell_64.tres" type="DynamicFont" id=2]
 
 [node name="MenuButton" type="Button"]
 margin_right = 768.0
@@ -14,7 +14,8 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color_shadow = Color( 0.823529, 0.443137, 0.960784, 1 )
+custom_colors/font_color = Color( 0.807843, 0.262745, 0.262745, 1 )
+custom_colors/font_color_shadow = Color( 0.541176, 0.0470588, 0.0470588, 1 )
 custom_constants/shadow_offset_x = 5
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 2
