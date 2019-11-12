@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://titlescreen/scripts/titlescreen.gd" type="Script" id=1]
 [ext_resource path="res://run_anim.tres" type="Texture" id=2]
@@ -19,8 +19,9 @@
 [ext_resource path="res://sprites/flamer/front-256/sprite_09.png" type="Texture" id=17]
 [ext_resource path="res://fonts/ROBO.ttf" type="DynamicFontData" id=18]
 [ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=19]
+[ext_resource path="res://select2.wav" type="AudioStream" id=20]
 
-[sub_resource type="AnimatedTexture" id=3]
+[sub_resource type="AnimatedTexture" id=1]
 flags = 4
 frames = 10
 fps = 8.0
@@ -44,7 +45,7 @@ frame_8/delay_sec = 0.0
 frame_9/texture = ExtResource( 17 )
 frame_9/delay_sec = 0.0
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 size = 20
 font_data = ExtResource( 18 )
 
@@ -166,18 +167,22 @@ margin_right = 534.0
 margin_bottom = 278.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = SubResource( 3 )
+texture = SubResource( 1 )
 
 [node name="Version" type="Label" parent="Menu"]
 margin_top = 304.0
 margin_right = 1627.0
 margin_bottom = 573.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 text = "Version 1.0
 MrEliptik"
 valign = 2
 
 [node name="FadeIn" parent="." instance=ExtResource( 19 )]
 visible = false
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 20 )
+mix_target = 2
 [connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
