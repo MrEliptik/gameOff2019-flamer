@@ -6,6 +6,8 @@ export (int) var jump_speed = 700
 export (int) var dash_speed = 7000
 export (int) var gravity = 1600
 
+export (int) var score = 0
+
 # In milliseconds
 const PERFECT_JUMP_INTERVAL = 800
 
@@ -18,6 +20,10 @@ var dash_acc = 0
 var velocity = Vector2()
 var jumping = false
 var dashing = false
+
+var dead = false
+
+var vignette = 1.0
 
 enum ORIENTATION{
 	RIGHT,
@@ -56,8 +62,8 @@ func _input(e):
 func get_input():
 	velocity.x = 0
 	
-	# Disable controls if dashing
-	if dashing: return
+	# Disable controls if dashing or dead
+	if dashing or dead: return
 		
 	if jump_count < max_jump and Input.is_action_just_pressed('ui_jump'):
 		# Check if perfect jump
@@ -66,6 +72,8 @@ func get_input():
 				print("perfect jump")
 		jumping = true
 		jump_count += 1
+		score+=1
+		$Camera2D/CanvasLayer/HUD.updateScore(score)
 		velocity.y = -jump_speed
 	elif Input.is_action_just_pressed('ui_dash'):
 		dashing = true;
@@ -98,8 +106,12 @@ func get_input():
 		$AnimatedSprite.play("idle")
 		
 func _physics_process(delta):
+	if dead: return
 	get_input()
 	velocity.y += delta * gravity
+	
+	vignette -= (delta * 0.1)
+	$Camera2D/CanvasLayer3/Vignette.get_material().set_shader_param("vignette_radius", vignette)
 	
 	# Falling
 	if velocity.y < 0:
@@ -110,6 +122,9 @@ func _physics_process(delta):
 		#$AnimatedSprite.play("jump_up")
 		pass
 
+	# TODO: fix. Doesn't count the first jump
+	# because we set jumping to true, but player
+	# is stille touching the ground
 	if jumping and is_on_floor():
 		jumping = false
 		last_time_touched_ground = OS.get_ticks_msec()
@@ -138,8 +153,13 @@ func _physics_process(delta):
 		elif collision.collider is StaticBody2D:
 			if control_type == CONTROLLER.GAMEPAD:
 				Input.start_joy_vibration(0, 1, 1, 0.4)
+				
+			$Camera2D.shake(1.5, 15, 20)
 			$AnimatedSprite.play("dead")
-			get_tree().change_scene("res://game/Dead_screen.tscn")
+			dead = true
+			$Camera2D/CanvasLayer3/Vignette.get_material().set_shader_param("vignette_radius", 1.0)
+			$Camera2D/CanvasLayer2/Dead_screen.visible = true
+			#get_tree().change_scene("res://game/Dead_screen.tscn")
 		else:
 			print(collision.collider)
 
