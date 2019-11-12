@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://game/level_1/scripts/Node2D.gd" type="Script" id=1]
 [ext_resource path="res://tileset.png" type="Texture" id=2]
@@ -14,11 +14,10 @@
 [ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=12]
 [ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=13]
 [ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=14]
-[ext_resource path="res://score.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Vignette_shader.tres" type="Material" id=17]
-[ext_resource path="res://game/level_1/scenes/ColorRect.gd" type="Script" id=18]
-[ext_resource path="res://log.tscn" type="PackedScene" id=19]
+[ext_resource path="res://game/level_1/scenes/Camera2D.gd" type="Script" id=15]
+[ext_resource path="res://score.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=17]
+[ext_resource path="res://log.tscn" type="PackedScene" id=18]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -96,6 +95,65 @@ animations = [ {
 "speed": 15.0
 } ]
 
+[sub_resource type="Shader" id=7]
+code = "// define shader type
+shader_type canvas_item;
+
+// Variable accessible outside of the shader
+uniform float vignette_radius;
+
+/*
+https://math.stackexchange.com/questions/198764/how-to-know-if-a-point-is-inside-a-circle
+The distance between ⟨xc,yc⟩ and ⟨xp,yp⟩ is given by the Pythagorean theorem as
+d=(xp−xc)2+(yp−yc)2−−−−−−−−−−−−−−−−−−√.
+The point ⟨xp,yp⟩ is inside the circle if d<r, on the circle if d=r, and outside the circle if d>r. 
+You can save yourself a little work by comparing d2 with r2 instead: 
+the point is inside the circle if d2<r2, on the circle if d2=r2, and outside the circle if d2>r2. 
+Thus, you want to compare the number (xp−xc)2+(yp−yc)2 with r2.
+*/
+
+/*
+Check if point is inside the circle
+    Point to check: vec2 point
+    Circle center: vec2 ccircle
+    Circle radius: r
+Return true if inside circle, false otherwise
+*/
+bool isInsideCircle(vec2 point, vec2 ccircle, float r){
+    return (pow(point.x-ccircle.x, 2) + pow(point.y-ccircle.y, 2)) < pow(r, 2.0); 
+}
+
+void fragment(){
+	// Put the input pixel in a variable
+	vec2 uv = UV;
+	
+	// 0.5 because vignette is always at the center
+	if(isInsideCircle(uv, vec2(0.5, 0.5), vignette_radius)){
+	    // Pixel is kept the same
+		// SCREEN TEXTURE & UV are used to get
+		// what's being the ColorRect
+		COLOR = texture(SCREEN_TEXTURE, SCREEN_UV)
+	} 
+	else{
+	    // Pixel is drawn black
+	    // edit uv here and then put it back to
+	    // the out variable COLOR
+	    COLOR.rgb = vec3(0); // 0 black, 1 white
+	}
+
+}
+
+	// Sample the texture
+	//vec4 tex_color = texture(TEXTURE, UV);
+	
+	//float len = length(UV - vec2(0.5));
+
+    //COLOR = vec4(tex_color.rgb * vec3(1.0 - len), 0.1);"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
+shader_param/vignette_radius = 0.5
+
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 5396.03, 10 )
 
@@ -122,20 +180,28 @@ frames = SubResource( 5 )
 animation = "idle"
 
 [node name="Camera2D" type="Camera2D" parent="player"]
-editor/display_folded = true
 offset = Vector2( 200, 50 )
 current = true
 smoothing_enabled = true
 smoothing_speed = 4.0
+script = ExtResource( 15 )
+
+[node name="CanvasLayer3" type="CanvasLayer" parent="player/Camera2D"]
+
+[node name="Vignette" type="ColorRect" parent="player/Camera2D/CanvasLayer3"]
+material = SubResource( 8 )
+margin_right = 1920.0
+margin_bottom = 1080.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="player/Camera2D"]
-editor/display_folded = true
 
-[node name="HUD" parent="player/Camera2D/CanvasLayer" instance=ExtResource( 15 )]
+[node name="HUD" parent="player/Camera2D/CanvasLayer" instance=ExtResource( 16 )]
+margin_top = -7.02271
+margin_bottom = -7.02271
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="player/Camera2D"]
 
-[node name="Dead_screen" parent="player/Camera2D/CanvasLayer2" instance=ExtResource( 16 )]
+[node name="Dead_screen" parent="player/Camera2D/CanvasLayer2" instance=ExtResource( 17 )]
 visible = false
 
 [node name="Timer" type="Timer" parent="player"]
@@ -171,13 +237,6 @@ margin_top = 13.0
 margin_right = 4.0
 margin_bottom = 27.0
 
-[node name="Vignette" type="ColorRect" parent="."]
-material = ExtResource( 17 )
-margin_right = 1920.0
-margin_bottom = 1080.0
-color = Color( 0, 0, 0, 1 )
-script = ExtResource( 18 )
-
-[node name="Log" parent="." instance=ExtResource( 19 )]
+[node name="Log" parent="." instance=ExtResource( 18 )]
 position = Vector2( 658.539, 393.133 )
 [connection signal="timeout" from="player/Timer" to="player" method="_on_Timer_timeout"]
