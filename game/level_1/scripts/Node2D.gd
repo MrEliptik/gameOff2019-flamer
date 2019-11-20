@@ -92,4 +92,4 @@ func _ready():
 	pass
 	
 func _process(delta):
-	pass
+	$player/Camera2D/CanvasLayer/HUD.updateFPS(Engine.get_frames_per_second())
