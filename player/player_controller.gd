@@ -180,13 +180,17 @@ class RunRightState:
 		return "Run"
 		
 	func update(delta):
-		pass
+		# Useful for analog control
+		var dir_strength = Input.get_action_strength("ui_right")
+		player.velocity.x *= dir_strength
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+		elif e.is_action_pressed("ui_left"):
+			player.set_state(player.STATES.RUN_LEFT)
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
 		else:
@@ -213,13 +217,17 @@ class RunLeftState:
 		return "Run"
 		
 	func update(delta):
-		pass
+		# Useful for analog control
+		var dir_strength = Input.get_action_strength("ui_left")
+		player.velocity.x *= dir_strength
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+		elif e.is_action_pressed("ui_right"):
+			player.set_state(player.STATES.RUN_RIGHT)
 		elif e.is_action_pressed("ui_jump"):
 			player.score+=1
 			player.get_node("Camera2D/CanvasLayer/HUD").updateScore(player.score)
