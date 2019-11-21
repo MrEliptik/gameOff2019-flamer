@@ -25,12 +25,18 @@ var vignette = 1.0
 
 var pre_dash_speed = 0
 
+var max_jumps = 2
+var jump_count = 0
+
 onready var state = IdleState.new(self)
+onready var previous_state = null
 
 enum STATES{
 	IDLE,
 	RUN_LEFT,
-	RUN_RIGHT
+	RUN_RIGHT,
+	AIR_LEFT,
+	AIR_RIGHT,
 	JUMP,
 	DOUBLE_JUMP,
 	DASH,
@@ -95,6 +101,10 @@ func set_state(new_state):
 		state = JumpState.new(self)
 	elif new_state == STATES.DOUBLE_JUMP:
 		state = DoubleJumpState.new(self)
+	elif new_state == STATES.AIR_LEFT:
+		state = AirLeftState.new(self)
+	elif new_state == STATES.AIR_RIGHT:
+		state = AirRightState.new(self)
 	elif new_state == STATES.DASH:
 		state = DashState.new(self)
 	elif new_state == STATES.DEAD:
@@ -112,6 +122,10 @@ func get_state():
 		return STATES.JUMP
 	elif state is DoubleJumpState:
 		return STATES.DOUBLE_JUMP
+	elif state is AirLeftState:
+		return STATES.AIR_LEFT
+	elif state is AirRightState:
+		return STATES.AIR_RIGHT
 	elif state is DashState:
 		return STATES.DASH
 	elif state is DeadState:
@@ -146,14 +160,14 @@ class IdleState:
 			player.set_state(player.STATES.JUMP)
 	
 	func exit():
-		pass
+		player.previous_state = player.state
 		
 class RunRightState:
 	var player
 	
 	func _init(player):
 		self.player = player
-
+		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(false)
 		player.velocity.x += player.run_speed
 		player.get_node("AnimatedSprite").play("run")
@@ -179,14 +193,14 @@ class RunRightState:
 			player.set_state(player.STATES.IDLE)
 	
 	func exit():
-		pass
+		player.previous_state = player.state
 		
 class RunLeftState:
 	var player
 	
 	func _init(player):
 		self.player = player
-
+		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(true)
 		player.velocity.x -= player.run_speed
 		player.get_node("AnimatedSprite").play("run")
@@ -215,7 +229,7 @@ class RunLeftState:
 			player.set_state(player.STATES.IDLE)
 	
 	func exit():
-		pass
+		player.previous_state = player.state
 		
 class JumpState:
 	var player
@@ -223,6 +237,7 @@ class JumpState:
 	func _init(player):
 		self.player = player
 		player.velocity.y = -player.jump_speed
+		player.jump_count = 1
 		player.score+=1
 		player.get_node("Camera2D/CanvasLayer/HUD").updateScore(player.score)
 		if player.DEBUG:
@@ -240,11 +255,15 @@ class JumpState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+		elif e.is_action_pressed("ui_left"):
+			player.set_state(player.STATES.AIR_LEFT)
+		elif e.is_action_pressed("ui_right"):
+			player.set_state(player.STATES.AIR_RIGHT)
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.DOUBLE_JUMP)
 	
 	func exit():
-		pass
+		player.previous_state = player.state
 	
 class DoubleJumpState:
 	var player
@@ -252,6 +271,7 @@ class DoubleJumpState:
 	func _init(player):
 		self.player = player
 		player.velocity.y = -player.jump_speed
+		player.jump_count = 2
 		player.score+=1
 		player.get_node("Camera2D/CanvasLayer/HUD").updateScore(player.score)
 		if player.DEBUG:
@@ -268,10 +288,80 @@ class DoubleJumpState:
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()	
+			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+		elif e.is_action_pressed("ui_left"):
+			player.set_state(player.STATES.AIR_LEFT)
+		elif e.is_action_pressed("ui_right"):
+			player.set_state(player.STATES.AIR_RIGHT)
 	
 	func exit():
-		pass
+		player.previous_state = player.state
+
+class AirLeftState:
+	var player
+	
+	func _init(player):
+		self.player = player
+		player.velocity.x = 0
+		player.get_node("AnimatedSprite").set_flip_h(true)
+		player.velocity.x -= player.run_speed
+		player.get_node("AnimatedSprite").play("run")
+		player.pre_dash_speed = player.velocity.x
+		if player.DEBUG:
+			player.get_node("player_state").text = _get_name()
+		
+	func _get_name():
+		return "Air left"	
+		
+	func update(delta):
+		if player.is_on_floor():
+			player.set_state(player.STATES.IDLE)
+	
+	func input(e):
+		if e.is_action_pressed("ui_restart"):
+			player.get_tree().paused = true
+			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
+			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
+			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_right"):
+			player.set_state(player.STATES.AIR_RIGHT)
+	
+	func exit():
+		player.previous_state = player.state
+
+class AirRightState:
+	var player
+	
+	func _init(player):
+		self.player = player
+		player.velocity.x = 0
+		player.get_node("AnimatedSprite").set_flip_h(false)
+		player.velocity.x += player.run_speed
+		player.get_node("AnimatedSprite").play("run")
+		player.pre_dash_speed = player.velocity.x
+		if player.DEBUG:
+			player.get_node("player_state").text = _get_name()
+		
+	func _get_name():
+		return "Air right"	
+		
+	func update(delta):
+		if player.is_on_floor():
+			player.set_state(player.STATES.IDLE)
+	
+	func input(e):
+		if e.is_action_pressed("ui_restart"):
+			player.get_tree().paused = true
+			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
+			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
+			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_left"):
+			player.set_state(player.STATES.AIR_LEFT)
+	
+	func exit():
+		player.previous_state = player.state
 		
 class DashState:
 	var player
@@ -294,7 +384,7 @@ class DashState:
 			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()	
 	
 	func exit():
-		pass
+		player.previous_state = player.get_state()
 		
 class DeadState:
 	var player
@@ -323,4 +413,4 @@ class DeadState:
 		if e.is_action_pressed("ui_restart"): 	
 			player.get_tree().reload_current_scene()
 	func exit():
-		pass
+		player.previous_state = player.state
