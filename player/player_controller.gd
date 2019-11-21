@@ -177,12 +177,14 @@ class RunRightState:
 			player.get_node("player_state").text = _get_name()
 		
 	func _get_name():
-		return "Run"
+		return "Run right"
 		
 	func update(delta):
+		pass
 		# Useful for analog control
-		var dir_strength = Input.get_action_strength("ui_right")
-		player.velocity.x *= dir_strength
+		#var dir_strength = Input.get_action_strength("ui_right")
+		#print(dir_strength)
+		#player.velocity.x *= dir_strength
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -194,7 +196,8 @@ class RunRightState:
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
 		else:
-			player.set_state(player.STATES.IDLE)
+			pass
+			#player.set_state(player.STATES.IDLE)
 	
 	func exit():
 		player.previous_state = player.state
@@ -214,12 +217,14 @@ class RunLeftState:
 			player.get_node("player_state").text = _get_name()
 		
 	func _get_name():
-		return "Run"
+		return "Run left"
 		
 	func update(delta):
+		pass
 		# Useful for analog control
-		var dir_strength = Input.get_action_strength("ui_left")
-		player.velocity.x *= dir_strength
+		#var dir_strength = Input.get_action_strength("ui_left")
+		#print(dir_strength)
+		#player.velocity.x *= dir_strength
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -229,12 +234,10 @@ class RunLeftState:
 		elif e.is_action_pressed("ui_right"):
 			player.set_state(player.STATES.RUN_RIGHT)
 		elif e.is_action_pressed("ui_jump"):
-			player.score+=1
-			player.get_node("Camera2D/CanvasLayer/HUD").updateScore(player.score)
-			player.velocity.y = -player.jump_speed
 			player.set_state(player.STATES.JUMP)
 		else:
-			player.set_state(player.STATES.IDLE)
+			pass
+			#player.set_state(player.STATES.IDLE)
 	
 	func exit():
 		player.previous_state = player.state
@@ -323,7 +326,12 @@ class AirLeftState:
 		
 	func update(delta):
 		if player.is_on_floor():
-			player.set_state(player.STATES.IDLE)
+			if Input.is_action_pressed("ui_right"):
+				player.set_state(player.STATES.RUN_RIGHT)
+			elif Input.is_action_pressed("ui_left"):
+				player.set_state(player.STATES.RUN_LEFT)
+			else:
+				player.set_state(player.STATES.IDLE)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -356,7 +364,12 @@ class AirRightState:
 		
 	func update(delta):
 		if player.is_on_floor():
-			player.set_state(player.STATES.IDLE)
+			if Input.is_action_pressed("ui_right"):
+				player.set_state(player.STATES.RUN_RIGHT)
+			elif Input.is_action_pressed("ui_left"):
+				player.set_state(player.STATES.RUN_LEFT)
+			else:
+				player.set_state(player.STATES.IDLE)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
