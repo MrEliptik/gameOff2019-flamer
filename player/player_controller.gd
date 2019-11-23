@@ -5,7 +5,7 @@ const DEBUG = true
 export (int) var speed = 400
 export (int) var run_speed = 500
 export (int) var jump_speed = 700
-export (int) var dash_speed = 7000
+export (int) var dash_speed = 4000
 export (int) var gravity = 1600
 
 export (int) var score = 0
@@ -18,6 +18,8 @@ const DASH_TIME = 1
 # Used to count up the time we are dashing
 # until we reach DASH_TIME
 var dash_acc = 0
+
+var dash_finished = true
 
 var velocity = Vector2()
 
@@ -41,7 +43,8 @@ enum STATES{
 	AIR_RIGHT,
 	JUMP,
 	DOUBLE_JUMP,
-	DASH,
+	DASH_LEFT,
+	DASH_RIGHT,
 	FALL,
 	DEAD
 }
@@ -53,11 +56,7 @@ enum CONTROLLER{
 } 
 var control_type = CONTROLLER.KEYBOARD
 
-func _physics_process(delta):
-	
-	velocity.y += delta * gravity
-	velocity = move_and_slide(velocity, Vector2(0, -1))
-	
+func _physics_process(delta):	
 	# Goes through every collision that happened
 	# during move_and_slide()
 	var slide_count = get_slide_count()
@@ -82,6 +81,8 @@ func _physics_process(delta):
 			print(collision.collider)
 	
 	state.update(delta)
+	
+	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
 func _input(e):
 	print(Input.get_action_strength("ui_left"), Input.get_action_strength("ui_right"))
@@ -110,8 +111,10 @@ func set_state(new_state):
 		state = AirLeftState.new(self)
 	elif new_state == STATES.AIR_RIGHT:
 		state = AirRightState.new(self)
-	elif new_state == STATES.DASH:
-		state = DashState.new(self)
+	elif new_state == STATES.DASH_LEFT:
+		state = DashLeftState.new(self)
+	elif new_state == STATES.DASH_RIGHT:
+		state = DashRightState.new(self)
 	elif new_state == STATES.FALL:
 		state = FallState.new(self)
 	elif new_state == STATES.DEAD:
@@ -133,8 +136,10 @@ func get_state():
 		return STATES.AIR_LEFT
 	elif state is AirRightState:
 		return STATES.AIR_RIGHT
-	elif state is DashState:
-		return STATES.DASH
+	elif state is DashLeftState:
+		return STATES.DASH_LEFT
+	elif state is DashRightState:
+		return STATES.DASH_RIGHT
 	elif state is FallState:
 		return STATES.FALL
 	elif state is DeadState:
@@ -155,7 +160,7 @@ class IdleState:
 		return "Idle"	
 	
 	func update(delta):
-		pass
+		player.velocity.y += delta * player.gravity
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -189,6 +194,7 @@ class RunRightState:
 		return "Run right"
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.ready_to_idle:
 			player.set_state(player.STATES.IDLE)
 		# Useful for analog control
@@ -202,6 +208,8 @@ class RunRightState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
+		elif e.is_action_pressed("ui_dash"):
+			player.set_state(player.STATES.DASH_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.RUN_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
@@ -231,6 +239,7 @@ class RunLeftState:
 		return "Run left"
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.ready_to_idle:
 			player.set_state(player.STATES.IDLE)
 		# Useful for analog control
@@ -244,6 +253,8 @@ class RunLeftState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
+		elif e.is_action_pressed("ui_dash"):
+			player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.RUN_RIGHT)
 		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
@@ -271,6 +282,7 @@ class JumpState:
 		return "Jump"	
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.is_on_floor():
 			player.set_state(player.STATES.IDLE)
 	
@@ -304,6 +316,7 @@ class DoubleJumpState:
 		return "Double Jump"	
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.is_on_floor():
 			player.set_state(player.STATES.IDLE)
 	
@@ -336,6 +349,7 @@ class AirLeftState:
 		return "Air left"	
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.is_on_floor():
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
@@ -350,6 +364,8 @@ class AirLeftState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_dash"):
+			player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
@@ -378,6 +394,7 @@ class AirRightState:
 		return "Air right"	
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.is_on_floor():
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
@@ -392,6 +409,8 @@ class AirRightState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_dash"):
+			player.set_state(player.STATES.DASH_RIGHT)
 		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
@@ -403,19 +422,53 @@ class AirRightState:
 	func exit():
 		player.previous_state = player.state
 		
-class DashState:
+class DashLeftState:
 	var player
 	
 	func _init(player):
 		self.player = player
+
+		player.velocity.x = -player.dash_speed
+		player.dash_finished = false
+		player.get_node("DashTimer").start()
+		
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
 		
 	func _get_name():
-		return "Dash"	
+		return "Dash left"	
 		
 	func update(delta):
-		pass
+		if player.dash_finished:
+			player.set_state(player.STATES.IDLE)
+	
+	func input(e):
+		if e.is_action_pressed("ui_restart"):
+			player.get_tree().paused = true
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
+	
+	func exit():
+		player.previous_state = player.get_state()
+		
+class DashRightState:
+	var player
+	
+	func _init(player):
+		self.player = player
+
+		player.velocity.x = player.dash_speed
+		player.dash_finished = false
+		player.get_node("DashTimer").start()
+		
+		if player.DEBUG:
+			player.get_node("player_state").text = _get_name()
+		
+	func _get_name():
+		return "Dash right"	
+		
+	func update(delta):
+		if player.dash_finished:
+			player.set_state(player.STATES.IDLE)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -438,6 +491,7 @@ class FallState:
 		return "Fall"	
 		
 	func update(delta):
+		player.velocity.y += delta * player.gravity
 		if player.is_on_floor():
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
@@ -479,7 +533,7 @@ class DeadState:
 		return "Dead"	
 		
 	func update(delta):
-		pass
+		player.velocity.y += delta * player.gravity
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"): 	
@@ -491,3 +545,17 @@ class DeadState:
 func _on_IdleTimer_timeout():
 	print("idle timeout")
 	ready_to_idle = true
+
+func _on_DashTimer_timeout():
+	dash_finished = true
+
+func _on_GhostTimer_timeout():
+	if get_state() == STATES.DASH_RIGHT or get_state() == STATES.DASH_LEFT:
+		# make a copy of the ghost obj
+		var this_ghost = preload("res://ghost.tscn").instance()
+		# give the ghost a parent
+		get_parent().add_child(this_ghost)
+		this_ghost.position = position
+		this_ghost.texture = $AnimatedSprite.frames.get_frame($AnimatedSprite.animation, $AnimatedSprite.frame)
+		this_ghost.flip_h = $AnimatedSprite.flip_h
+		this_ghost.scale = $AnimatedSprite.scale
