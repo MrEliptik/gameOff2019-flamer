@@ -5,7 +5,7 @@ const DEBUG = true
 export (int) var speed = 400
 export (int) var run_speed = 500
 export (int) var jump_speed = 700
-export (int) var dash_speed = 4000
+export (int) var dash_speed = 3000
 export (int) var gravity = 1600
 
 export (int) var score = 0
@@ -20,6 +20,8 @@ const DASH_TIME = 1
 var dash_acc = 0
 
 var dash_finished = true
+
+var slowmo_finished = true
 
 var velocity = Vector2()
 
@@ -56,7 +58,15 @@ enum CONTROLLER{
 } 
 var control_type = CONTROLLER.KEYBOARD
 
+enum ORIENTATION{
+	RIGHT,
+	LEFT	
+}
+var player_orientation = ORIENTATION.RIGHT
+
 func _physics_process(delta):	
+
+	velocity = move_and_slide(velocity, Vector2(0, -1))
 	# Goes through every collision that happened
 	# during move_and_slide()
 	var slide_count = get_slide_count()
@@ -82,10 +92,9 @@ func _physics_process(delta):
 	
 	state.update(delta)
 	
-	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
 func _input(e):
-	print(Input.get_action_strength("ui_left"), Input.get_action_strength("ui_right"))
+	#print(Input.get_action_strength("ui_left"), Input.get_action_strength("ui_right"))
 	# Check what controller the user is currently using
 	if e is InputEventJoypadButton or e is InputEventJoypadMotion:
 		control_type = CONTROLLER.GAMEPAD
@@ -181,6 +190,7 @@ class RunRightState:
 	
 	func _init(player):
 		self.player = player
+		player.player_orientation = player.ORIENTATION.RIGHT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(false)
 		player.velocity.x += player.run_speed
@@ -226,6 +236,7 @@ class RunLeftState:
 	
 	func _init(player):
 		self.player = player
+		player.player_orientation = player.ORIENTATION.LEFT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(true)
 		player.velocity.x -= player.run_speed
@@ -292,6 +303,14 @@ class JumpState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_dash"):
+			if player.player_orientation == player.ORIENTATION.RIGHT:
+				player.set_state(player.STATES.DASH_RIGHT)
+			elif player.player_orientation == player.ORIENTATION.LEFT:
+				player.set_state(player.STATES.DASH_LEFT)
+		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("SlowmoTimer").start()
+			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_left"):
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right"):
@@ -324,6 +343,14 @@ class DoubleJumpState:
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
+		elif e.is_action_pressed("ui_dash"):
+			if player.player_orientation == player.ORIENTATION.RIGHT:
+				player.set_state(player.STATES.DASH_RIGHT)
+			elif player.player_orientation == player.ORIENTATION.LEFT:
+				player.set_state(player.STATES.DASH_LEFT)
+		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("SlowmoTimer").start()
+			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_left"):
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right"):
@@ -337,6 +364,7 @@ class AirLeftState:
 	
 	func _init(player):
 		self.player = player
+		player.player_orientation = player.ORIENTATION.LEFT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(true)
 		player.velocity.x -= player.run_speed
@@ -364,6 +392,9 @@ class AirLeftState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("SlowmoTimer").start()
+			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
@@ -382,6 +413,7 @@ class AirRightState:
 	
 	func _init(player):
 		self.player = player
+		player.player_orientation = player.ORIENTATION.RIGHT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(false)
 		player.velocity.x += player.run_speed
@@ -409,6 +441,9 @@ class AirRightState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
+		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("SlowmoTimer").start()
+			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_RIGHT)
 		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
@@ -428,6 +463,7 @@ class DashLeftState:
 	func _init(player):
 		self.player = player
 
+		player.velocity.y = 0
 		player.velocity.x = -player.dash_speed
 		player.dash_finished = false
 		player.get_node("DashTimer").start()
@@ -440,7 +476,7 @@ class DashLeftState:
 		
 	func update(delta):
 		if player.dash_finished:
-			player.set_state(player.STATES.IDLE)
+			player.state = player.previous_state
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -448,14 +484,15 @@ class DashLeftState:
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 	
 	func exit():
-		player.previous_state = player.get_state()
+		player.previous_state = player.state
 		
 class DashRightState:
 	var player
 	
 	func _init(player):
 		self.player = player
-
+		
+		player.velocity.y = 0
 		player.velocity.x = player.dash_speed
 		player.dash_finished = false
 		player.get_node("DashTimer").start()
@@ -468,15 +505,16 @@ class DashRightState:
 		
 	func update(delta):
 		if player.dash_finished:
-			player.set_state(player.STATES.IDLE)
+			player.state = player.previous_state
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
+			
 	
 	func exit():
-		player.previous_state = player.get_state()
+		player.previous_state = player.state
 		
 class FallState:
 	var player
@@ -510,7 +548,7 @@ class FallState:
 			player.set_state(player.STATES.AIR_LEFT)
 	
 	func exit():
-		player.previous_state = player.get_state()
+		player.previous_state = player.state
 		
 class DeadState:
 	var player
@@ -533,7 +571,8 @@ class DeadState:
 		return "Dead"	
 		
 	func update(delta):
-		player.velocity.y += delta * player.gravity
+		pass
+		#player.velocity.y += delta * player.gravity
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"): 	
@@ -559,3 +598,8 @@ func _on_GhostTimer_timeout():
 		this_ghost.texture = $AnimatedSprite.frames.get_frame($AnimatedSprite.animation, $AnimatedSprite.frame)
 		this_ghost.flip_h = $AnimatedSprite.flip_h
 		this_ghost.scale = $AnimatedSprite.scale
+
+func _on_SlowmoTimer_timeout():
+	slowmo_finished = true
+	print("slowmo finished")
+	Engine.time_scale = 1.0
