@@ -5,23 +5,60 @@ var scene_path_to_load
 const SCALE_FACTOR_X = 1.15
 const SCALE_FACTOR_Y = 1.15
 
+const JOY_DEADZONE = 0.2
+
+var y_val = 0
+var index_select = 0
+
+enum DIRECTION{
+	UP,
+	DOWN	
+}
+var direction = null
+
+onready var btns = [
+	get_node("Menu/CenterRow/Buttons/PlayButton"), 
+	get_node("Menu/CenterRow/Buttons/TutorialButton"),
+	get_node("Menu/CenterRow/Buttons/OptionsButton"),
+	get_node("Menu/CenterRow/Buttons/ExitButton")
+]
+
+
 func _ready():
 	$Menu/CenterRow/Buttons/PlayButton.grab_focus()
 	
 	for button in $Menu/CenterRow/Buttons.get_children():
 		button.connect("pressed", self, "_on_button_pressed", [button.scene_to_load])
 		
-func get_input():
-	if Input.is_action_pressed("ui_up"):
-		#$SelectSound.play()
-		pass
-	elif Input.is_action_pressed("ui_down"):
-		#$SelectSound.play()
-		pass
-	
-
+func _input(e):
+	if e is InputEventJoypadMotion:
+		y_val = Input.get_joy_axis(0, 1)
+		#print(y_val)
+		# up
+		if y_val < -JOY_DEADZONE:
+			direction = DIRECTION.UP
+		# down
+		elif y_val > JOY_DEADZONE:
+			direction = DIRECTION.DOWN
+		# Released
+		else:
+			if direction == DIRECTION.UP:
+				if index_select == 0:
+					index_select = len(btns) - 1
+				else:
+					index_select -= 1
+				direction = null
+			elif direction == DIRECTION.DOWN:
+				if index_select == len(btns) - 1:
+					index_select = 0
+				else:
+					index_select += 1
+				direction = null
+				
+		#print(index_select)
+		btns[index_select].grab_focus()
+		
 func _physics_process(delta):
-	get_input()
 	
 	if $Menu/CenterRow/Buttons/PlayButton.is_hovered() == true:
 		$Menu/CenterRow/Buttons/PlayButton.grab_focus()
