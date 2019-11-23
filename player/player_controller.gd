@@ -28,6 +28,8 @@ var pre_dash_speed = 0
 var max_jumps = 2
 var jump_count = 0
 
+var ready_to_idle = false
+
 onready var state = IdleState.new(self)
 onready var previous_state = null
 
@@ -40,6 +42,7 @@ enum STATES{
 	JUMP,
 	DOUBLE_JUMP,
 	DASH,
+	FALL,
 	DEAD
 }
 
@@ -51,6 +54,7 @@ enum CONTROLLER{
 var control_type = CONTROLLER.KEYBOARD
 
 func _physics_process(delta):
+	
 	velocity.y += delta * gravity
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
@@ -80,6 +84,7 @@ func _physics_process(delta):
 	state.update(delta)
 	
 func _input(e):
+	print(Input.get_action_strength("ui_left"), Input.get_action_strength("ui_right"))
 	# Check what controller the user is currently using
 	if e is InputEventJoypadButton or e is InputEventJoypadMotion:
 		control_type = CONTROLLER.GAMEPAD
@@ -107,6 +112,8 @@ func set_state(new_state):
 		state = AirRightState.new(self)
 	elif new_state == STATES.DASH:
 		state = DashState.new(self)
+	elif new_state == STATES.FALL:
+		state = FallState.new(self)
 	elif new_state == STATES.DEAD:
 		state = DeadState.new(self)
 
@@ -128,6 +135,8 @@ func get_state():
 		return STATES.AIR_RIGHT
 	elif state is DashState:
 		return STATES.DASH
+	elif state is FallState:
+		return STATES.FALL
 	elif state is DeadState:
 		return STATES.DEAD
 		
@@ -136,6 +145,7 @@ class IdleState:
 	
 	func _init(player):
 		self.player = player
+		player.ready_to_idle = false
 		player.get_node("AnimatedSprite").play("idle")
 		player.velocity.x = 0
 		if player.DEBUG:
@@ -150,14 +160,13 @@ class IdleState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
-		elif e.is_action_pressed("ui_left"):
-			player.set_state(player.STATES.RUN_LEFT)
-		elif e.is_action_pressed("ui_right"):
-			player.set_state(player.STATES.RUN_RIGHT)
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
+			player.set_state(player.STATES.RUN_LEFT)
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_left") > 0.01:
+			player.set_state(player.STATES.RUN_RIGHT)
 	
 	func exit():
 		player.previous_state = player.state
@@ -180,7 +189,8 @@ class RunRightState:
 		return "Run right"
 		
 	func update(delta):
-		pass
+		if player.ready_to_idle:
+			player.set_state(player.STATES.IDLE)
 		# Useful for analog control
 		#var dir_strength = Input.get_action_strength("ui_right")
 		#print(dir_strength)
@@ -189,15 +199,16 @@ class RunRightState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
-		elif e.is_action_pressed("ui_left"):
-			player.set_state(player.STATES.RUN_LEFT)
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
-		else:
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
+			player.set_state(player.STATES.RUN_LEFT)
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			pass
-			#player.set_state(player.STATES.IDLE)
+		else:
+			player.set_state(player.STATES.IDLE)
+			#player.get_node("IdleTimer").start()
 	
 	func exit():
 		player.previous_state = player.state
@@ -220,7 +231,8 @@ class RunLeftState:
 		return "Run left"
 		
 	func update(delta):
-		pass
+		if player.ready_to_idle:
+			player.set_state(player.STATES.IDLE)
 		# Useful for analog control
 		#var dir_strength = Input.get_action_strength("ui_left")
 		#print(dir_strength)
@@ -229,15 +241,16 @@ class RunLeftState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
-		elif e.is_action_pressed("ui_right"):
-			player.set_state(player.STATES.RUN_RIGHT)
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
-		else:
+		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
+			player.set_state(player.STATES.RUN_RIGHT)
+		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
 			pass
-			#player.set_state(player.STATES.IDLE)
+		else:
+			player.set_state(player.STATES.IDLE)
+			#player.get_node("IdleTimer").start()
 	
 	func exit():
 		player.previous_state = player.state
@@ -264,14 +277,13 @@ class JumpState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
+		elif e.is_action_pressed("ui_jump"):
+			player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_left"):
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right"):
 			player.set_state(player.STATES.AIR_RIGHT)
-		elif e.is_action_pressed("ui_jump"):
-			player.set_state(player.STATES.DOUBLE_JUMP)
 	
 	func exit():
 		player.previous_state = player.state
@@ -298,8 +310,7 @@ class DoubleJumpState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_left"):
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right"):
@@ -336,12 +347,16 @@ class AirLeftState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
-		elif e.is_action_pressed("ui_right"):
+		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
+		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
+			pass
+		else:
+			pass
+			#player.set_state(player.STATES.FALL)
 	
 	func exit():
 		player.previous_state = player.state
@@ -374,12 +389,16 @@ class AirRightState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
-		elif e.is_action_pressed("ui_left"):
+		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
+		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
+			pass
+		else:
+			pass
+			#player.set_state(player.STATES.FALL)
 	
 	func exit():
 		player.previous_state = player.state
@@ -401,8 +420,40 @@ class DashState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup").set_overlay(true)
-			player.get_node("Camera2D/CanvasLayer4/Pause_popup/CenterContainer/PopupMenu").show()	
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
+	
+	func exit():
+		player.previous_state = player.get_state()
+		
+class FallState:
+	var player
+	
+	func _init(player):
+		self.player = player
+		player.velocity.x = 0
+		if player.DEBUG:
+			player.get_node("player_state").text = _get_name()
+		
+	func _get_name():
+		return "Fall"	
+		
+	func update(delta):
+		if player.is_on_floor():
+			if Input.is_action_pressed("ui_right"):
+				player.set_state(player.STATES.RUN_RIGHT)
+			elif Input.is_action_pressed("ui_left"):
+				player.set_state(player.STATES.RUN_LEFT)
+			else:
+				player.set_state(player.STATES.IDLE)
+	
+	func input(e):
+		if e.is_action_pressed("ui_restart"):
+			player.get_tree().paused = true
+			player.get_node("Camera2D/CanvasLayer4/Menu").show()
+		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
+			player.set_state(player.STATES.AIR_RIGHT)
+		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
+			player.set_state(player.STATES.AIR_LEFT)
 	
 	func exit():
 		player.previous_state = player.get_state()
@@ -435,3 +486,8 @@ class DeadState:
 			player.get_tree().reload_current_scene()
 	func exit():
 		player.previous_state = player.state
+
+
+func _on_IdleTimer_timeout():
+	print("idle timeout")
+	ready_to_idle = true
