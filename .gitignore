@@ -1,3 +1,4 @@
 .import/
 build/
 *.import
+icon.xcf

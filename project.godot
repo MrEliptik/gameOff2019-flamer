@@ -17,7 +17,6 @@ _global_script_class_icons={
 
 config/name="Flamer"
 run/main_scene="res://titlescreen/scenes/titlescreen.tscn"
-boot_splash/image="res://icon.png"
 boot_splash/bg_color=Color( 0.258824, 0.0862745, 0.380392, 1 )
 config/icon="res://icon.png"
 

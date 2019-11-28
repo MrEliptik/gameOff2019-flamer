@@ -1,23 +1,41 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://game/level_1/scripts/Node2D.gd" type="Script" id=1]
 [ext_resource path="res://tileset.png" type="Texture" id=2]
-[ext_resource path="res://game/level_1/scripts/KinematicBody2D.gd" type="Script" id=3]
-[ext_resource path="res://transparent PNG/idle/frame-1.png" type="Texture" id=4]
-[ext_resource path="res://transparent PNG/idle/frame-2.png" type="Texture" id=5]
-[ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=6]
-[ext_resource path="res://transparent PNG/faint/frame-2.png" type="Texture" id=7]
-[ext_resource path="res://transparent PNG/faint/frame-3.png" type="Texture" id=8]
-[ext_resource path="res://transparent PNG/jump fall/frame.png" type="Texture" id=9]
-[ext_resource path="res://transparent PNG/jump up/frame.png" type="Texture" id=10]
-[ext_resource path="res://transparent PNG/run/frame-1.png" type="Texture" id=11]
-[ext_resource path="res://transparent PNG/run/frame-2.png" type="Texture" id=12]
-[ext_resource path="res://transparent PNG/run/frame-3.png" type="Texture" id=13]
-[ext_resource path="res://transparent PNG/run/frame-4.png" type="Texture" id=14]
-[ext_resource path="res://game/level_1/scenes/Camera2D.gd" type="Script" id=15]
-[ext_resource path="res://score.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=17]
-[ext_resource path="res://log.tscn" type="PackedScene" id=18]
+[ext_resource path="res://player/player_controller.gd" type="Script" id=3]
+[ext_resource path="res://animations/idle/sprite_00.png" type="Texture" id=4]
+[ext_resource path="res://animations/idle/sprite_01.png" type="Texture" id=5]
+[ext_resource path="res://animations/idle/sprite_02.png" type="Texture" id=6]
+[ext_resource path="res://animations/idle/sprite_03.png" type="Texture" id=7]
+[ext_resource path="res://animations/idle/sprite_04.png" type="Texture" id=8]
+[ext_resource path="res://animations/idle/sprite_05.png" type="Texture" id=9]
+[ext_resource path="res://animations/idle/sprite_06.png" type="Texture" id=10]
+[ext_resource path="res://animations/idle/sprite_07.png" type="Texture" id=11]
+[ext_resource path="res://animations/idle/sprite_08.png" type="Texture" id=12]
+[ext_resource path="res://animations/idle/sprite_09.png" type="Texture" id=13]
+[ext_resource path="res://animations/jump/sprite_0.png" type="Texture" id=14]
+[ext_resource path="res://transparent PNG/faint/frame-1.png" type="Texture" id=15]
+[ext_resource path="res://transparent PNG/faint/frame-2.png" type="Texture" id=16]
+[ext_resource path="res://transparent PNG/faint/frame-3.png" type="Texture" id=17]
+[ext_resource path="res://animations/run/sprite_0.png" type="Texture" id=18]
+[ext_resource path="res://animations/run/sprite_1.png" type="Texture" id=19]
+[ext_resource path="res://animations/run/sprite_2.png" type="Texture" id=20]
+[ext_resource path="res://animations/run/sprite_3.png" type="Texture" id=21]
+[ext_resource path="res://animations/fall/sprite_0.png" type="Texture" id=22]
+[ext_resource path="res://transparent PNG/jump fall/frame.png" type="Texture" id=23]
+[ext_resource path="res://game/level_1/scripts/Camera2D.gd" type="Script" id=24]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=26]
+[ext_resource path="res://pause/pause_menu.tscn" type="PackedScene" id=27]
+[ext_resource path="res://fonts/heller_64.tres" type="DynamicFont" id=28]
+[ext_resource path="res://log.tscn" type="PackedScene" id=29]
+[ext_resource path="res://backgrounds/city_night/sprite_0.png" type="Texture" id=30]
+[ext_resource path="res://backgrounds/city_night/sprite_1.png" type="Texture" id=31]
+[ext_resource path="res://backgrounds/city_night/sprite_2.png" type="Texture" id=32]
+[ext_resource path="res://backgrounds/city_night/sprite_3.png" type="Texture" id=33]
+[ext_resource path="res://backgrounds/city_night/sprite_4.png" type="Texture" id=34]
+[ext_resource path="res://backgrounds/city_night/sprite_5.png" type="Texture" id=35]
+[ext_resource path="res://backgrounds/city_night/sprite_6.png" type="Texture" id=36]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -59,41 +77,41 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 } ]
 1/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 26.8102, 35.4349 )
-
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "dead",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "jump_fall",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "fall",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 10 ) ],
+"frames": [ ExtResource( 14 ) ],
 "loop": true,
 "name": "jump_up",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "dead",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ) ],
 "loop": true,
 "name": "run",
-"speed": 15.0
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 22 ) ],
+"loop": true,
+"name": "jump_fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 23 ) ],
+"loop": true,
+"name": "fall",
+"speed": 5.0
 } ]
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 29.2263, 57.948 )
 
 [sub_resource type="Shader" id=7]
 code = "// define shader type
@@ -154,8 +172,25 @@ void fragment(){
 shader = SubResource( 7 )
 shader_param/vignette_radius = 0.5
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 5396.03, 10 )
+
+[sub_resource type="AnimatedTexture" id=6]
+flags = 4
+frames = 7
+frame_0/texture = ExtResource( 30 )
+frame_1/texture = ExtResource( 31 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 32 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 33 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 34 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 35 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 36 )
+frame_6/delay_sec = 0.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -169,24 +204,24 @@ tile_data = PoolIntArray( 1048722, 0, 0, 1048723, 0, 0, 1048724, 0, 0, 1048725, 
 [node name="player" type="KinematicBody2D" parent="."]
 script = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2( -2.16872, -0.676552 )
-shape = SubResource( 4 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="player"]
 position = Vector2( -2.86977, 0.404599 )
-scale = Vector2( 0.17974, 0.17974 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2( -2.81918, 6.7539 )
+shape = SubResource( 5 )
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 offset = Vector2( 200, 50 )
 current = true
 smoothing_enabled = true
 smoothing_speed = 4.0
-script = ExtResource( 15 )
+script = ExtResource( 24 )
 
 [node name="CanvasLayer3" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
 
 [node name="Vignette" type="ColorRect" parent="player/Camera2D/CanvasLayer3"]
 material = SubResource( 8 )
@@ -194,19 +229,47 @@ margin_right = 1920.0
 margin_bottom = 1080.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
 
-[node name="HUD" parent="player/Camera2D/CanvasLayer" instance=ExtResource( 16 )]
-margin_top = -7.02271
-margin_bottom = -7.02271
+[node name="HUD" parent="player/Camera2D/CanvasLayer" instance=ExtResource( 25 )]
+margin_top = 0.97729
+margin_bottom = 0.977295
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
 
-[node name="Dead_screen" parent="player/Camera2D/CanvasLayer2" instance=ExtResource( 17 )]
+[node name="Dead_screen" parent="player/Camera2D/CanvasLayer2" instance=ExtResource( 26 )]
 visible = false
 
-[node name="Timer" type="Timer" parent="player"]
-wait_time = 0.5
+[node name="CanvasLayer4" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
+
+[node name="Menu" parent="player/Camera2D/CanvasLayer4" instance=ExtResource( 27 )]
+pause_mode = 2
+visible = false
+
+[node name="player_state" type="Label" parent="player"]
+margin_left = -62.3364
+margin_top = -89.6088
+margin_right = 62.6636
+margin_bottom = -25.6088
+custom_fonts/font = ExtResource( 28 )
+text = "IDLE"
+align = 1
+
+[node name="DashTimer" type="Timer" parent="player"]
+wait_time = 0.2
 one_shot = true
+
+[node name="IdleTimer" type="Timer" parent="player"]
+wait_time = 0.02
+one_shot = true
+
+[node name="SlowmoTimer" type="Timer" parent="player"]
+wait_time = 0.1
+
+[node name="GhostTimer" type="Timer" parent="player"]
+wait_time = 0.02
 
 [node name="Ground" type="Node2D" parent="."]
 editor/display_folded = true
@@ -216,7 +279,7 @@ editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D"]
 position = Vector2( 5282.48, 1233.63 )
-shape = SubResource( 6 )
+shape = SubResource( 9 )
 
 [node name="Control" type="Control" parent="."]
 editor/display_folded = true
@@ -237,6 +300,23 @@ margin_top = 13.0
 margin_right = 4.0
 margin_bottom = 27.0
 
-[node name="Log" parent="." instance=ExtResource( 18 )]
+[node name="Log" parent="." instance=ExtResource( 29 )]
 position = Vector2( 658.539, 393.133 )
-[connection signal="timeout" from="player/Timer" to="player" method="_on_Timer_timeout"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+editor/display_folded = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
+motion_scale = Vector2( 0.5, 0.5 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+visible = false
+position = Vector2( 1258.28, 708.058 )
+texture = SubResource( 6 )
+[connection signal="visibility_changed" from="player/Camera2D/CanvasLayer4/Menu" to="player/Camera2D/CanvasLayer4/Menu" method="_on_Menu_visibility_changed"]
+[connection signal="timeout" from="player/DashTimer" to="player" method="_on_Timer_timeout"]
+[connection signal="timeout" from="player/DashTimer" to="player" method="_on_DashTimer_timeout"]
+[connection signal="timeout" from="player/IdleTimer" to="player" method="_on_IdleTimer_timeout"]
+[connection signal="timeout" from="player/SlowmoTimer" to="player" method="_on_SlowmoTimer_timeout"]
+[connection signal="timeout" from="player/GhostTimer" to="player" method="_on_GhostTimer_timeout"]
