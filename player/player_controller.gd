@@ -34,7 +34,16 @@ var pre_dash_speed = 0
 var max_jumps = 2
 var jump_count = 0
 
-var ready_to_idle = false
+var stats = {
+	"air_time":0,
+	"avg_air_time":0,
+	"max_air_time":0,
+	"perfect_jumps":0,
+	"platforms_hit":0,
+	"score":0
+}
+
+var air_time_begin = 0
 
 onready var state = IdleState.new(self)
 onready var previous_state = null
@@ -67,23 +76,28 @@ enum ORIENTATION{
 var player_orientation = ORIENTATION.RIGHT
 
 func _physics_process(delta):	
-
+	vignette -= (delta * 0.1)
+	$Camera2D/CanvasLayer3/Vignette.get_material().set_shader_param("vignette_radius", vignette)
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	# Goes through every collision that happened
 	# during move_and_slide()
 	var slide_count = get_slide_count()
+	
 	#print(slide_count)
 	for i in range(slide_count):
 		var collision = get_slide_collision(i)
 
 		# Confirm the colliding body is a TileMap
 		if collision.collider is TileMap:
+			print(self.position)
 			# Find the character's position in tile coordinates
-			var tile_pos = collision.collider.world_to_map(position)
+			var tile_pos = get_parent().get_node("TileMap").world_to_map(collision.collider.to_local(self.position))
 			# Find the colliding tile position
 			tile_pos -= collision.normal
 			# Get the tile id
-			#var tile_id = collision.collider.get_cellv(tile_pos)
+			var tile_id = collision.collider.get_cellv(tile_pos)
+			tile_id = get_parent().get_node("TileMap").get_cellv(tile_pos)
+			print(tile_id)
 			#var tile_name = collision.collider.tile_set.tile_get_name(tile_id)
 			#print(tile_id, tile_name)
 		# Player fell to its death
@@ -93,6 +107,7 @@ func _physics_process(delta):
 			print(collision.collider)
 	
 	state.update(delta)
+	$Camera2D/CanvasLayer/HUD.updateStats(stats)
 	
 	
 func _input(e):
@@ -161,7 +176,6 @@ class IdleState:
 	
 	func _init(player):
 		self.player = player
-		player.ready_to_idle = false
 		player.get_node("AnimatedSprite").play("idle")
 		player.velocity.x = 0
 		if player.DEBUG:
@@ -207,12 +221,6 @@ class RunRightState:
 		
 	func update(delta):
 		player.velocity.y += delta * player.gravity
-#		if player.ready_to_idle:
-#			player.set_state(player.STATES.IDLE)
-		# Useful for analog control
-		#var dir_strength = Input.get_action_strength("ui_right")
-		#print(dir_strength)
-		#player.velocity.x *= dir_strength
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -228,7 +236,6 @@ class RunRightState:
 			pass
 		else:
 			player.set_state(player.STATES.IDLE)
-			#player.get_node("IdleTimer").start()
 	
 	func exit():
 		player.previous_state = player.state
@@ -253,12 +260,6 @@ class RunLeftState:
 		
 	func update(delta):
 		player.velocity.y += delta * player.gravity
-#		if player.ready_to_idle:
-#			player.set_state(player.STATES.IDLE)
-		# Useful for analog control
-		#var dir_strength = Input.get_action_strength("ui_left")
-		#print(dir_strength)
-		#player.velocity.x *= dir_strength
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -268,13 +269,12 @@ class RunLeftState:
 			player.set_state(player.STATES.JUMP)
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_LEFT)
-		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.RUN_RIGHT)
-		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			pass
 		else:
 			player.set_state(player.STATES.IDLE)
-			#player.get_node("IdleTimer").start()
 	
 	func exit():
 		player.previous_state = player.state
@@ -284,12 +284,12 @@ class JumpState:
 	
 	func _init(player):
 		self.player = player
+		player.air_time_begin = OS.get_ticks_msec()
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 1
-		player.score+=1
+		player.stats["score"]+=1
 		player.last_time_touched_ground =  OS.get_ticks_msec()
-		player.get_node("Camera2D/CanvasLayer/HUD").updateScore(player.score)
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
 		
@@ -301,6 +301,7 @@ class JumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
 			player.set_state(STATES.IDLE)
 	
 	func input(e):
@@ -317,9 +318,9 @@ class JumpState:
 		elif e.is_action_pressed("ui_slowmo"):
 			player.get_node("SlowmoTimer").start()
 			Engine.time_scale = 0.1
-		elif e.is_action_pressed("ui_left"):
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
-		elif e.is_action_pressed("ui_right"):
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		if player.is_on_floor():
 			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
@@ -337,8 +338,8 @@ class DoubleJumpState:
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 2
-		player.score+=1
-		player.get_node("Camera2D/CanvasLayer/HUD").updateScore(player.score)
+		player.stats["score"]+=1
+		player.get_node("Camera2D/CanvasLayer/HUD").updateStats(player.stats)
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
 		
@@ -350,6 +351,7 @@ class DoubleJumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
 			player.set_state(STATES.IDLE)
 	
 	func input(e):
@@ -364,9 +366,9 @@ class DoubleJumpState:
 		elif e.is_action_pressed("ui_slowmo"):
 			player.get_node("SlowmoTimer").start()
 			Engine.time_scale = 0.1
-		elif e.is_action_pressed("ui_left"):
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
-		elif e.is_action_pressed("ui_right"):
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif player.is_on_floor():
 			player.set_state(player.STATES.IDLE)
@@ -396,6 +398,7 @@ class AirLeftState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
 			elif Input.is_action_pressed("ui_left"):
@@ -414,9 +417,9 @@ class AirLeftState:
 			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_LEFT)
-		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
-		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			pass
 		else:
 			pass
@@ -448,6 +451,7 @@ class AirRightState:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		
 		if player.is_on_floor():
+			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
 			elif Input.is_action_pressed("ui_left"):
@@ -466,9 +470,9 @@ class AirRightState:
 			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_RIGHT)
-		elif e.is_action_pressed("ui_left") or e.get_action_strength("ui_left") > 0.01:
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
-		elif e.is_action_pressed("ui_right") or e.get_action_strength("ui_right") > 0.01:
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			pass
 		else:
 			pass
@@ -486,7 +490,10 @@ class DashLeftState:
 		player.velocity.y = 0
 		player.velocity.x = -player.dash_speed
 		player.dash_finished = false
+		player.get_node("Camera2D").shake(0.5, 10, 20)
 		player.get_node("DashTimer").start()
+		player.get_node("GhostTimer").start()
+		player.get_node("AnimatedSprite").play("dash")
 		
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -526,8 +533,10 @@ class DashRightState:
 		player.velocity.y = 0
 		player.velocity.x = player.dash_speed
 		player.dash_finished = false
+		player.get_node("Camera2D").shake(0.3, 10, 20)
 		player.get_node("DashTimer").start()
 		player.get_node("GhostTimer").start()
+		player.get_node("AnimatedSprite").play("dash")
 		
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -598,11 +607,14 @@ class DeadState:
 	
 	func _init(player):
 		self.player = player
+		self.player.velocity = Vector2(0, 0)
+		#player.get_node("Camera2D").force_update_scroll()
+		player.get_node("Camera2D").zoom = Vector2(0.6, 0.6)
 		player.get_node("AnimatedSprite").play("dead")
 		
 		if player.control_type == player.CONTROLLER.GAMEPAD:
 			Input.start_joy_vibration(0, 1, 1, 0.4)
-		player.get_node("Camera2D").shake(1.5, 15, 20)
+		player.get_node("Camera2D").shake(1, 15, 20)
 		player.get_node("AnimatedSprite").play("dead")
 		player.get_node("Camera2D/CanvasLayer3/Vignette").get_material().set_shader_param("vignette_radius", 1.0)
 		player.get_node("Camera2D/CanvasLayer2/Dead_screen").visible = true
@@ -622,11 +634,6 @@ class DeadState:
 			player.get_tree().reload_current_scene()
 	func exit():
 		player.previous_state = player.state
-
-
-func _on_IdleTimer_timeout():
-	print("idle timeout")
-	ready_to_idle = true
 
 func _on_DashTimer_timeout():
 	dash_finished = true
