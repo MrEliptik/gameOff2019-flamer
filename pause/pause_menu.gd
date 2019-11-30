@@ -24,6 +24,9 @@ func _ready():
 	$CenterContainer/VBoxContainer/Resume.grab_focus()
 
 func _input(e):
+	if not self.is_visible():
+		return
+	
 	if e is InputEventJoypadMotion:
 		y_val = Input.get_joy_axis(0, 1)
 		#print(y_val)
@@ -52,6 +55,8 @@ func _input(e):
 		btns[index_select].grab_focus()
 
 func _physics_process(delta):	
+	if not self.is_visible():
+		return
 
 	if $CenterContainer/VBoxContainer/Resume.is_hovered() == true:
 		$CenterContainer/VBoxContainer/Resume.grab_focus()
@@ -102,3 +107,13 @@ func _on_MainMenuButton_pressed():
 	get_tree().paused = false
 	self.hide()
 	get_tree().change_scene("res://titlescreen/scenes/titlescreen.tscn")
+
+
+func _on_Resume_focus_entered():
+	$SelectSound.play(0)
+
+func _on_OptionsButton_focus_entered():
+	$SelectSound.play(0)
+
+func _on_MainMenuButton_focus_entered():
+	$SelectSound.play(0)

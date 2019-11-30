@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://pause/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://buttons/resumeButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://buttons/OptionsButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://buttons/optionsButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://buttons/mainMenuButton.tscn" type="PackedScene" id=4]
-[ext_resource path="res://flame_selector.tscn" type="PackedScene" id=5]
+[ext_resource path="res://effects/flame_selector.tscn" type="PackedScene" id=5]
+[ext_resource path="res://sounds/select2.wav" type="AudioStream" id=6]
+
+
+
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -58,6 +62,13 @@ margin_left = 380.382
 margin_top = 385.785
 margin_right = 454.74
 margin_bottom = 452.785
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = 6.0
+[connection signal="focus_entered" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_Resume_focus_entered"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="focus_entered" from="CenterContainer/VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_focus_entered"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
+[connection signal="focus_entered" from="CenterContainer/VBoxContainer/MainMenuButton" to="." method="_on_MainMenuButton_focus_entered"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
