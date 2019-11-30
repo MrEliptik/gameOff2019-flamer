@@ -21,10 +21,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 780.0
-margin_top = 446.0
-margin_right = 1140.0
-margin_bottom = 634.0
+margin_left = 460.0
+margin_top = 266.0
+margin_right = 820.0
+margin_bottom = 454.0
 alignment = 1
 
 [node name="Resume" parent="CenterContainer/VBoxContainer" instance=ExtResource( 2 )]
@@ -42,24 +42,22 @@ margin_right = 360.0
 margin_bottom = 188.0
 
 [node name="Selector1" parent="." instance=ExtResource( 5 )]
-margin_left = 707.0
-margin_top = 438.095
-margin_right = 777.521
-margin_bottom = 505.095
+margin_left = 380.382
+margin_top = 258.089
+margin_right = 450.903
+margin_bottom = 325.089
 
 [node name="Selector2" parent="." instance=ExtResource( 5 )]
-visible = false
-margin_left = 707.802
-margin_top = 501.715
-margin_right = 778.802
-margin_bottom = 568.715
+margin_left = 381.184
+margin_top = 321.709
+margin_right = 452.184
+margin_bottom = 388.709
 
 [node name="Selector3" parent="." instance=ExtResource( 5 )]
-visible = false
-margin_left = 707.0
-margin_top = 567.791
-margin_right = 781.358
-margin_bottom = 634.791
+margin_left = 380.382
+margin_top = 385.785
+margin_right = 454.74
+margin_bottom = 452.785
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]

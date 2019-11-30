@@ -22,10 +22,11 @@ config/icon="res://icon.png"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
-window/size/test_width=1920
-window/size/test_height=1080
+window/size/width=1280
+window/size/height=720
+window/size/resizable=false
+window/size/test_width=1280
+window/size/test_height=720
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
@@ -103,7 +104,8 @@ ui_slowmo={
 [rendering]
 
 quality/driver/driver_name="GLES2"
+quality/2d/use_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_clear_color=Color( 0.0588235, 0.109804, 0.172549, 1 )
+environment/default_clear_color=Color( 0.027451, 0.0588235, 0.0980392, 1 )
 environment/default_environment="res://default_env.tres"
