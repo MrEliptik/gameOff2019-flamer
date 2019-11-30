@@ -1,0 +1,176 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://game/winLevel.gd" type="Script" id=1]
+[ext_resource path="res://effects/flame_selector.tscn" type="PackedScene" id=2]
+[ext_resource path="res://fonts/vikingHell_64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=4]
+[ext_resource path="res://fonts/heller_64.tres" type="DynamicFont" id=5]
+
+[node name="WinLevel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+margin_top = 15.0
+margin_bottom = 68.0
+rect_rotation = 0.0521974
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 68.0
+alignment = 1
+
+[node name="Selector1" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 390.0
+margin_top = 0.0
+margin_right = 454.0
+margin_bottom = 64.0
+
+[node name="Level clear" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 458.0
+margin_right = 821.0
+margin_bottom = 68.0
+rect_pivot_offset = Vector2( 3561.93, -69.727 )
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.188235, 0.541176, 0.317647, 1 )
+custom_colors/font_color_shadow = Color( 0.8, 0.964706, 0.764706, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 1
+text = "Level cleared"
+align = 1
+valign = 1
+percent_visible = -0.0833333
+
+[node name="Selector2" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 825.0
+margin_top = 0.0
+margin_right = 889.0
+margin_bottom = 64.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 268.0
+margin_right = 1280.0
+margin_bottom = 288.0
+alignment = 1
+
+[node name="Avg air time" type="Label" parent="VBoxContainer2/HBoxContainer1"]
+margin_left = 557.0
+margin_right = 708.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "Average air time; "
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer1"]
+margin_left = 712.0
+margin_right = 722.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 292.0
+margin_right = 1280.0
+margin_bottom = 312.0
+alignment = 1
+
+[node name="Max air time" type="Label" parent="VBoxContainer2/HBoxContainer2"]
+margin_left = 575.0
+margin_right = 690.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "Max air time; "
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer2"]
+margin_left = 694.0
+margin_right = 704.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 316.0
+margin_right = 1280.0
+margin_bottom = 336.0
+alignment = 1
+
+[node name="Jumps" type="Label" parent="VBoxContainer2/HBoxContainer3"]
+margin_left = 602.0
+margin_right = 663.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "Jumps; "
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer3"]
+margin_left = 667.0
+margin_right = 677.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 340.0
+margin_right = 1280.0
+margin_bottom = 360.0
+alignment = 1
+
+[node name="Perfect jumps" type="Label" parent="VBoxContainer2/HBoxContainer4"]
+margin_left = 566.0
+margin_right = 699.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "perfect jumps; "
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer4"]
+margin_left = 703.0
+margin_right = 713.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 364.0
+margin_right = 1280.0
+margin_bottom = 384.0
+alignment = 1
+
+[node name="Platform hits" type="Label" parent="VBoxContainer2/HBoxContainer5"]
+margin_left = 568.0
+margin_right = 697.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "Platform hits; "
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer5"]
+margin_left = 701.0
+margin_right = 711.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 438.0
+margin_right = 1280.0
+margin_bottom = 452.0
+alignment = 1
+
+[node name="Score" type="Label" parent="VBoxContainer2/HBoxContainer6"]
+margin_left = 530.0
+margin_right = 713.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 5 )
+text = "Score: "
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer6"]
+margin_left = 717.0
+margin_right = 749.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 5 )
+text = "0"
