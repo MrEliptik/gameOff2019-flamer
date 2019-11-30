@@ -1,7 +1,7 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=99 format=2]
 
 [ext_resource path="res://game/level_1/scripts/Node2D.gd" type="Script" id=1]
-[ext_resource path="res://tileset.png" type="Texture" id=2]
+[ext_resource path="res://temple_tileset.png" type="Texture" id=2]
 [ext_resource path="res://player/player_controller.gd" type="Script" id=3]
 [ext_resource path="res://animations/idle/sprite_00.png" type="Texture" id=4]
 [ext_resource path="res://animations/idle/sprite_01.png" type="Texture" id=5]
@@ -13,128 +13,772 @@
 [ext_resource path="res://animations/idle/sprite_07.png" type="Texture" id=11]
 [ext_resource path="res://animations/idle/sprite_08.png" type="Texture" id=12]
 [ext_resource path="res://animations/idle/sprite_09.png" type="Texture" id=13]
-[ext_resource path="res://animations/run/sprite_0.png" type="Texture" id=14]
-[ext_resource path="res://animations/run/sprite_1.png" type="Texture" id=15]
-[ext_resource path="res://animations/run/sprite_2.png" type="Texture" id=16]
-[ext_resource path="res://animations/run/sprite_3.png" type="Texture" id=17]
-[ext_resource path="res://animations/jump/sprite_0.png" type="Texture" id=18]
-[ext_resource path="res://animations/dash/sprite_0.png" type="Texture" id=19]
-[ext_resource path="res://animations/fall/sprite_0.png" type="Texture" id=20]
-[ext_resource path="res://animations/dead/sprite_00.png" type="Texture" id=21]
-[ext_resource path="res://animations/dead/sprite_01.png" type="Texture" id=22]
-[ext_resource path="res://animations/dead/sprite_02.png" type="Texture" id=23]
-[ext_resource path="res://animations/dead/sprite_03.png" type="Texture" id=24]
-[ext_resource path="res://animations/dead/sprite_04.png" type="Texture" id=25]
-[ext_resource path="res://animations/dead/sprite_05.png" type="Texture" id=26]
-[ext_resource path="res://animations/dead/sprite_06.png" type="Texture" id=27]
-[ext_resource path="res://animations/dead/sprite_07.png" type="Texture" id=28]
-[ext_resource path="res://animations/dead/sprite_08.png" type="Texture" id=29]
-[ext_resource path="res://animations/dead/sprite_09.png" type="Texture" id=30]
-[ext_resource path="res://animations/dead/sprite_10.png" type="Texture" id=31]
-[ext_resource path="res://animations/dead/sprite_11.png" type="Texture" id=32]
-[ext_resource path="res://animations/dead/sprite_12.png" type="Texture" id=33]
-[ext_resource path="res://animations/dead/sprite_13.png" type="Texture" id=34]
-[ext_resource path="res://animations/dead/sprite_14.png" type="Texture" id=35]
-[ext_resource path="res://animations/dead/sprite_15.png" type="Texture" id=36]
-[ext_resource path="res://animations/dead/sprite_16.png" type="Texture" id=37]
-[ext_resource path="res://animations/dead/sprite_17.png" type="Texture" id=38]
-[ext_resource path="res://animations/dead/sprite_18.png" type="Texture" id=39]
-[ext_resource path="res://animations/dead/sprite_19.png" type="Texture" id=40]
-[ext_resource path="res://animations/dead/sprite_20.png" type="Texture" id=41]
-[ext_resource path="res://animations/dead/sprite_21.png" type="Texture" id=42]
-[ext_resource path="res://animations/dead/sprite_22.png" type="Texture" id=43]
+[ext_resource path="res://animations/dead/sprite_00.png" type="Texture" id=14]
+[ext_resource path="res://animations/dead/sprite_01.png" type="Texture" id=15]
+[ext_resource path="res://animations/dead/sprite_02.png" type="Texture" id=16]
+[ext_resource path="res://animations/dead/sprite_03.png" type="Texture" id=17]
+[ext_resource path="res://animations/dead/sprite_04.png" type="Texture" id=18]
+[ext_resource path="res://animations/dead/sprite_05.png" type="Texture" id=19]
+[ext_resource path="res://animations/dead/sprite_06.png" type="Texture" id=20]
+[ext_resource path="res://animations/dead/sprite_07.png" type="Texture" id=21]
+[ext_resource path="res://animations/dead/sprite_08.png" type="Texture" id=22]
+[ext_resource path="res://animations/dead/sprite_09.png" type="Texture" id=23]
+[ext_resource path="res://animations/dead/sprite_10.png" type="Texture" id=24]
+[ext_resource path="res://animations/dead/sprite_11.png" type="Texture" id=25]
+[ext_resource path="res://animations/dead/sprite_12.png" type="Texture" id=26]
+[ext_resource path="res://animations/dead/sprite_13.png" type="Texture" id=27]
+[ext_resource path="res://animations/dead/sprite_14.png" type="Texture" id=28]
+[ext_resource path="res://animations/dead/sprite_15.png" type="Texture" id=29]
+[ext_resource path="res://animations/dead/sprite_16.png" type="Texture" id=30]
+[ext_resource path="res://animations/dead/sprite_17.png" type="Texture" id=31]
+[ext_resource path="res://animations/dead/sprite_18.png" type="Texture" id=32]
+[ext_resource path="res://animations/dead/sprite_19.png" type="Texture" id=33]
+[ext_resource path="res://animations/dead/sprite_20.png" type="Texture" id=34]
+[ext_resource path="res://animations/dead/sprite_21.png" type="Texture" id=35]
+[ext_resource path="res://animations/dead/sprite_22.png" type="Texture" id=36]
+[ext_resource path="res://animations/dash/sprite_0.png" type="Texture" id=37]
+[ext_resource path="res://animations/run/sprite_0.png" type="Texture" id=38]
+[ext_resource path="res://animations/run/sprite_1.png" type="Texture" id=39]
+[ext_resource path="res://animations/run/sprite_2.png" type="Texture" id=40]
+[ext_resource path="res://animations/run/sprite_3.png" type="Texture" id=41]
+[ext_resource path="res://animations/jump/sprite_0.png" type="Texture" id=42]
+[ext_resource path="res://animations/fall/sprite_0.png" type="Texture" id=43]
 [ext_resource path="res://game/level_1/scripts/Camera2D.gd" type="Script" id=44]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=45]
 [ext_resource path="res://game/Dead_screen.tscn" type="PackedScene" id=46]
 [ext_resource path="res://pause/pause_menu.tscn" type="PackedScene" id=47]
 [ext_resource path="res://light_player.png" type="Texture" id=48]
-[ext_resource path="res://fonts/heller_64.tres" type="DynamicFont" id=49]
-[ext_resource path="res://log.tscn" type="PackedScene" id=50]
-[ext_resource path="res://backgrounds/city_night/sprite_0.png" type="Texture" id=51]
-[ext_resource path="res://backgrounds/city_night/sprite_1.png" type="Texture" id=52]
-[ext_resource path="res://backgrounds/city_night/sprite_2.png" type="Texture" id=53]
-[ext_resource path="res://backgrounds/city_night/sprite_3.png" type="Texture" id=54]
-[ext_resource path="res://backgrounds/city_night/sprite_4.png" type="Texture" id=55]
-[ext_resource path="res://backgrounds/city_night/sprite_5.png" type="Texture" id=56]
-[ext_resource path="res://backgrounds/city_night/sprite_6.png" type="Texture" id=57]
+[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=49]
+[ext_resource path="res://backgrounds/background_gray.png" type="Texture" id=50]
 
-[sub_resource type="ConvexPolygonShape2D" id=1]
+[sub_resource type="OccluderPolygon2D" id=8]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=9]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
-[sub_resource type="ConvexPolygonShape2D" id=2]
+[sub_resource type="OccluderPolygon2D" id=10]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=11]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
-[sub_resource type="TileSet" id=3]
-0/name = "tileset.png 0"
+[sub_resource type="OccluderPolygon2D" id=12]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=13]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=14]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=15]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=16]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=17]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=18]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=19]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=20]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=21]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=22]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=23]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=24]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=25]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=26]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=27]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=28]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=29]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=30]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=31]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=32]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=33]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=34]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=35]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=36]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=37]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=38]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=39]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=40]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=41]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=44]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=45]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=46]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=47]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=48]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=49]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=52]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=53]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="TileSet" id=1]
+0/name = "temple_tileset.png 0"
 0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
+0/region = Rect2( 0, 80, 16, 16 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
+0/occluder = SubResource( 8 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 1 ),
+"shape": SubResource( 9 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
-1/name = "tileset.png 1"
+1/name = "temple_tileset.png 1"
 1/texture = ExtResource( 2 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
-1/region = Rect2( 16, 0, 16, 16 )
+1/region = Rect2( 16, 80, 16, 16 )
 1/tile_mode = 0
 1/occluder_offset = Vector2( 0, 0 )
+1/occluder = SubResource( 10 )
 1/navigation_offset = Vector2( 0, 0 )
 1/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 2 ),
+"shape": SubResource( 11 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 1/z_index = 0
+2/name = "temple_tileset.png 2"
+2/texture = ExtResource( 2 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 32, 80, 16, 16 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/occluder = SubResource( 32 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 33 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+2/z_index = 0
+5/name = "temple_tileset.png 5"
+5/texture = ExtResource( 2 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 0, 96, 16, 16 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/occluder = SubResource( 44 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 45 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+5/z_index = 0
+6/name = "temple_tileset.png 6"
+6/texture = ExtResource( 2 )
+6/tex_offset = Vector2( 0, 0 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 16, 96, 16, 16 )
+6/tile_mode = 0
+6/occluder_offset = Vector2( 0, 0 )
+6/occluder = SubResource( 46 )
+6/navigation_offset = Vector2( 0, 0 )
+6/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 47 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+6/z_index = 0
+7/name = "temple_tileset.png 7"
+7/texture = ExtResource( 2 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 32, 96, 16, 16 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 0, 0 )
+7/occluder = SubResource( 48 )
+7/navigation_offset = Vector2( 0, 0 )
+7/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 49 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+7/z_index = 0
+9/name = "temple_tileset.png 9"
+9/texture = ExtResource( 2 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 0, 112, 16, 16 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/occluder = SubResource( 52 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 53 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+9/z_index = 0
+10/name = "temple_tileset.png 10"
+10/texture = ExtResource( 2 )
+10/tex_offset = Vector2( 0, 0 )
+10/modulate = Color( 1, 1, 1, 1 )
+10/region = Rect2( 16, 112, 16, 16 )
+10/tile_mode = 0
+10/occluder_offset = Vector2( 0, 0 )
+10/occluder = SubResource( 12 )
+10/navigation_offset = Vector2( 0, 0 )
+10/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 13 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+10/z_index = 0
+11/name = "temple_tileset.png 11"
+11/texture = ExtResource( 2 )
+11/tex_offset = Vector2( 0, 0 )
+11/modulate = Color( 1, 1, 1, 1 )
+11/region = Rect2( 32, 112, 16, 16 )
+11/tile_mode = 0
+11/occluder_offset = Vector2( 0, 0 )
+11/occluder = SubResource( 14 )
+11/navigation_offset = Vector2( 0, 0 )
+11/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 15 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+11/z_index = 0
+12/name = "temple_tileset.png 12"
+12/texture = ExtResource( 2 )
+12/tex_offset = Vector2( 0, 0 )
+12/modulate = Color( 1, 1, 1, 1 )
+12/region = Rect2( 48, 112, 16, 16 )
+12/tile_mode = 0
+12/occluder_offset = Vector2( 0, 0 )
+12/occluder = SubResource( 16 )
+12/navigation_offset = Vector2( 0, 0 )
+12/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 17 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+12/z_index = 0
+13/name = "temple_tileset.png 13"
+13/texture = ExtResource( 2 )
+13/tex_offset = Vector2( 0, 0 )
+13/modulate = Color( 1, 1, 1, 1 )
+13/region = Rect2( 0, 128, 16, 16 )
+13/tile_mode = 0
+13/occluder_offset = Vector2( 0, 0 )
+13/occluder = SubResource( 18 )
+13/navigation_offset = Vector2( 0, 0 )
+13/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 19 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+13/z_index = 0
+14/name = "temple_tileset.png 14"
+14/texture = ExtResource( 2 )
+14/tex_offset = Vector2( 0, 0 )
+14/modulate = Color( 1, 1, 1, 1 )
+14/region = Rect2( 16, 128, 16, 16 )
+14/tile_mode = 0
+14/occluder_offset = Vector2( 0, 0 )
+14/occluder = SubResource( 20 )
+14/navigation_offset = Vector2( 0, 0 )
+14/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 21 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+14/z_index = 0
+15/name = "temple_tileset.png 15"
+15/texture = ExtResource( 2 )
+15/tex_offset = Vector2( 0, 0 )
+15/modulate = Color( 1, 1, 1, 1 )
+15/region = Rect2( 32, 128, 16, 16 )
+15/tile_mode = 0
+15/occluder_offset = Vector2( 0, 0 )
+15/occluder = SubResource( 22 )
+15/navigation_offset = Vector2( 0, 0 )
+15/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 23 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+15/z_index = 0
+16/name = "temple_tileset.png 16"
+16/texture = ExtResource( 2 )
+16/tex_offset = Vector2( 0, 0 )
+16/modulate = Color( 1, 1, 1, 1 )
+16/region = Rect2( 48, 128, 16, 16 )
+16/tile_mode = 0
+16/occluder_offset = Vector2( 0, 0 )
+16/occluder = SubResource( 24 )
+16/navigation_offset = Vector2( 0, 0 )
+16/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 25 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+16/z_index = 0
+17/name = "temple_tileset.png 17"
+17/texture = ExtResource( 2 )
+17/tex_offset = Vector2( 0, 0 )
+17/modulate = Color( 1, 1, 1, 1 )
+17/region = Rect2( 0, 144, 16, 16 )
+17/tile_mode = 0
+17/occluder_offset = Vector2( 0, 0 )
+17/occluder = SubResource( 26 )
+17/navigation_offset = Vector2( 0, 0 )
+17/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 27 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+17/z_index = 0
+18/name = "temple_tileset.png 18"
+18/texture = ExtResource( 2 )
+18/tex_offset = Vector2( 0, 0 )
+18/modulate = Color( 1, 1, 1, 1 )
+18/region = Rect2( 16, 144, 16, 16 )
+18/tile_mode = 0
+18/occluder_offset = Vector2( 0, 0 )
+18/occluder = SubResource( 28 )
+18/navigation_offset = Vector2( 0, 0 )
+18/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 29 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+18/z_index = 0
+19/name = "temple_tileset.png 19"
+19/texture = ExtResource( 2 )
+19/tex_offset = Vector2( 0, 0 )
+19/modulate = Color( 1, 1, 1, 1 )
+19/region = Rect2( 32, 144, 16, 16 )
+19/tile_mode = 0
+19/occluder_offset = Vector2( 0, 0 )
+19/occluder = SubResource( 30 )
+19/navigation_offset = Vector2( 0, 0 )
+19/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 31 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+19/z_index = 0
+20/name = "temple_tileset.png 20"
+20/texture = ExtResource( 2 )
+20/tex_offset = Vector2( 0, 0 )
+20/modulate = Color( 1, 1, 1, 1 )
+20/region = Rect2( 48, 144, 16, 16 )
+20/tile_mode = 0
+20/occluder_offset = Vector2( 0, 0 )
+20/occluder = SubResource( 34 )
+20/navigation_offset = Vector2( 0, 0 )
+20/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 35 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+20/z_index = 0
+21/name = "temple_tileset.png 21"
+21/texture = ExtResource( 2 )
+21/tex_offset = Vector2( 0, 0 )
+21/modulate = Color( 1, 1, 1, 1 )
+21/region = Rect2( 64, 144, 16, 16 )
+21/tile_mode = 0
+21/occluder_offset = Vector2( 0, 0 )
+21/occluder = SubResource( 36 )
+21/navigation_offset = Vector2( 0, 0 )
+21/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 37 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+21/z_index = 0
+22/name = "temple_tileset.png 22"
+22/texture = ExtResource( 2 )
+22/tex_offset = Vector2( 0, 0 )
+22/modulate = Color( 1, 1, 1, 1 )
+22/region = Rect2( 32, 64, 16, 16 )
+22/tile_mode = 0
+22/occluder_offset = Vector2( 0, 0 )
+22/occluder = SubResource( 38 )
+22/navigation_offset = Vector2( 0, 0 )
+22/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 39 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+22/z_index = 0
+23/name = "temple_tileset.png 23"
+23/texture = ExtResource( 2 )
+23/tex_offset = Vector2( 0, 0 )
+23/modulate = Color( 1, 1, 1, 1 )
+23/region = Rect2( 48, 64, 16, 16 )
+23/tile_mode = 0
+23/occluder_offset = Vector2( 0, 0 )
+23/occluder = SubResource( 40 )
+23/navigation_offset = Vector2( 0, 0 )
+23/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 41 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+23/z_index = 0
+24/name = "temple_tileset.png 24"
+24/texture = ExtResource( 2 )
+24/tex_offset = Vector2( 0, 0 )
+24/modulate = Color( 1, 1, 1, 1 )
+24/region = Rect2( 64, 112, 16, 16 )
+24/tile_mode = 0
+24/occluder_offset = Vector2( 0, 0 )
+24/navigation_offset = Vector2( 0, 0 )
+24/shapes = [  ]
+24/z_index = 0
+25/name = "temple_tileset.png 25"
+25/texture = ExtResource( 2 )
+25/tex_offset = Vector2( 0, 0 )
+25/modulate = Color( 1, 1, 1, 1 )
+25/region = Rect2( 64, 128, 16, 16 )
+25/tile_mode = 0
+25/occluder_offset = Vector2( 0, 0 )
+25/navigation_offset = Vector2( 0, 0 )
+25/shapes = [  ]
+25/z_index = 0
+26/name = "temple_tileset.png 26"
+26/texture = ExtResource( 2 )
+26/tex_offset = Vector2( 0, 0 )
+26/modulate = Color( 1, 1, 1, 1 )
+26/region = Rect2( 80, 112, 16, 16 )
+26/tile_mode = 0
+26/occluder_offset = Vector2( 0, 0 )
+26/navigation_offset = Vector2( 0, 0 )
+26/shapes = [  ]
+26/z_index = 0
+27/name = "temple_tileset.png 27"
+27/texture = ExtResource( 2 )
+27/tex_offset = Vector2( 0, 0 )
+27/modulate = Color( 1, 1, 1, 1 )
+27/region = Rect2( 80, 128, 16, 16 )
+27/tile_mode = 0
+27/occluder_offset = Vector2( 0, 0 )
+27/navigation_offset = Vector2( 0, 0 )
+27/shapes = [  ]
+27/z_index = 0
+28/name = "temple_tileset.png 28"
+28/texture = ExtResource( 2 )
+28/tex_offset = Vector2( 0, 0 )
+28/modulate = Color( 1, 1, 1, 1 )
+28/region = Rect2( 80, 144, 16, 16 )
+28/tile_mode = 0
+28/occluder_offset = Vector2( 0, 0 )
+28/navigation_offset = Vector2( 0, 0 )
+28/shapes = [  ]
+28/z_index = 0
+29/name = "temple_tileset.png 29"
+29/texture = ExtResource( 2 )
+29/tex_offset = Vector2( 0, 0 )
+29/modulate = Color( 1, 1, 1, 1 )
+29/region = Rect2( 96, 112, 16, 16 )
+29/tile_mode = 0
+29/occluder_offset = Vector2( 0, 0 )
+29/navigation_offset = Vector2( 0, 0 )
+29/shapes = [  ]
+29/z_index = 0
+30/name = "temple_tileset.png 30"
+30/texture = ExtResource( 2 )
+30/tex_offset = Vector2( 0, 0 )
+30/modulate = Color( 1, 1, 1, 1 )
+30/region = Rect2( 96, 128, 16, 16 )
+30/tile_mode = 0
+30/occluder_offset = Vector2( 0, 0 )
+30/navigation_offset = Vector2( 0, 0 )
+30/shapes = [  ]
+30/z_index = 0
+31/name = "temple_tileset.png 31"
+31/texture = ExtResource( 2 )
+31/tex_offset = Vector2( 0, 0 )
+31/modulate = Color( 1, 1, 1, 1 )
+31/region = Rect2( 96, 144, 16, 16 )
+31/tile_mode = 0
+31/occluder_offset = Vector2( 0, 0 )
+31/navigation_offset = Vector2( 0, 0 )
+31/shapes = [  ]
+31/z_index = 0
+36/name = "temple_tileset.png 36"
+36/texture = ExtResource( 2 )
+36/tex_offset = Vector2( 0, 0 )
+36/modulate = Color( 1, 1, 1, 1 )
+36/region = Rect2( 16, 16, 16, 16 )
+36/tile_mode = 0
+36/occluder_offset = Vector2( 0, 0 )
+36/navigation_offset = Vector2( 0, 0 )
+36/shapes = [  ]
+36/z_index = 0
+37/name = "temple_tileset.png 37"
+37/texture = ExtResource( 2 )
+37/tex_offset = Vector2( 0, 0 )
+37/modulate = Color( 1, 1, 1, 1 )
+37/region = Rect2( 0, 16, 16, 16 )
+37/tile_mode = 0
+37/occluder_offset = Vector2( 0, 0 )
+37/navigation_offset = Vector2( 0, 0 )
+37/shapes = [  ]
+37/z_index = 0
+38/name = "temple_tileset.png 38"
+38/texture = ExtResource( 2 )
+38/tex_offset = Vector2( 0, 0 )
+38/modulate = Color( 1, 1, 1, 1 )
+38/region = Rect2( 112, 64, 16, 16 )
+38/tile_mode = 0
+38/occluder_offset = Vector2( 0, 0 )
+38/navigation_offset = Vector2( 0, 0 )
+38/shapes = [  ]
+38/z_index = 0
+39/name = "temple_tileset.png 39"
+39/texture = ExtResource( 2 )
+39/tex_offset = Vector2( 0, 0 )
+39/modulate = Color( 1, 1, 1, 1 )
+39/region = Rect2( 144, 80, 16, 48 )
+39/tile_mode = 2
+39/autotile/icon_coordinate = Vector2( 0, 0 )
+39/autotile/tile_size = Vector2( 16, 16 )
+39/autotile/spacing = 0
+39/autotile/occluder_map = [  ]
+39/autotile/navpoly_map = [  ]
+39/autotile/z_index_map = [  ]
+39/occluder_offset = Vector2( 0, 0 )
+39/navigation_offset = Vector2( 0, 0 )
+39/shapes = [  ]
+39/z_index = 0
+40/name = "temple_tileset.png 40"
+40/texture = ExtResource( 2 )
+40/tex_offset = Vector2( 0, 0 )
+40/modulate = Color( 1, 1, 1, 1 )
+40/region = Rect2( 160, 80, 16, 48 )
+40/tile_mode = 2
+40/autotile/icon_coordinate = Vector2( 0, 0 )
+40/autotile/tile_size = Vector2( 16, 16 )
+40/autotile/spacing = 0
+40/autotile/occluder_map = [  ]
+40/autotile/navpoly_map = [  ]
+40/autotile/z_index_map = [  ]
+40/occluder_offset = Vector2( 0, 0 )
+40/navigation_offset = Vector2( 0, 0 )
+40/shapes = [  ]
+40/z_index = 0
+41/name = "temple_tileset.png 41"
+41/texture = ExtResource( 2 )
+41/tex_offset = Vector2( 0, 0 )
+41/modulate = Color( 1, 1, 1, 1 )
+41/region = Rect2( 144, 128, 16, 48 )
+41/tile_mode = 2
+41/autotile/icon_coordinate = Vector2( 0, 0 )
+41/autotile/tile_size = Vector2( 16, 16 )
+41/autotile/spacing = 0
+41/autotile/occluder_map = [  ]
+41/autotile/navpoly_map = [  ]
+41/autotile/z_index_map = [  ]
+41/occluder_offset = Vector2( 0, 0 )
+41/navigation_offset = Vector2( 0, 0 )
+41/shapes = [  ]
+41/z_index = 0
+42/name = "temple_tileset.png 42"
+42/texture = ExtResource( 2 )
+42/tex_offset = Vector2( 0, 0 )
+42/modulate = Color( 1, 1, 1, 1 )
+42/region = Rect2( 80, 80, 16, 32 )
+42/tile_mode = 2
+42/autotile/icon_coordinate = Vector2( 0, 0 )
+42/autotile/tile_size = Vector2( 16, 16 )
+42/autotile/spacing = 0
+42/autotile/occluder_map = [  ]
+42/autotile/navpoly_map = [  ]
+42/autotile/z_index_map = [  ]
+42/occluder_offset = Vector2( 0, 0 )
+42/navigation_offset = Vector2( 0, 0 )
+42/shapes = [  ]
+42/z_index = 0
+43/name = "temple_tileset.png 43"
+43/texture = ExtResource( 2 )
+43/tex_offset = Vector2( 0, 0 )
+43/modulate = Color( 1, 1, 1, 1 )
+43/region = Rect2( 64, 80, 16, 32 )
+43/tile_mode = 2
+43/autotile/icon_coordinate = Vector2( 0, 0 )
+43/autotile/tile_size = Vector2( 16, 16 )
+43/autotile/spacing = 0
+43/autotile/occluder_map = [  ]
+43/autotile/navpoly_map = [  ]
+43/autotile/z_index_map = [  ]
+43/occluder_offset = Vector2( 0, 0 )
+43/navigation_offset = Vector2( 0, 0 )
+43/shapes = [  ]
+43/z_index = 0
+44/name = "temple_tileset.png 44"
+44/texture = ExtResource( 2 )
+44/tex_offset = Vector2( 0, 0 )
+44/modulate = Color( 1, 1, 1, 1 )
+44/region = Rect2( 112, 96, 16, 48 )
+44/tile_mode = 2
+44/autotile/icon_coordinate = Vector2( 0, 0 )
+44/autotile/tile_size = Vector2( 16, 16 )
+44/autotile/spacing = 0
+44/autotile/occluder_map = [  ]
+44/autotile/navpoly_map = [  ]
+44/autotile/z_index_map = [  ]
+44/occluder_offset = Vector2( 0, 0 )
+44/navigation_offset = Vector2( 0, 0 )
+44/shapes = [  ]
+44/z_index = 0
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "idle",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ],
-"loop": true,
-"name": "run",
-"speed": 7.0
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ) ],
+"loop": false,
+"name": "dead",
+"speed": 10.0
 }, {
-"frames": [ ExtResource( 18 ) ],
-"loop": true,
-"name": "jump_up",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 19 ) ],
+"frames": [ ExtResource( 37 ) ],
 "loop": true,
 "name": "dash",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 20 ) ],
+"frames": [ ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "run",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 42 ) ],
+"loop": true,
+"name": "jump_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 43 ) ],
 "loop": true,
 "name": "jump_fall",
 "speed": 8.0
-}, {
-"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ) ],
-"loop": false,
-"name": "dead",
-"speed": 10.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 29.2263, 57.948 )
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 9.30333, 25.9763 )
 
-[sub_resource type="Shader" id=6]
+[sub_resource type="Shader" id=4]
 code = "// define shader type
 shader_type canvas_item;
 
@@ -189,52 +833,36 @@ void fragment(){
 
     //COLOR = vec4(tex_color.rgb * vec3(1.0 - len), 0.1);"
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 6 )
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
 shader_param/vignette_radius = 0.5
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 5396.03, 10 )
-
-[sub_resource type="AnimatedTexture" id=9]
-flags = 4
-frames = 7
-frame_0/texture = ExtResource( 51 )
-frame_1/texture = ExtResource( 52 )
-frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 53 )
-frame_2/delay_sec = 0.0
-frame_3/texture = ExtResource( 54 )
-frame_3/delay_sec = 0.0
-frame_4/texture = ExtResource( 55 )
-frame_4/delay_sec = 0.0
-frame_5/texture = ExtResource( 56 )
-frame_5/delay_sec = 0.0
-frame_6/texture = ExtResource( 57 )
-frame_6/delay_sec = 0.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource( 3 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 1048722, 0, 0, 1048723, 0, 0, 1048724, 0, 0, 1048725, 0, 0, 1048726, 0, 0, 1048727, 0, 0, 1048728, 0, 0, 1245368, 0, 0, 1245369, 0, 0, 1245370, 0, 0, 1245371, 0, 0, 1245372, 0, 0, 1376308, 0, 0, 1376309, 0, 0, 1376310, 0, 0, 1376311, 0, 0, 1376312, 0, 0, 1376313, 0, 0, 1441928, 0, 0, 1441929, 0, 0, 1441930, 0, 0, 1441931, 0, 0, 1441932, 0, 0, 1573033, 0, 0, 1573034, 0, 0, 1573035, 0, 0, 1638434, 0, 0, 1638435, 0, 0, 1638436, 0, 0, 1638437, 0, 0, 1638438, 0, 0, 1638439, 0, 0, 1638440, 0, 0, 1638441, 0, 0, 1638442, 0, 0, 1638443, 0, 0, 1769575, 0, 0, 1769576, 0, 0, 1769577, 0, 0, 1769578, 0, 0, 1769579, 0, 0, 1769580, 0, 0, 1769581, 0, 0, 1769591, 0, 0, 1769592, 0, 0, 1769593, 0, 0, 1769594, 0, 0, 1769595, 0, 0, 1769596, 0, 0, 1769597, 0, 0, 1769598, 0, 0, 1769599, 0, 0, 1966076, 0, 0, 1966077, 0, 0, 1966078, 0, 0, 1966079, 0, 0, 1900544, 0, 0, 1900545, 0, 0, 1900546, 0, 0, 1900547, 0, 0, 1900548, 0, 0, 1900549, 0, 0, 1900550, 0, 0, 1900551, 0, 0, 1900552, 0, 0, 1900553, 0, 0, 1900554, 0, 0, 1900555, 0, 0, 1900556, 0, 0, 1900557, 0, 0, 1900558, 0, 0, 1900559, 0, 0, 1900560, 0, 0, 1900561, 0, 0, 1900562, 0, 0, 1900563, 0, 0, 1900564, 0, 0, 1900565, 0, 0, 2097223, 0, 0, 2097224, 0, 0, 2097225, 0, 0, 2097226, 0, 0, 2097227, 0, 0, 2097228, 0, 0, 2097241, 0, 0, 2097242, 0, 0, 2097243, 0, 0, 2097244, 0, 0, 2097245, 0, 0, 2097246, 0, 0, 2097247, 0, 0, 2097248, 0, 0 )
+tile_data = PoolIntArray( -65540, 5, 0, -65539, 25, 0, -65538, 25, 0, -65537, 25, 0, -131072, 25, 0, -131071, 25, 0, -131070, 28, 0, -131069, 25, 0, -131068, 5, 0, -4, 5, 0, -3, 25, 0, -2, 31, 0, -1, 25, 0, -65536, 25, 0, -65535, 25, 0, -65534, 31, 0, -65533, 25, 0, -65532, 5, 0, 65532, 5, 0, 65533, 25, 0, 65534, 25, 0, 65535, 25, 0, 0, 25, 0, 1, 25, 0, 2, 25, 0, 3, 25, 0, 4, 5, 0, 131068, 5, 0, 131069, 25, 0, 131070, 25, 0, 131071, 27, 0, 65536, 25, 0, 65537, 25, 0, 65538, 25, 0, 65539, 25, 0, 65540, 5, 0, 196604, 5, 0, 196605, 25, 0, 196606, 25, 0, 196607, 25, 0, 131072, 25, 0, 131073, 28, 0, 131074, 27, 0, 131075, 28, 0, 131076, 5, 0, 262140, 5, 0, 262141, 25, 0, 262142, 25, 0, 262143, 25, 0, 196608, 27, 0, 196609, 25, 0, 196610, 25, 0, 196611, 25, 0, 196612, 5, 0, 327676, 5, 0, 327677, 30, 0, 327678, 27, 0, 327679, 25, 0, 262144, 25, 0, 262145, 25, 0, 262146, 27, 0, 262147, 25, 0, 262148, 5, 0, 393212, 5, 0, 393213, 25, 0, 393214, 25, 0, 393215, 25, 0, 327680, 25, 0, 327681, 25, 0, 327682, 25, 0, 327683, 25, 0, 327684, 5, 0, 458748, 5, 0, 458749, 25, 0, 458750, 25, 0, 458751, 25, 0, 393216, 30, 0, 393217, 28, 0, 393218, 25, 0, 393219, 25, 0, 393220, 5, 0, 524284, 5, 0, 524285, 25, 0, 524286, 25, 0, 524287, 27, 0, 458752, 25, 0, 458753, 25, 0, 458754, 25, 0, 458755, 30, 0, 458756, 5, 0, 589820, 5, 0, 589821, 25, 0, 589822, 25, 0, 589823, 27, 0, 524288, 25, 0, 524289, 25, 0, 524290, 25, 0, 524291, 27, 0, 524292, 5, 0, 655356, 5, 0, 655357, 25, 0, 655358, 27, 0, 655359, 25, 0, 589824, 27, 0, 589825, 25, 0, 589826, 25, 0, 589827, 25, 0, 589828, 5, 0, 720892, 5, 0, 720893, 25, 0, 720894, 25, 0, 720895, 25, 0, 655360, 25, 0, 655361, 30, 0, 655362, 25, 0, 655363, 25, 0, 655364, 5, 0, 786428, 5, 0, 786429, 25, 0, 786430, 25, 0, 786431, 25, 0, 720896, 30, 0, 720897, 25, 0, 720898, 25, 0, 720899, 25, 0, 720900, 5, 0, 851964, 5, 0, 851965, 25, 0, 851966, 25, 0, 851967, 25, 0, 786432, 27, 0, 786433, 27, 0, 786434, 25, 0, 786435, 25, 0, 786436, 5, 0, 917500, 5, 0, 917501, 25, 0, 917502, 25, 0, 917503, 25, 0, 851968, 25, 0, 851969, 25, 0, 851970, 25, 0, 851971, 25, 0, 851972, 5, 0, 983036, 5, 0, 983037, 25, 0, 983038, 25, 0, 983039, 31, 0, 917504, 30, 0, 917505, 27, 0, 917506, 27, 0, 917507, 27, 0, 917508, 5, 0, 1048572, 5, 0, 1048573, 25, 0, 1048574, 25, 0, 1048575, 25, 0, 983040, 25, 0, 983041, 25, 0, 983042, 25, 0, 983043, 25, 0, 983044, 5, 0, 983181, 6, 0, 983182, 5, 0, 1114108, 5, 0, 1114109, 25, 0, 1114110, 25, 0, 1114111, 25, 0, 1048576, 30, 0, 1048577, 25, 0, 1048578, 31, 0, 1048579, 25, 0, 1048580, 5, 0, 1048717, 6, 0, 1048718, 5, 0, 1179644, 5, 0, 1179645, 25, 0, 1179646, 25, 0, 1179647, 25, 0, 1114112, 27, 0, 1114113, 25, 0, 1114114, 25, 0, 1114115, 25, 0, 1114116, 5, 0, 1114253, 6, 0, 1114254, 5, 0, 1245180, 5, 0, 1245181, 30, 0, 1245182, 25, 0, 1245183, 25, 0, 1179648, 27, 0, 1179649, 31, 0, 1179650, 25, 0, 1179651, 25, 0, 1179652, 5, 0, 1179704, 0, 0, 1179705, 0, 0, 1179706, 0, 0, 1179707, 0, 0, 1179708, 0, 0, 1179709, 0, 0, 1179710, 0, 0, 1179711, 0, 0, 1179712, 0, 0, 1179789, 6, 0, 1179790, 5, 0, 1310716, 5, 0, 1310717, 25, 0, 1310718, 25, 0, 1310719, 25, 0, 1245184, 25, 0, 1245185, 25, 0, 1245186, 25, 0, 1245187, 25, 0, 1245188, 5, 0, 1245240, 1610612761, 0, 1245241, 1610612761, 0, 1245242, 1610612763, 0, 1245243, 1610612761, 0, 1245244, 1610612761, 0, 1245245, 1610612761, 0, 1245246, 1610612763, 0, 1245247, 1610612763, 0, 1245248, 1610612763, 0, 1245325, 6, 0, 1245326, 5, 0, 1245368, 0, 0, 1245369, 0, 0, 1245370, 0, 0, 1245371, 0, 0, 1245372, 0, 0, 1376252, 5, 0, 1376253, 26, 0, 1376254, 26, 0, 1376255, 26, 0, 1310720, 26, 0, 1310721, 26, 0, 1310722, 26, 0, 1310723, 26, 0, 1310724, 5, 0, 1310776, 1610612763, 0, 1310777, 1610612763, 0, 1310778, 1610612763, 0, 1310779, 1610612763, 0, 1310780, 1610612763, 0, 1310781, 1610612763, 0, 1310782, 1610612763, 0, 1310783, 1610612763, 0, 1310784, 1610612763, 0, 1310861, 6, 0, 1310862, 5, 0, 1310904, 1610612764, 0, 1310905, 1610612766, 0, 1310906, 1610612764, 0, 1310907, 1610612766, 0, 1310908, 1610612764, 0, 1441788, 5, 0, 1441789, 26, 0, 1441790, 26, 0, 1441791, 29, 0, 1376256, 26, 0, 1376257, 25, 0, 1376258, 25, 0, 1376259, 26, 0, 1376260, 5, 0, 1376397, 6, 0, 1376398, 5, 0, 1376440, 1610612765, 0, 1376441, 1610612764, 0, 1376442, 1610612766, 0, 1376443, 1610612764, 0, 1376444, 1610612764, 0, 1507324, 5, 0, 1507325, 26, 0, 1507326, 27, 0, 1507327, 26, 0, 1441792, 26, 0, 1441793, 26, 0, 1441794, 26, 0, 1441795, 26, 0, 1441796, 5, 0, 1441797, 5, 0, 1441798, 5, 0, 1441799, 5, 0, 1441800, 5, 0, 1441801, 5, 0, 1441802, 5, 0, 1441803, 5, 0, 1441804, 5, 0, 1441805, 5, 0, 1441806, 5, 0, 1441807, 5, 0, 1441808, 5, 0, 1441809, 5, 0, 1441810, 5, 0, 1441811, 5, 0, 1441812, 5, 0, 1441813, 5, 0, 1441928, 0, 0, 1441929, 0, 0, 1441930, 0, 0, 1441931, 0, 0, 1441932, 0, 0, 1441933, 0, 0, 1441934, 5, 0, 1572860, 5, 0, 1572861, 26, 0, 1572862, 26, 0, 1572863, 26, 0, 1507328, 26, 0, 1507329, 26, 0, 1507330, 26, 0, 1507331, 26, 0, 1507332, 42, 0, 1507333, 26, 0, 1507334, 26, 0, 1507335, 25, 0, 1507336, 26, 0, 1507337, 26, 0, 1507338, 25, 0, 1507339, 26, 0, 1507340, 42, 0, 1507341, 26, 0, 1507342, 26, 0, 1507343, 26, 0, 1507344, 26, 0, 1507345, 26, 0, 1507346, 26, 0, 1507347, 26, 0, 1507348, 26, 0, 1507349, 42, 0, 1507464, 1610612764, 0, 1507465, 1610612764, 0, 1507466, 1610612764, 0, 1507467, 1610612764, 0, 1507468, 1610612764, 0, 1507469, 1610612764, 0, 1507470, 1610612764, 0, 1507472, 0, 0, 1507473, 0, 0, 1507474, 0, 0, 1507475, 0, 0, 1507476, 0, 0, 1507477, 0, 0, 1507478, 0, 0, 1507479, 0, 0, 1638396, 5, 0, 1638397, 26, 0, 1638398, 26, 0, 1638399, 26, 0, 1572864, 26, 0, 1572865, 25, 0, 1572866, 26, 0, 1572867, 26, 0, 1572868, 40, 65536, 1572869, 26, 0, 1572870, 26, 0, 1572871, 26, 0, 1572872, 26, 0, 1572873, 26, 0, 1572874, 26, 0, 1572875, 26, 0, 1572876, 40, 65536, 1572877, 26, 0, 1572878, 26, 0, 1572879, 26, 0, 1572880, 26, 0, 1572881, 26, 0, 1572882, 26, 0, 1572883, 26, 0, 1572884, 26, 0, 1572885, 40, 65536, 1572973, 0, 0, 1572974, 0, 0, 1572975, 0, 0, 1572976, 0, 0, 1573000, 1610612764, 0, 1573001, 1610612764, 0, 1573002, 1610612764, 0, 1573003, 1610612764, 0, 1573004, 1610612764, 0, 1573005, 1610612764, 0, 1573006, 1610612764, 0, 1573008, 1610612763, 0, 1573009, 1610612763, 0, 1573010, 1610612763, 0, 1573011, 1610612763, 0, 1573012, 1610612763, 0, 1573013, 1610612763, 0, 1573014, 1610612763, 0, 1573015, 1610612763, 0, 1573033, 0, 0, 1573034, 0, 0, 1573035, 0, 0, 1703932, 5, 0, 1703933, 26, 0, 1703934, 29, 0, 1703935, 26, 0, 1638400, 26, 0, 1638401, 26, 0, 1638402, 26, 0, 1638403, 26, 0, 1638404, 40, 65536, 1638405, 26, 0, 1638406, 26, 0, 1638407, 26, 0, 1638408, 26, 0, 1638409, 26, 0, 1638410, 26, 0, 1638411, 26, 0, 1638412, 40, 65536, 1638413, 26, 0, 1638414, 26, 0, 1638415, 26, 0, 1638416, 26, 0, 1638417, 26, 0, 1638418, 26, 0, 1638419, 26, 0, 1638420, 26, 0, 1638421, 40, 65536, 1638434, 1073741833, 0, 1638435, 0, 0, 1638436, 0, 0, 1638437, 0, 0, 1638438, 0, 0, 1638439, 0, 0, 1638440, 0, 0, 1638441, 0, 0, 1638442, 0, 0, 1638443, 1610612745, 0, 1638509, 1610612761, 0, 1638510, 1610612763, 0, 1638511, 1610612761, 0, 1638512, 1610612763, 0, 1638544, 1610612763, 0, 1638545, 1610612763, 0, 1638546, 1610612763, 0, 1638547, 1610612763, 0, 1638548, 1610612763, 0, 1638549, 1610612763, 0, 1638550, 1610612763, 0, 1638551, 1610612763, 0, 1638569, 1610612763, 0, 1638570, 1610612761, 0, 1638571, 1610612763, 0, 1769468, 5, 0, 1769469, 26, 0, 1769470, 29, 0, 1769471, 26, 0, 1703936, 26, 0, 1703937, 26, 0, 1703938, 26, 0, 1703939, 26, 0, 1703940, 40, 65536, 1703941, 26, 0, 1703942, 26, 0, 1703943, 26, 0, 1703944, 26, 0, 1703945, 26, 0, 1703946, 26, 0, 1703947, 26, 0, 1703948, 40, 65536, 1703949, 26, 0, 1703950, 26, 0, 1703951, 26, 0, 1703952, 26, 0, 1703953, 26, 0, 1703954, 26, 0, 1703955, 26, 0, 1703956, 26, 0, 1703957, 40, 65536, 1703970, 1610612763, 0, 1703971, 1610612763, 0, 1703972, 1610612765, 0, 1703973, 1610612765, 0, 1703974, 1610612763, 0, 1703975, 1610612765, 0, 1703976, 1610612765, 0, 1703977, 1610612765, 0, 1703978, 1610612763, 0, 1703979, 1610612764, 0, 1704045, 1610612763, 0, 1704046, 1610612761, 0, 1704047, 1610612761, 0, 1704048, 1610612763, 0, 1704105, 1610612763, 0, 1704106, 1610612763, 0, 1704107, 1610612761, 0, 1835004, 5, 0, 1835005, 26, 0, 1835006, 26, 0, 1835007, 27, 0, 1769472, 26, 0, 1769473, 26, 0, 1769474, 26, 0, 1769475, 26, 0, 1769476, 40, 65536, 1769477, 26, 0, 1769478, 26, 0, 1769479, 26, 0, 1769480, 26, 0, 1769481, 26, 0, 1769482, 26, 0, 1769483, 26, 0, 1769484, 40, 65536, 1769485, 26, 0, 1769486, 26, 0, 1769487, 26, 0, 1769488, 26, 0, 1769489, 26, 0, 1769490, 26, 0, 1769491, 26, 0, 1769492, 25, 0, 1769493, 40, 65536, 1769506, 1610612765, 0, 1769507, 1610612764, 0, 1769508, 1610612764, 0, 1769509, 1610612764, 0, 1769510, 1610612765, 0, 1769511, 1610612765, 0, 1769512, 1610612765, 0, 1769513, 1610612764, 0, 1769514, 1610612765, 0, 1769515, 1610612763, 0, 1769596, 0, 0, 1769597, 0, 0, 1769598, 0, 0, 1769599, 0, 0, 1900540, 5, 0, 1900541, 26, 0, 1900542, 26, 0, 1900543, 26, 0, 1835008, 26, 0, 1835009, 26, 0, 1835010, 26, 0, 1835011, 26, 0, 1835012, 40, 131072, 1835013, 26, 0, 1835014, 26, 0, 1835015, 26, 0, 1835016, 26, 0, 1835017, 25, 0, 1835018, 26, 0, 1835019, 26, 0, 1835020, 40, 131072, 1835021, 26, 0, 1835022, 26, 0, 1835023, 26, 0, 1835024, 26, 0, 1835025, 26, 0, 1835026, 26, 0, 1835027, 26, 0, 1835028, 26, 0, 1835029, 40, 131072, 1835132, 1610612761, 0, 1835133, 1610612764, 0, 1835134, 1610612764, 0, 1835135, 1610612761, 0, 1966076, 9, 0, 1966077, 0, 0, 1966078, 0, 0, 1966079, 0, 0, 1900544, 0, 0, 1900545, 0, 0, 1900546, 0, 0, 1900547, 0, 0, 1900548, 0, 0, 1900549, 0, 0, 1900550, 0, 0, 1900551, 0, 0, 1900552, 0, 0, 1900553, 0, 0, 1900554, 0, 0, 1900555, 0, 0, 1900556, 0, 0, 1900557, 0, 0, 1900558, 0, 0, 1900559, 0, 0, 1900560, 0, 0, 1900561, 0, 0, 1900562, 0, 0, 1900563, 0, 0, 1900564, 0, 0, 1900565, 0, 0, 1900668, 1610612764, 0, 1900669, 1610612761, 0, 1900670, 1610612761, 0, 1900671, 1610612761, 0, 2031612, 1, 0, 2031613, 1, 0, 2031614, 1, 0, 2031615, 1, 0, 1966080, 1, 0, 1966081, 1, 0, 1966082, 1, 0, 1966083, 1, 0, 1966084, 1, 0, 1966085, 1, 0, 1966086, 1, 0, 1966087, 1, 0, 1966088, 1, 0, 1966089, 1, 0, 1966090, 1, 0, 1966091, 1, 0, 1966092, 1, 0, 1966093, 1, 0, 1966094, 1, 0, 1966095, 1, 0, 1966096, 1, 0, 1966097, 1, 0, 1966098, 1, 0, 1966099, 1, 0, 1966100, 1, 0, 1966101, 1, 0, 2097148, 1, 0, 2097149, 1, 0, 2097150, 1, 0, 2097151, 1, 0, 2031616, 1, 0, 2031617, 1, 0, 2031618, 1, 0, 2031619, 1, 0, 2031620, 1, 0, 2031621, 1, 0, 2031622, 1, 0, 2031623, 1, 0, 2031624, 1, 0, 2031625, 1, 0, 2031626, 1, 0, 2031627, 1, 0, 2031628, 1, 0, 2031629, 1, 0, 2031630, 1, 0, 2031631, 1, 0, 2031632, 1, 0, 2031633, 1, 0, 2031634, 1, 0, 2031635, 1, 0, 2031636, 1, 0, 2031637, 1, 0, 2162684, 1, 0, 2162685, 1, 0, 2162686, 1, 0, 2162687, 1, 0, 2097152, 1, 0, 2097153, 1, 0, 2097154, 1, 0, 2097155, 1, 0, 2097156, 1, 0, 2097157, 1, 0, 2097158, 1, 0, 2097159, 1, 0, 2097160, 1, 0, 2097161, 1, 0, 2097162, 1, 0, 2097163, 1, 0, 2097164, 1, 0, 2097165, 1, 0, 2097166, 1, 0, 2097167, 1, 0, 2097168, 1, 0, 2097169, 1, 0, 2097170, 1, 0, 2097171, 1, 0, 2097172, 1, 0, 2097173, 1, 0, 2097241, 0, 0, 2097242, 0, 0, 2097243, 0, 0, 2097244, 0, 0, 2097245, 0, 0, 2097246, 0, 0, 2097247, 0, 0, 2097248, 0, 0, 2228220, 1, 0, 2228221, 1, 0, 2228222, 1, 0, 2228223, 1, 0, 2162688, 1, 0, 2162689, 1, 0, 2162690, 1, 0, 2162691, 1, 0, 2162692, 1, 0, 2162693, 1, 0, 2162694, 1, 0, 2162695, 1, 0, 2162696, 1, 0, 2162697, 1, 0, 2162698, 1, 0, 2162699, 1, 0, 2162700, 1, 0, 2162701, 1, 0, 2162702, 1, 0, 2162703, 1, 0, 2162704, 1, 0, 2162705, 1, 0, 2162706, 1, 0, 2162707, 1, 0, 2162708, 1, 0, 2162709, 1, 0, 2162777, 1610612766, 0, 2162778, 1610612767, 0, 2162779, 1610612765, 0, 2162780, 1610612765, 0, 2162781, 1610612767, 0, 2162782, 1610612767, 0, 2162783, 1610612765, 0, 2162784, 1610612765, 0, 2293756, 1, 0, 2293757, 1, 0, 2293758, 1, 0, 2293759, 1, 0, 2228224, 1, 0, 2228225, 1, 0, 2228226, 1, 0, 2228227, 1, 0, 2228228, 1, 0, 2228229, 1, 0, 2228230, 1, 0, 2228231, 1, 0, 2228232, 1, 0, 2228233, 1, 0, 2228234, 1, 0, 2228235, 1, 0, 2228236, 1, 0, 2228237, 1, 0, 2228238, 1, 0, 2228239, 1, 0, 2228240, 1, 0, 2228241, 1, 0, 2228242, 1, 0, 2228243, 1, 0, 2228244, 1, 0, 2228245, 1, 0, 2228313, 1610612765, 0, 2228314, 1610612767, 0, 2228315, 1610612766, 0, 2228316, 1610612765, 0, 2228317, 1610612767, 0, 2228318, 1610612766, 0, 2228319, 1610612767, 0, 2228320, 1610612765, 0, 2359292, 1, 0, 2359293, 1, 0, 2359294, 1, 0, 2359295, 1, 0, 2293760, 1, 0, 2293761, 1, 0, 2293762, 1, 0, 2293763, 1, 0, 2293764, 1, 0, 2293765, 1, 0, 2293766, 1, 0, 2293767, 1, 0, 2293768, 1, 0, 2293769, 1, 0, 2293770, 1, 0, 2293771, 1, 0, 2293772, 1, 0, 2293773, 1, 0, 2293774, 1, 0, 2293775, 1, 0, 2293776, 1, 0, 2293777, 1, 0, 2293778, 1, 0, 2293779, 1, 0, 2293780, 1, 0, 2293781, 1, 0, 2293967, 1610612736, 0, 2293968, 1610612736, 0, 2293969, 1610612736, 0, 2293970, 1610612736, 0, 2293971, 1610612736, 0, 2293972, 1610612736, 0, 2293973, 1610612736, 0, 2293974, 1610612736, 0, 2293975, 1610612736, 0, 2293976, 1610612736, 0, 2293977, 1610612736, 0, 2293978, 1610612736, 0, 2293979, 1610612736, 0, 2293980, 1610612736, 0, 2293981, 1610612736, 0, 2424828, 1, 0, 2424829, 1, 0, 2424830, 1, 0, 2424831, 1, 0, 2359296, 1, 0, 2359297, 1, 0, 2359298, 1, 0, 2359299, 1, 0, 2359300, 1, 0, 2359301, 1, 0, 2359302, 1, 0, 2359303, 1, 0, 2359304, 1, 0, 2359305, 1, 0, 2359306, 1, 0, 2359307, 1, 0, 2359308, 1, 0, 2359309, 1, 0, 2359310, 1, 0, 2359311, 1, 0, 2359312, 1, 0, 2359313, 1, 0, 2359314, 1, 0, 2359315, 1, 0, 2359316, 1, 0, 2359317, 1, 0, 2359503, 1610612762, 0, 2359504, 1610612765, 0, 2359505, 1610612765, 0, 2359506, 1610612763, 0, 2359507, 1610612765, 0, 2359508, 1610612765, 0, 2359509, 1610612765, 0, 2359510, 1610612766, 0, 2359511, 1610612765, 0, 2359512, 1610612763, 0, 2359513, 1610612763, 0, 2359514, 1610612765, 0, 2359515, 1610612762, 0, 2359516, 1610612765, 0, 2359517, 1610612765, 0, 2490364, 1, 0, 2490365, 1, 0, 2490366, 1, 0, 2490367, 1, 0, 2424832, 1, 0, 2424833, 1, 0, 2424834, 1, 0, 2424835, 1, 0, 2424836, 1, 0, 2424837, 1, 0, 2424838, 1, 0, 2424839, 1, 0, 2424840, 1, 0, 2424841, 1, 0, 2424842, 1, 0, 2424843, 1, 0, 2424844, 1, 0, 2424845, 1, 0, 2424846, 1, 0, 2424847, 1, 0, 2424848, 1, 0, 2424849, 1, 0, 2424850, 1, 0, 2424851, 1, 0, 2424852, 1, 0, 2424853, 1, 0, 2425039, 1610612765, 0, 2425040, 1610612763, 0, 2425041, 1610612765, 0, 2425042, 1610612765, 0, 2425043, 1610612765, 0, 2425044, 1610612766, 0, 2425045, 1610612765, 0, 2425046, 1610612766, 0, 2425047, 1610612765, 0, 2425048, 1610612765, 0, 2425049, 1610612762, 0, 2425050, 1610612765, 0, 2425051, 1610612765, 0, 2425052, 1610612763, 0, 2425053, 1610612762, 0, 2555900, 1, 0, 2555901, 1, 0, 2555902, 1, 0, 2555903, 1, 0, 2490368, 1, 0, 2490369, 1, 0, 2490370, 1, 0, 2490371, 1, 0, 2490372, 1, 0, 2490373, 1, 0, 2490374, 1, 0, 2490375, 1, 0, 2490376, 1, 0, 2490377, 1, 0, 2490378, 1, 0, 2490379, 1, 0, 2490380, 1, 0, 2490381, 1, 0, 2490382, 1, 0, 2490383, 1, 0, 2490384, 1, 0, 2490385, 1, 0, 2490386, 1, 0, 2490387, 1, 0, 2490388, 1, 0, 2490389, 1, 0, 2621436, 1, 0, 2621437, 1, 0, 2621438, 1, 0, 2621439, 1, 0, 2555904, 1, 0, 2555905, 1, 0, 2555906, 1, 0, 2555907, 1, 0, 2555908, 1, 0, 2555909, 1, 0, 2555910, 1, 0, 2555911, 1, 0, 2555912, 1, 0, 2555913, 1, 0, 2555914, 1, 0, 2555915, 1, 0, 2555916, 1, 0, 2555917, 1, 0, 2555918, 1, 0, 2555919, 1, 0, 2555920, 1, 0, 2555921, 1, 0, 2555922, 1, 0, 2555923, 1, 0, 2555924, 1, 0, 2555925, 1, 0, 2686972, 1, 0, 2686973, 1, 0, 2686974, 1, 0, 2686975, 1, 0, 2621440, 1, 0, 2621441, 1, 0, 2621442, 1, 0, 2621443, 1, 0, 2621444, 1, 0, 2621445, 1, 0, 2621446, 1, 0, 2621447, 1, 0, 2621448, 1, 0, 2621449, 1, 0, 2621450, 1, 0, 2621451, 1, 0, 2621452, 1, 0, 2621453, 1, 0, 2621454, 1, 0, 2621455, 1, 0, 2621456, 1, 0, 2621457, 1, 0, 2621458, 1, 0, 2621459, 1, 0, 2621460, 1, 0, 2621461, 1, 0, 2752508, 1, 0, 2752509, 1, 0, 2752510, 1, 0, 2752511, 1, 0, 2686976, 1, 0, 2686977, 1, 0, 2686978, 1, 0, 2686979, 1, 0, 2686980, 1, 0, 2686981, 1, 0, 2686982, 1, 0, 2686983, 1, 0, 2686984, 1, 0, 2686985, 1, 0, 2686986, 1, 0, 2686987, 1, 0, 2686988, 1, 0, 2686989, 1, 0, 2686990, 1, 0, 2686991, 1, 0, 2686992, 1, 0, 2686993, 1, 0, 2686994, 1, 0, 2686995, 1, 0, 2686996, 1, 0, 2686997, 1, 0, 2818044, 1, 0, 2818045, 1, 0, 2818046, 1, 0, 2818047, 1, 0, 2752512, 1, 0, 2752513, 1, 0, 2752514, 1, 0, 2752515, 1, 0, 2752516, 1, 0, 2752517, 1, 0, 2752518, 1, 0, 2752519, 1, 0, 2752520, 1, 0, 2752521, 1, 0, 2752522, 1, 0, 2752523, 1, 0, 2752524, 1, 0, 2752525, 1, 0, 2752526, 1, 0, 2752527, 1, 0, 2752528, 1, 0, 2752529, 1, 0, 2752530, 1, 0, 2752531, 1, 0, 2752532, 1, 0, 2752533, 1, 0, 2883580, 1, 0, 2883581, 1, 0, 2883582, 1, 0, 2883583, 1, 0, 2818048, 1, 0, 2818049, 1, 0, 2818050, 1, 0, 2818051, 1, 0, 2818052, 1, 0, 2818053, 1, 0, 2818054, 1, 0, 2818055, 1, 0, 2818056, 1, 0, 2818057, 1, 0, 2818058, 1, 0, 2818059, 1, 0, 2818060, 1, 0, 2818061, 1, 0, 2818062, 1, 0, 2818063, 1, 0, 2818064, 1, 0, 2818065, 1, 0, 2818066, 1, 0, 2818067, 1, 0, 2818068, 1, 0, 2818069, 1, 0 )
 
 [node name="player" type="KinematicBody2D" parent="."]
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="player"]
 position = Vector2( -2.86977, 0.404599 )
-frames = SubResource( 4 )
-animation = "idle"
+frames = SubResource( 2 )
+animation = "jump_fall"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2( -2.81918, 6.7539 )
-shape = SubResource( 5 )
+position = Vector2( -3.17123, 6.42992 )
+shape = SubResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="player"]
+editor/display_folded = true
 offset = Vector2( 200, 50 )
 current = true
 smoothing_enabled = true
@@ -242,13 +870,15 @@ smoothing_speed = 4.0
 script = ExtResource( 44 )
 
 [node name="CanvasLayer3" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
 
 [node name="Vignette" type="ColorRect" parent="player/Camera2D/CanvasLayer3"]
-material = SubResource( 7 )
-margin_right = 1920.0
-margin_bottom = 1080.0
+material = SubResource( 5 )
+margin_right = 1280.0
+margin_bottom = 720.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="player/Camera2D"]
+editor/display_folded = true
 
 [node name="HUD" parent="player/Camera2D/CanvasLayer" instance=ExtResource( 45 )]
 margin_top = -1.07325
@@ -269,12 +899,14 @@ visible = false
 
 [node name="Light2D" type="Light2D" parent="player"]
 texture = ExtResource( 48 )
+color = Color( 0.870588, 0.576471, 0.235294, 1 )
+shadow_enabled = true
 
 [node name="player_state" type="Label" parent="player"]
-margin_left = -62.3364
-margin_top = -89.6088
-margin_right = 62.6636
-margin_bottom = -25.6088
+margin_left = -55.0
+margin_top = -67.0
+margin_right = 58.0
+margin_bottom = -47.0
 custom_fonts/font = ExtResource( 49 )
 text = "IDLE"
 align = 1
@@ -289,6 +921,16 @@ wait_time = 0.1
 [node name="GhostTimer" type="Timer" parent="player"]
 wait_time = 0.02
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="player"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="player/ParallaxBackground"]
+motion_scale = Vector2( 0.5, 0.5 )
+motion_mirroring = Vector2( 960, 540 )
+
+[node name="Background" type="Sprite" parent="player/ParallaxBackground/ParallaxLayer"]
+texture = ExtResource( 50 )
+centered = false
+
 [node name="Ground" type="Node2D" parent="."]
 editor/display_folded = true
 
@@ -297,7 +939,7 @@ editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D"]
 position = Vector2( 5282.48, 1233.63 )
-shape = SubResource( 8 )
+shape = SubResource( 6 )
 
 [node name="Control" type="Control" parent="."]
 editor/display_folded = true
@@ -317,21 +959,6 @@ margin_left = 4.0
 margin_top = 13.0
 margin_right = 4.0
 margin_bottom = 27.0
-
-[node name="Log" parent="." instance=ExtResource( 50 )]
-position = Vector2( 658.539, 393.133 )
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-editor/display_folded = true
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-visible = false
-motion_scale = Vector2( 0.5, 0.5 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-visible = false
-position = Vector2( 1258.28, 708.058 )
-texture = SubResource( 9 )
 [connection signal="visibility_changed" from="player/Camera2D/CanvasLayer4/Menu" to="player/Camera2D/CanvasLayer4/Menu" method="_on_Menu_visibility_changed"]
 [connection signal="timeout" from="player/DashTimer" to="player" method="_on_Timer_timeout"]
 [connection signal="timeout" from="player/DashTimer" to="player" method="_on_DashTimer_timeout"]
