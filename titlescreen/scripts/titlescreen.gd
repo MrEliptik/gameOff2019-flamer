@@ -27,6 +27,8 @@ onready var btns = [
 
 
 func _ready():
+	$MainTheme.play(0)
+	
 	$Menu/CenterRow/Buttons/PlayButton.grab_focus()
 	
 	for button in $Menu/CenterRow/Buttons.get_children():
@@ -154,3 +156,16 @@ func _on_FadeIn_fade_finished():
 func scaleLabel(label, scale_x, scale_y):
 	label.rect_scale.x = scale_x
 	label.rect_scale.y = scale_y
+
+
+func _on_PlayButton_focus_entered():
+	$SelectSound.play(0)
+
+func _on_TutorialButton_focus_entered():
+	$SelectSound.play(0)
+
+func _on_OptionsButton_focus_entered():
+	$SelectSound.play(0)
+
+func _on_ExitButton_focus_entered():
+	$SelectSound.play(0)

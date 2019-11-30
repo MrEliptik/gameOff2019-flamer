@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://titlescreen/scripts/titlescreen.gd" type="Script" id=1]
 [ext_resource path="res://backgrounds/city_night/sprite_0.png" type="Texture" id=2]
@@ -8,21 +8,21 @@
 [ext_resource path="res://backgrounds/city_night/sprite_4.png" type="Texture" id=6]
 [ext_resource path="res://backgrounds/city_night/sprite_5.png" type="Texture" id=7]
 [ext_resource path="res://backgrounds/city_night/sprite_6.png" type="Texture" id=8]
-[ext_resource path="res://run_anim.tres" type="Texture" id=9]
-[ext_resource path="res://animations/idle/sprite_00.png" type="Texture" id=10]
-[ext_resource path="res://animations/idle/sprite_01.png" type="Texture" id=11]
-[ext_resource path="res://animations/idle/sprite_02.png" type="Texture" id=12]
-[ext_resource path="res://animations/idle/sprite_03.png" type="Texture" id=13]
-[ext_resource path="res://animations/idle/sprite_04.png" type="Texture" id=14]
-[ext_resource path="res://animations/idle/sprite_05.png" type="Texture" id=15]
-[ext_resource path="res://animations/idle/sprite_06.png" type="Texture" id=16]
-[ext_resource path="res://animations/idle/sprite_07.png" type="Texture" id=17]
-[ext_resource path="res://animations/idle/sprite_08.png" type="Texture" id=18]
-[ext_resource path="res://animations/idle/sprite_09.png" type="Texture" id=19]
-[ext_resource path="res://buttons/PlayButton.tscn" type="PackedScene" id=20]
-[ext_resource path="res://buttons/TutorialButton.tscn" type="PackedScene" id=21]
-[ext_resource path="res://buttons/OptionsButton.tscn" type="PackedScene" id=22]
-[ext_resource path="res://buttons/ExitButton.tscn" type="PackedScene" id=23]
+[ext_resource path="res://animations/run_anim.tres" type="Texture" id=9]
+[ext_resource path="res://animations/idle_big/sprite_00.png" type="Texture" id=10]
+[ext_resource path="res://animations/idle_big/sprite_01.png" type="Texture" id=11]
+[ext_resource path="res://animations/idle_big/sprite_02.png" type="Texture" id=12]
+[ext_resource path="res://animations/idle_big/sprite_03.png" type="Texture" id=13]
+[ext_resource path="res://animations/idle_big/sprite_04.png" type="Texture" id=14]
+[ext_resource path="res://animations/idle_big/sprite_05.png" type="Texture" id=15]
+[ext_resource path="res://animations/idle_big/sprite_06.png" type="Texture" id=16]
+[ext_resource path="res://animations/idle_big/sprite_07.png" type="Texture" id=17]
+[ext_resource path="res://animations/idle_big/sprite_08.png" type="Texture" id=18]
+[ext_resource path="res://animations/idle_big/sprite_09.png" type="Texture" id=19]
+[ext_resource path="res://buttons/playButton.tscn" type="PackedScene" id=20]
+[ext_resource path="res://buttons/tutorialButton.tscn" type="PackedScene" id=21]
+[ext_resource path="res://buttons/optionsButton.tscn" type="PackedScene" id=22]
+[ext_resource path="res://buttons/exitButton.tscn" type="PackedScene" id=23]
 [ext_resource path="res://fonts/ROBO.ttf" type="DynamicFontData" id=24]
 [ext_resource path="res://animations/burning_bottom/sprite_00.png" type="Texture" id=25]
 [ext_resource path="res://animations/burning_bottom/sprite_01.png" type="Texture" id=26]
@@ -39,8 +39,9 @@
 [ext_resource path="res://animations/burning_bottom/sprite_12.png" type="Texture" id=37]
 [ext_resource path="res://animations/burning_bottom/sprite_13.png" type="Texture" id=38]
 [ext_resource path="res://animations/burning_bottom/sprite_14.png" type="Texture" id=39]
-[ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=40]
-[ext_resource path="res://select2.wav" type="AudioStream" id=41]
+[ext_resource path="res://fade_in/fadeIn.tscn" type="PackedScene" id=40]
+[ext_resource path="res://sounds/select2.wav" type="AudioStream" id=41]
+[ext_resource path="res://music/mainTheme.wav" type="AudioStream" id=42]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -111,7 +112,7 @@ script = ExtResource( 1 )
 position = Vector2( 642.345, 362.789 )
 scale = Vector2( 0.44368, 0.443182 )
 frames = SubResource( 1 )
-frame = 5
+frame = 3
 playing = true
 
 [node name="Selector1" type="TextureRect" parent="."]
@@ -263,5 +264,13 @@ visible = false
 
 [node name="SelectSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 41 )
+volume_db = 6.0
 mix_target = 2
+
+[node name="MainTheme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 42 )
+[connection signal="focus_entered" from="Menu/CenterRow/Buttons/PlayButton" to="." method="_on_PlayButton_focus_entered"]
+[connection signal="focus_entered" from="Menu/CenterRow/Buttons/TutorialButton" to="." method="_on_TutorialButton_focus_entered"]
+[connection signal="focus_entered" from="Menu/CenterRow/Buttons/OptionsButton" to="." method="_on_OptionsButton_focus_entered"]
+[connection signal="focus_entered" from="Menu/CenterRow/Buttons/ExitButton" to="." method="_on_ExitButton_focus_entered"]
 [connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
