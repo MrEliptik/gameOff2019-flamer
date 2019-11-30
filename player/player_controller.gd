@@ -2,9 +2,9 @@ extends KinematicBody2D
 
 const DEBUG = true
 
-export (int) var speed = 400
-export (int) var run_speed = 500
-export (int) var jump_speed = 700
+export (int) var air_speed = 350
+export (int) var run_speed = 400
+export (int) var jump_speed = 650
 export (int) var dash_speed = 3000
 export (int) var gravity = 1600
 
@@ -38,6 +38,7 @@ var stats = {
 	"air_time":0,
 	"avg_air_time":0,
 	"max_air_time":0,
+	"jump_count":0,
 	"perfect_jumps":0,
 	"platforms_hit":0,
 	"score":0
@@ -59,7 +60,8 @@ enum STATES{
 	DASH_LEFT,
 	DASH_RIGHT,
 	FALL,
-	DEAD
+	DEAD,
+	WIN
 }
 
 enum CONTROLLER{
@@ -75,9 +77,30 @@ enum ORIENTATION{
 }
 var player_orientation = ORIENTATION.RIGHT
 
-func _physics_process(delta):	
-	vignette -= (delta * 0.1)
+func calculateScore():
+	stats["score"] += 0.25*stats["air_time"] + 0.5*stats["perfect_jumps"] + 0.15*stats["jump_count"] + 0.1*stats["platforms_hit"]
+
+# Goes between 0.7 (no vignette) to 0 (black screen)
+func set_vignette(value):
+	vignette = value
+	# Prevent wrong values
+	if vignette > 0.7: vignette = 0.7
+	elif vignette < 0: vignette = 0
 	$Camera2D/CanvasLayer3/Vignette.get_material().set_shader_param("vignette_radius", vignette)
+
+# If value > 0, increase vignetting
+# If value < 0, decrease vignetting
+func add_vignette(value):
+	vignette -= value
+	# Prevent wrong values
+	if vignette > 0.7: vignette = 0.7
+	elif vignette < 0: vignette = 0
+	$Camera2D/CanvasLayer3/Vignette.get_material().set_shader_param("vignette_radius", vignette)
+	
+func _physics_process(delta):
+	# Add vignetting every physics frame
+	add_vignette(delta * 0.1)
+	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	# Goes through every collision that happened
 	# during move_and_slide()
@@ -89,15 +112,13 @@ func _physics_process(delta):
 
 		# Confirm the colliding body is a TileMap
 		if collision.collider is TileMap:
-			print(self.position)
+			#print(self.position)
 			# Find the character's position in tile coordinates
 			var tile_pos = get_parent().get_node("TileMap").world_to_map(collision.collider.to_local(self.position))
 			# Find the colliding tile position
 			tile_pos -= collision.normal
 			# Get the tile id
-			var tile_id = collision.collider.get_cellv(tile_pos)
-			tile_id = get_parent().get_node("TileMap").get_cellv(tile_pos)
-			print(tile_id)
+			#var tile_id = collision.collider.get_cellv(tile_pos)
 			#var tile_name = collision.collider.tile_set.tile_get_name(tile_id)
 			#print(tile_id, tile_name)
 		# Player fell to its death
@@ -108,8 +129,7 @@ func _physics_process(delta):
 	
 	state.update(delta)
 	$Camera2D/CanvasLayer/HUD.updateStats(stats)
-	
-	
+		
 func _input(e):
 	#print(Input.get_action_strength("ui_left"), Input.get_action_strength("ui_right"))
 	# Check what controller the user is currently using
@@ -145,7 +165,8 @@ func set_state(new_state):
 		state = FallState.new(self)
 	elif new_state == STATES.DEAD:
 		state = DeadState.new(self)
-
+	elif new_state == STATES.WIN:
+		state == WinState.new(self)
 
 func get_state():
 	if state is IdleState:
@@ -170,6 +191,8 @@ func get_state():
 		return STATES.FALL
 	elif state is DeadState:
 		return STATES.DEAD
+	elif state is WinState:
+		return STATES.WIN
 		
 class IdleState:
 	var player
@@ -288,7 +311,7 @@ class JumpState:
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 1
-		player.stats["score"]+=1
+		player.stats["jump_count"]+=1
 		player.last_time_touched_ground =  OS.get_ticks_msec()
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -316,7 +339,9 @@ class JumpState:
 			elif player.player_orientation == player.ORIENTATION.LEFT:
 				player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("NormalToSlow").play(0)
 			player.get_node("SlowmoTimer").start()
+			player.get_node("SlowmoSoundTimer").start()
 			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
@@ -325,7 +350,7 @@ class JumpState:
 		if player.is_on_floor():
 			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
 				print("perfect jump")
-			player.set_state(player.STATES.IDLE)
+				player.stats["perfect_jumps"]+=1
 	
 	func exit():
 		player.previous_state = player.state
@@ -338,7 +363,7 @@ class DoubleJumpState:
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 2
-		player.stats["score"]+=1
+		player.stats["jump_count"]+=1
 		player.get_node("Camera2D/CanvasLayer/HUD").updateStats(player.stats)
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -364,7 +389,9 @@ class DoubleJumpState:
 			elif player.player_orientation == player.ORIENTATION.LEFT:
 				player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("NormalToSlow").play(0)
 			player.get_node("SlowmoTimer").start()
+			player.get_node("SlowmoSoundTimer").start()
 			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
@@ -385,7 +412,7 @@ class AirLeftState:
 		player.player_orientation = player.ORIENTATION.LEFT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(true)
-		player.velocity.x -= player.run_speed
+		player.velocity.x -= player.air_speed
 		player.pre_dash_speed = player.velocity.x
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -413,7 +440,9 @@ class AirLeftState:
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("NormalToSlow").play(0)
 			player.get_node("SlowmoTimer").start()
+			player.get_node("SlowmoSoundTimer").start()
 			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_LEFT)
@@ -437,7 +466,7 @@ class AirRightState:
 		player.player_orientation = player.ORIENTATION.RIGHT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(false)
-		player.velocity.x += player.run_speed
+		player.velocity.x += player.air_speed
 		player.pre_dash_speed = player.velocity.x
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -466,7 +495,9 @@ class AirRightState:
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
 			player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
+			player.get_node("NormalToSlow").play(0)
 			player.get_node("SlowmoTimer").start()
+			player.get_node("SlowmoSoundTimer").start()
 			Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
 			player.set_state(player.STATES.DASH_RIGHT)
@@ -494,7 +525,8 @@ class DashLeftState:
 		player.get_node("DashTimer").start()
 		player.get_node("GhostTimer").start()
 		player.get_node("AnimatedSprite").play("dash")
-		
+		player.get_node("SwooshSound").play(0)
+				
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
 		
@@ -537,6 +569,7 @@ class DashRightState:
 		player.get_node("DashTimer").start()
 		player.get_node("GhostTimer").start()
 		player.get_node("AnimatedSprite").play("dash")
+		player.get_node("SwooshSound").play(0)
 		
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -615,8 +648,7 @@ class DeadState:
 		if player.control_type == player.CONTROLLER.GAMEPAD:
 			Input.start_joy_vibration(0, 1, 1, 0.4)
 		player.get_node("Camera2D").shake(1, 15, 20)
-		player.get_node("AnimatedSprite").play("dead")
-		player.get_node("Camera2D/CanvasLayer3/Vignette").get_material().set_shader_param("vignette_radius", 1.0)
+		player.set_vignette(0.7)
 		player.get_node("Camera2D/CanvasLayer2/Dead_screen").visible = true
 		
 		if player.DEBUG:
@@ -626,8 +658,35 @@ class DeadState:
 		return "Dead"	
 		
 	func update(delta):
-		pass
-		#player.velocity.y += delta * player.gravity
+		player.velocity.y += delta * player.gravity
+	
+	func input(e):
+		if e.is_action_pressed("ui_restart"): 	
+			player.get_tree().reload_current_scene()
+	func exit():
+		player.previous_state = player.state
+
+class WinState:
+	var player
+	
+	func _init(player):
+		self.player = player
+		self.player.velocity = Vector2(0, 0)
+		#player.get_node("Camera2D").force_update_scroll()
+		player.get_node("Camera2D").zoom = Vector2(0.7, 0.7)
+		player.get_node("AnimatedSprite").play("idle")
+
+		player.set_vignette(0.7)
+		player.get_node("Camera2D/CanvasLayer5/win_screen").visible = true
+		
+		if player.DEBUG:
+			player.get_node("player_state").text = _get_name()
+		
+	func _get_name():
+		return "Win"	
+		
+	func update(delta):
+		player.velocity.y += delta * player.gravity
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"): 	
@@ -637,14 +696,12 @@ class DeadState:
 
 func _on_DashTimer_timeout():
 	dash_finished = true
-	print("dash timeout", previous_state)
-	#set_state(STATES.IDLE)
-	#state = previous_state
+	print("dash timeout")
 
 func _on_GhostTimer_timeout():
 	if get_state() == STATES.DASH_RIGHT or get_state() == STATES.DASH_LEFT:
 		# make a copy of the ghost obj
-		var this_ghost = preload("res://ghost.tscn").instance()
+		var this_ghost = preload("res://effects/ghost.tscn").instance()
 		# give the ghost a parent
 		get_parent().add_child(this_ghost)
 		this_ghost.position = position
@@ -656,3 +713,12 @@ func _on_SlowmoTimer_timeout():
 	slowmo_finished = true
 	print("slowmo finished")
 	Engine.time_scale = 1.0
+
+
+func _on_SlowmoSoundTimer_timeout():
+	$SlowToNormal.play(0)
+
+func _on_FinishArea_body_entered(body):
+	if body is PhysicsBody2D:
+		print("entered")
+		set_state(STATES.WIN)
