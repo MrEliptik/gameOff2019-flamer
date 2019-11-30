@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://titlescreen/scripts/titlescreen.gd" type="Script" id=1]
 [ext_resource path="res://backgrounds/city_night/sprite_0.png" type="Texture" id=2]
@@ -24,10 +24,25 @@
 [ext_resource path="res://buttons/OptionsButton.tscn" type="PackedScene" id=22]
 [ext_resource path="res://buttons/ExitButton.tscn" type="PackedScene" id=23]
 [ext_resource path="res://fonts/ROBO.ttf" type="DynamicFontData" id=24]
-[ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=25]
-[ext_resource path="res://select2.wav" type="AudioStream" id=26]
+[ext_resource path="res://animations/burning_bottom/sprite_00.png" type="Texture" id=25]
+[ext_resource path="res://animations/burning_bottom/sprite_01.png" type="Texture" id=26]
+[ext_resource path="res://animations/burning_bottom/sprite_02.png" type="Texture" id=27]
+[ext_resource path="res://animations/burning_bottom/sprite_03.png" type="Texture" id=28]
+[ext_resource path="res://animations/burning_bottom/sprite_04.png" type="Texture" id=29]
+[ext_resource path="res://animations/burning_bottom/sprite_05.png" type="Texture" id=30]
+[ext_resource path="res://animations/burning_bottom/sprite_06.png" type="Texture" id=31]
+[ext_resource path="res://animations/burning_bottom/sprite_07.png" type="Texture" id=32]
+[ext_resource path="res://animations/burning_bottom/sprite_08.png" type="Texture" id=33]
+[ext_resource path="res://animations/burning_bottom/sprite_09.png" type="Texture" id=34]
+[ext_resource path="res://animations/burning_bottom/sprite_10.png" type="Texture" id=35]
+[ext_resource path="res://animations/burning_bottom/sprite_11.png" type="Texture" id=36]
+[ext_resource path="res://animations/burning_bottom/sprite_12.png" type="Texture" id=37]
+[ext_resource path="res://animations/burning_bottom/sprite_13.png" type="Texture" id=38]
+[ext_resource path="res://animations/burning_bottom/sprite_14.png" type="Texture" id=39]
+[ext_resource path="res://fade_in/FadeIn.tscn" type="PackedScene" id=40]
+[ext_resource path="res://select2.wav" type="AudioStream" id=41]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
@@ -35,7 +50,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="AnimatedTexture" id=1]
+[sub_resource type="AnimatedTexture" id=2]
 flags = 4
 frames = 10
 fps = 8.0
@@ -59,16 +74,29 @@ frame_8/delay_sec = 0.0
 frame_9/texture = ExtResource( 19 )
 frame_9/delay_sec = 0.0
 
-[sub_resource type="DynamicFontData" id=4]
+[sub_resource type="DynamicFontData" id=3]
 font_path = "res://fonts/Viking Hell.otf"
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 256
-font_data = SubResource( 4 )
+font_data = SubResource( 3 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=5]
 size = 20
 font_data = ExtResource( 24 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ) ],
+"loop": false,
+"name": "burn",
+"speed": 18.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 26 ) ],
+"loop": true,
+"name": "burning_bottom",
+"speed": 10.0
+} ]
 
 [node name="Titlescreen" type="Control"]
 anchor_right = 1.0
@@ -82,7 +110,7 @@ script = ExtResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 961.108, 541.138 )
 scale = Vector2( 0.666542, 0.666375 )
-frames = SubResource( 3 )
+frames = SubResource( 1 )
 frame = 4
 playing = true
 
@@ -140,13 +168,14 @@ margin_right = 1366.0
 margin_bottom = 917.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = SubResource( 1 )
+texture = SubResource( 2 )
 expand = true
 
 [node name="Title" type="Label" parent="."]
 anchor_right = 1.0
-margin_bottom = 446.0
-custom_fonts/font = SubResource( 5 )
+margin_top = -0.277374
+margin_bottom = 445.723
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.807843, 0.262745, 0.262745, 1 )
 custom_colors/font_color_shadow = Color( 0.541176, 0.0470588, 0.0470588, 1 )
 custom_constants/shadow_offset_x = 7
@@ -200,15 +229,85 @@ margin_top = 304.0
 margin_right = 711.0
 margin_bottom = 573.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 text = "Version 1.0
 MrEliptik"
 valign = 2
 
-[node name="FadeIn" parent="." instance=ExtResource( 25 )]
+[node name="Letter_burn1" type="AnimatedSprite" parent="."]
+position = Vector2( 259.479, 491.612 )
+scale = Vector2( 0.224724, 0.401212 )
+frames = SubResource( 6 )
+animation = "burning_bottom"
+frame = 1
+playing = true
+
+[node name="Letter_complete_burn1" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 259.479, 490.019 )
+scale = Vector2( 0.224724, 0.421125 )
+frames = SubResource( 6 )
+animation = "burn"
+frame = 14
+playing = true
+
+[node name="Letter_burn2" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 323.34, 571.953 )
+scale = Vector2( 0.415495, 0.416484 )
+frames = SubResource( 6 )
+animation = "burning_bottom"
+frame = 2
+playing = true
+
+[node name="Letter_complete_burn2" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 323.34, 571.173 )
+scale = Vector2( 0.415495, 0.426235 )
+frames = SubResource( 6 )
+animation = "burn"
+frame = 14
+playing = true
+
+[node name="Letter_burn3" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 303.918, 651.647 )
+scale = Vector2( 0.362971, 0.401212 )
+frames = SubResource( 6 )
+animation = "burning_bottom"
+playing = true
+
+[node name="Letter_complete_burn3" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 303.918, 650.241 )
+scale = Vector2( 0.362971, 0.418787 )
+frames = SubResource( 6 )
+animation = "burn"
+frame = 14
+playing = true
+
+[node name="Letter_burn4" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 248.181, 731.184 )
+scale = Vector2( 0.185218, 0.406303 )
+frames = SubResource( 6 )
+animation = "burning_bottom"
+frame = 1
+playing = true
+
+[node name="Letter_complete_burn4" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 248.181, 728.582 )
+scale = Vector2( 0.185218, 0.438834 )
+frames = SubResource( 6 )
+animation = "burn"
+frame = 14
+playing = true
+
+[node name="FadeIn" parent="." instance=ExtResource( 40 )]
 visible = false
 
 [node name="SelectSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 26 )
+stream = ExtResource( 41 )
 mix_target = 2
 [connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
