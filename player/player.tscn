@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://player/player_controller.gd" type="Script" id=1]
 [ext_resource path="res://animations/idle/sprite_00.png" type="Texture" id=2]
@@ -11,47 +11,57 @@
 [ext_resource path="res://animations/idle/sprite_07.png" type="Texture" id=9]
 [ext_resource path="res://animations/idle/sprite_08.png" type="Texture" id=10]
 [ext_resource path="res://animations/idle/sprite_09.png" type="Texture" id=11]
-[ext_resource path="res://animations/jump/sprite_0.png" type="Texture" id=12]
-[ext_resource path="res://animations/fall/sprite_0.png" type="Texture" id=13]
-[ext_resource path="res://animations/run/sprite_0.png" type="Texture" id=14]
-[ext_resource path="res://animations/run/sprite_1.png" type="Texture" id=15]
-[ext_resource path="res://animations/run/sprite_2.png" type="Texture" id=16]
-[ext_resource path="res://animations/run/sprite_3.png" type="Texture" id=17]
-[ext_resource path="res://animations/dead/sprite_00.png" type="Texture" id=18]
-[ext_resource path="res://animations/dead/sprite_01.png" type="Texture" id=19]
-[ext_resource path="res://animations/dead/sprite_02.png" type="Texture" id=20]
-[ext_resource path="res://animations/dead/sprite_03.png" type="Texture" id=21]
-[ext_resource path="res://animations/dead/sprite_04.png" type="Texture" id=22]
-[ext_resource path="res://animations/dead/sprite_05.png" type="Texture" id=23]
-[ext_resource path="res://animations/dead/sprite_06.png" type="Texture" id=24]
-[ext_resource path="res://animations/dead/sprite_07.png" type="Texture" id=25]
-[ext_resource path="res://animations/dead/sprite_08.png" type="Texture" id=26]
-[ext_resource path="res://animations/dead/sprite_09.png" type="Texture" id=27]
-[ext_resource path="res://animations/dead/sprite_10.png" type="Texture" id=28]
-[ext_resource path="res://animations/dead/sprite_11.png" type="Texture" id=29]
-[ext_resource path="res://animations/dead/sprite_12.png" type="Texture" id=30]
-[ext_resource path="res://animations/dead/sprite_13.png" type="Texture" id=31]
-[ext_resource path="res://animations/dead/sprite_14.png" type="Texture" id=32]
-[ext_resource path="res://animations/dead/sprite_15.png" type="Texture" id=33]
-[ext_resource path="res://animations/dead/sprite_16.png" type="Texture" id=34]
-[ext_resource path="res://animations/dead/sprite_17.png" type="Texture" id=35]
-[ext_resource path="res://animations/dead/sprite_18.png" type="Texture" id=36]
-[ext_resource path="res://animations/dead/sprite_19.png" type="Texture" id=37]
-[ext_resource path="res://animations/dead/sprite_20.png" type="Texture" id=38]
-[ext_resource path="res://animations/dead/sprite_21.png" type="Texture" id=39]
-[ext_resource path="res://animations/dead/sprite_22.png" type="Texture" id=40]
-[ext_resource path="res://animations/dash/sprite_0.png" type="Texture" id=41]
-[ext_resource path="res://player/camera2D.gd" type="Script" id=42]
-[ext_resource path="res://player/HUD.tscn" type="PackedScene" id=43]
-[ext_resource path="res://game/dead_screen.tscn" type="PackedScene" id=44]
-[ext_resource path="res://game/winLevel.tscn" type="PackedScene" id=45]
-[ext_resource path="res://pause/pause_menu.tscn" type="PackedScene" id=46]
-[ext_resource path="res://effects/light_player.png" type="Texture" id=47]
-[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=48]
-[ext_resource path="res://backgrounds/background_gray.png" type="Texture" id=49]
-[ext_resource path="res://sounds/swoosh.wav" type="AudioStream" id=50]
-[ext_resource path="res://sounds/normal_to_slowmo.wav" type="AudioStream" id=51]
-[ext_resource path="res://sounds/slowmo_to_normal.wav" type="AudioStream" id=52]
+[ext_resource path="res://animations/run/sprite_0.png" type="Texture" id=12]
+[ext_resource path="res://animations/run/sprite_1.png" type="Texture" id=13]
+[ext_resource path="res://animations/run/sprite_2.png" type="Texture" id=14]
+[ext_resource path="res://animations/run/sprite_3.png" type="Texture" id=15]
+[ext_resource path="res://animations/dead/sprite_00.png" type="Texture" id=16]
+[ext_resource path="res://animations/dead/sprite_01.png" type="Texture" id=17]
+[ext_resource path="res://animations/dead/sprite_02.png" type="Texture" id=18]
+[ext_resource path="res://animations/dead/sprite_03.png" type="Texture" id=19]
+[ext_resource path="res://animations/dead/sprite_04.png" type="Texture" id=20]
+[ext_resource path="res://animations/dead/sprite_05.png" type="Texture" id=21]
+[ext_resource path="res://animations/dead/sprite_06.png" type="Texture" id=22]
+[ext_resource path="res://animations/dead/sprite_07.png" type="Texture" id=23]
+[ext_resource path="res://animations/dead/sprite_08.png" type="Texture" id=24]
+[ext_resource path="res://animations/dead/sprite_09.png" type="Texture" id=25]
+[ext_resource path="res://animations/dead/sprite_10.png" type="Texture" id=26]
+[ext_resource path="res://animations/dead/sprite_11.png" type="Texture" id=27]
+[ext_resource path="res://animations/dead/sprite_12.png" type="Texture" id=28]
+[ext_resource path="res://animations/dead/sprite_13.png" type="Texture" id=29]
+[ext_resource path="res://animations/dead/sprite_14.png" type="Texture" id=30]
+[ext_resource path="res://animations/dead/sprite_15.png" type="Texture" id=31]
+[ext_resource path="res://animations/dead/sprite_16.png" type="Texture" id=32]
+[ext_resource path="res://animations/dead/sprite_17.png" type="Texture" id=33]
+[ext_resource path="res://animations/dead/sprite_18.png" type="Texture" id=34]
+[ext_resource path="res://animations/dead/sprite_19.png" type="Texture" id=35]
+[ext_resource path="res://animations/dead/sprite_20.png" type="Texture" id=36]
+[ext_resource path="res://animations/dead/sprite_21.png" type="Texture" id=37]
+[ext_resource path="res://animations/dead/sprite_22.png" type="Texture" id=38]
+[ext_resource path="res://animations/dash/sprite_0.png" type="Texture" id=39]
+[ext_resource path="res://animations/fall/sprite_0.png" type="Texture" id=40]
+[ext_resource path="res://animations/jump/sprite_0.png" type="Texture" id=41]
+[ext_resource path="res://animations/flame_front_small/sprite_00.png" type="Texture" id=42]
+[ext_resource path="res://animations/flame_front_small/sprite_01.png" type="Texture" id=43]
+[ext_resource path="res://animations/flame_front_small/sprite_02.png" type="Texture" id=44]
+[ext_resource path="res://animations/flame_front_small/sprite_03.png" type="Texture" id=45]
+[ext_resource path="res://animations/flame_front_small/sprite_04.png" type="Texture" id=46]
+[ext_resource path="res://animations/flame_front_small/sprite_05.png" type="Texture" id=47]
+[ext_resource path="res://animations/flame_front_small/sprite_06.png" type="Texture" id=48]
+[ext_resource path="res://animations/flame_front_small/sprite_07.png" type="Texture" id=49]
+[ext_resource path="res://animations/flame_front_small/sprite_08.png" type="Texture" id=50]
+[ext_resource path="res://animations/flame_front_small/sprite_09.png" type="Texture" id=51]
+[ext_resource path="res://player/camera2D.gd" type="Script" id=52]
+[ext_resource path="res://player/HUD.tscn" type="PackedScene" id=53]
+[ext_resource path="res://game/dead_screen.tscn" type="PackedScene" id=54]
+[ext_resource path="res://game/winLevel.tscn" type="PackedScene" id=55]
+[ext_resource path="res://pause/pause_menu.tscn" type="PackedScene" id=56]
+[ext_resource path="res://effects/light_player.png" type="Texture" id=57]
+[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=58]
+[ext_resource path="res://backgrounds/background_gray.png" type="Texture" id=59]
+[ext_resource path="res://sounds/swoosh.wav" type="AudioStream" id=60]
+[ext_resource path="res://sounds/normal_to_slowmo.wav" type="AudioStream" id=61]
+[ext_resource path="res://sounds/slowmo_to_normal.wav" type="AudioStream" id=62]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -60,36 +70,44 @@ animations = [ {
 "name": "idle",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "jump_up",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 13 ) ],
-"loop": true,
-"name": "jump_fall",
-"speed": 8.0
-}, {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "run",
 "speed": 7.0
 }, {
-"frames": [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ) ],
+"frames": [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ) ],
 "loop": false,
 "name": "dead",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 41 ) ],
+"frames": [ ExtResource( 39 ) ],
 "loop": true,
 "name": "dash",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 40 ) ],
+"loop": true,
+"name": "jump_fall",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 41 ) ],
+"loop": true,
+"name": "jump_up",
 "speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 9.30333, 25.9763 )
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Shader" id=4]
 code = "// define shader type
 shader_type canvas_item;
 
@@ -144,8 +162,8 @@ void fragment(){
 
     //COLOR = vec4(tex_color.rgb * vec3(1.0 - len), 0.1);"
 
-[sub_resource type="ShaderMaterial" id=4]
-shader = SubResource( 3 )
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
 shader_param/vignette_radius = 0.7
 
 [node name="player" type="KinematicBody2D"]
@@ -160,57 +178,92 @@ animation = "jump_fall"
 position = Vector2( -3.17123, 6.42992 )
 shape = SubResource( 2 )
 
+[node name="Powerup1" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -9.99309, -10.6742 )
+scale = Vector2( 0.254424, 0.254424 )
+frames = SubResource( 3 )
+frame = 4
+playing = true
+offset = Vector2( -50, 0 )
+
+[node name="Powerup2" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 27.2223, -11.0726 )
+scale = Vector2( 0.254424, 0.254424 )
+frames = SubResource( 3 )
+frame = 4
+playing = true
+offset = Vector2( -50, 0 )
+
+[node name="Powerup3" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 21.6008, -27.0524 )
+scale = Vector2( 0.254424, 0.254424 )
+frames = SubResource( 3 )
+frame = 4
+playing = true
+offset = Vector2( -50, 0 )
+
+[node name="Powerup4" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -6.19851, -26.5822 )
+scale = Vector2( 0.254424, 0.254424 )
+frames = SubResource( 3 )
+frame = 3
+playing = true
+offset = Vector2( -50, 0 )
+
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 200, 50 )
 current = true
 smoothing_enabled = true
 smoothing_speed = 4.0
-script = ExtResource( 42 )
+script = ExtResource( 52 )
 
 [node name="CanvasLayer3" type="CanvasLayer" parent="Camera2D"]
-editor/display_folded = true
 
 [node name="Vignette" type="ColorRect" parent="Camera2D/CanvasLayer3"]
-visible = false
-material = SubResource( 4 )
+material = SubResource( 5 )
 margin_right = 1280.0
 margin_bottom = 720.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
 editor/display_folded = true
 
-[node name="HUD" parent="Camera2D/CanvasLayer" instance=ExtResource( 43 )]
+[node name="HUD" parent="Camera2D/CanvasLayer" instance=ExtResource( 53 )]
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="Camera2D"]
 editor/display_folded = true
 
-[node name="Dead_screen" parent="Camera2D/CanvasLayer2" instance=ExtResource( 44 )]
+[node name="Dead_screen" parent="Camera2D/CanvasLayer2" instance=ExtResource( 54 )]
 visible = false
 
 [node name="CanvasLayer5" type="CanvasLayer" parent="Camera2D"]
 editor/display_folded = true
 
-[node name="win_screen" parent="Camera2D/CanvasLayer5" instance=ExtResource( 45 )]
+[node name="win_screen" parent="Camera2D/CanvasLayer5" instance=ExtResource( 55 )]
 visible = false
 
 [node name="CanvasLayer4" type="CanvasLayer" parent="Camera2D"]
 editor/display_folded = true
 
-[node name="Menu" parent="Camera2D/CanvasLayer4" instance=ExtResource( 46 )]
+[node name="Menu" parent="Camera2D/CanvasLayer4" instance=ExtResource( 56 )]
 pause_mode = 2
 visible = false
 
 [node name="Light2D" type="Light2D" parent="."]
-texture = ExtResource( 47 )
+texture = ExtResource( 57 )
 color = Color( 0.870588, 0.576471, 0.235294, 1 )
 shadow_enabled = true
 
 [node name="player_state" type="Label" parent="."]
+visible = false
 margin_left = -55.0
 margin_top = -67.0
 margin_right = 58.0
 margin_bottom = -47.0
-custom_fonts/font = ExtResource( 48 )
+custom_fonts/font = ExtResource( 58 )
 text = "IDLE"
 align = 1
 
@@ -230,24 +283,25 @@ one_shot = true
 wait_time = 0.02
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+editor/display_folded = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2( 0.5, 0.5 )
 motion_mirroring = Vector2( 960, 540 )
 
 [node name="Background" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource( 49 )
+texture = ExtResource( 59 )
 centered = false
 
 [node name="SwooshSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 50 )
+stream = ExtResource( 60 )
 volume_db = 6.0
 
 [node name="NormalToSlow" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 51 )
+stream = ExtResource( 61 )
 
 [node name="SlowToNormal" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 52 )
+stream = ExtResource( 62 )
 [connection signal="visibility_changed" from="Camera2D/CanvasLayer4/Menu" to="Camera2D/CanvasLayer4/Menu" method="_on_Menu_visibility_changed"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_Timer_timeout"]

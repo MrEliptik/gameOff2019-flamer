@@ -2,10 +2,11 @@ extends KinematicBody2D
 
 const DEBUG = true
 
-export (int) var air_speed = 350
+export (int) var air_friction = 0.2
+export (int) var air_speed = 300
 export (int) var run_speed = 400
-export (int) var jump_speed = 650
-export (int) var dash_speed = 3000
+export (int) var jump_speed = 600
+export (int) var dash_speed = 1700
 export (int) var gravity = 1600
 
 export (int) var score = 0
@@ -33,6 +34,12 @@ var pre_dash_speed = 0
 
 var max_jumps = 2
 var jump_count = 0
+
+var powerups_count = 0
+
+var nextLevel = ""
+
+onready var powerups_sprites = [get_node("Powerup1"), get_node("Powerup2"), get_node("Powerup3"), get_node("Powerup4")]
 
 var stats = {
 	"air_time":0,
@@ -78,7 +85,7 @@ enum ORIENTATION{
 var player_orientation = ORIENTATION.RIGHT
 
 func calculateScore():
-	stats["score"] += 0.25*stats["air_time"] + 0.5*stats["perfect_jumps"] + 0.15*stats["jump_count"] + 0.1*stats["platforms_hit"]
+	return 0.25*stats["air_time"] + 0.5*stats["perfect_jumps"] + 0.15*stats["jump_count"] + 0.1*stats["platforms_hit"]
 
 # Goes between 0.7 (no vignette) to 0 (black screen)
 func set_vignette(value):
@@ -98,8 +105,23 @@ func add_vignette(value):
 	$Camera2D/CanvasLayer3/Vignette.get_material().set_shader_param("vignette_radius", vignette)
 	
 func _physics_process(delta):
+	
+	var powerups_visible = powerups_count
+	for sprite in powerups_sprites:
+		if powerups_visible > 0:
+			sprite.visible = true
+			powerups_visible -= 1
+		else:
+			sprite.visible = false
+	
 	# Add vignetting every physics frame
-	add_vignette(delta * 0.1)
+	add_vignette(delta * 0.01)
+	
+	var score = calculateScore()
+	stats["score"] += score
+	# Substract vignetting based on our score
+	print(-(score * 0.001))
+	#add_vignette(-(score * 0.001))
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	# Goes through every collision that happened
@@ -252,7 +274,8 @@ class RunRightState:
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
 		elif e.is_action_pressed("ui_dash"):
-			player.set_state(player.STATES.DASH_RIGHT)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DASH_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.RUN_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
@@ -291,7 +314,8 @@ class RunLeftState:
 		elif e.is_action_pressed("ui_jump"):
 			player.set_state(player.STATES.JUMP)
 		elif e.is_action_pressed("ui_dash"):
-			player.set_state(player.STATES.DASH_LEFT)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.RUN_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
@@ -332,17 +356,21 @@ class JumpState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
-			player.set_state(player.STATES.DOUBLE_JUMP)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_dash"):
-			if player.player_orientation == player.ORIENTATION.RIGHT:
-				player.set_state(player.STATES.DASH_RIGHT)
-			elif player.player_orientation == player.ORIENTATION.LEFT:
-				player.set_state(player.STATES.DASH_LEFT)
+			if player.powerups_count > 0:
+				if player.player_orientation == player.ORIENTATION.RIGHT:
+					player.set_state(player.STATES.DASH_RIGHT)
+				elif player.player_orientation == player.ORIENTATION.LEFT:
+					player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_slowmo"):
-			player.get_node("NormalToSlow").play(0)
-			player.get_node("SlowmoTimer").start()
-			player.get_node("SlowmoSoundTimer").start()
-			Engine.time_scale = 0.1
+			if player.powerups_count > 0:
+				player.powerups_count -= 1
+				player.get_node("NormalToSlow").play(0)
+				player.get_node("SlowmoTimer").start()
+				player.get_node("SlowmoSoundTimer").start()
+				Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
@@ -360,6 +388,7 @@ class DoubleJumpState:
 	
 	func _init(player):
 		self.player = player
+		player.powerups_count -= 1
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 2
@@ -384,15 +413,18 @@ class DoubleJumpState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_dash"):
-			if player.player_orientation == player.ORIENTATION.RIGHT:
-				player.set_state(player.STATES.DASH_RIGHT)
-			elif player.player_orientation == player.ORIENTATION.LEFT:
-				player.set_state(player.STATES.DASH_LEFT)
+			if player.powerups_count > 0:
+				if player.player_orientation == player.ORIENTATION.RIGHT:
+					player.set_state(player.STATES.DASH_RIGHT)
+				elif player.player_orientation == player.ORIENTATION.LEFT:
+					player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_slowmo"):
-			player.get_node("NormalToSlow").play(0)
-			player.get_node("SlowmoTimer").start()
-			player.get_node("SlowmoSoundTimer").start()
-			Engine.time_scale = 0.1
+			if player.powerups_count > 0:
+				player.powerups_count -= 1
+				player.get_node("NormalToSlow").play(0)
+				player.get_node("SlowmoTimer").start()
+				player.get_node("SlowmoSoundTimer").start()
+				Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
@@ -438,14 +470,18 @@ class AirLeftState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
-			player.set_state(player.STATES.DOUBLE_JUMP)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
-			player.get_node("NormalToSlow").play(0)
-			player.get_node("SlowmoTimer").start()
-			player.get_node("SlowmoSoundTimer").start()
-			Engine.time_scale = 0.1
+			if player.powerups_count > 0:
+				player.powerups_count -= 1
+				player.get_node("NormalToSlow").play(0)
+				player.get_node("SlowmoTimer").start()
+				player.get_node("SlowmoSoundTimer").start()
+				Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
-			player.set_state(player.STATES.DASH_LEFT)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DASH_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
@@ -478,7 +514,6 @@ class AirRightState:
 		player.velocity.y += delta * player.gravity
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
-		
 		if player.is_on_floor():
 			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
 			if Input.is_action_pressed("ui_right"):
@@ -493,14 +528,18 @@ class AirRightState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
-			player.set_state(player.STATES.DOUBLE_JUMP)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
-			player.get_node("NormalToSlow").play(0)
-			player.get_node("SlowmoTimer").start()
-			player.get_node("SlowmoSoundTimer").start()
-			Engine.time_scale = 0.1
+			if player.powerups_count > 0:
+				player.powerups_count -= 1
+				player.get_node("NormalToSlow").play(0)
+				player.get_node("SlowmoTimer").start()
+				player.get_node("SlowmoSoundTimer").start()
+				Engine.time_scale = 0.1
 		elif e.is_action_pressed("ui_dash"):
-			player.set_state(player.STATES.DASH_RIGHT)
+			if player.powerups_count > 0:
+				player.set_state(player.STATES.DASH_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
@@ -517,7 +556,7 @@ class DashLeftState:
 	
 	func _init(player):
 		self.player = player
-
+		player.powerups_count -= 1
 		player.velocity.y = 0
 		player.velocity.x = -player.dash_speed
 		player.dash_finished = false
@@ -561,7 +600,7 @@ class DashRightState:
 	
 	func _init(player):
 		self.player = player
-		
+		player.powerups_count -= 1
 		player.velocity.y = 0
 		player.velocity.x = player.dash_speed
 		player.dash_finished = false
@@ -671,6 +710,8 @@ class WinState:
 	
 	func _init(player):
 		self.player = player
+		player.get_node("Camera2D/CanvasLayer5/win_screen").setNextLevel(player.nextLevel)
+		player.get_node("Camera2D/CanvasLayer5/win_screen").setStats(player.stats)
 		self.player.velocity = Vector2(0, 0)
 		#player.get_node("Camera2D").force_update_scroll()
 		player.get_node("Camera2D").zoom = Vector2(0.7, 0.7)
@@ -721,4 +762,18 @@ func _on_SlowmoSoundTimer_timeout():
 func _on_FinishArea_body_entered(body):
 	if body is PhysicsBody2D:
 		print("entered")
+		nextLevel = "res://game/level_2/scenes/level_2.tscn"
 		set_state(STATES.WIN)
+
+func _on_FinishArea_level2_body_entered(body):
+	if body is PhysicsBody2D:
+		print("entered")
+		nextLevel = "titlescreen/scenes/titlescreen.tscn"
+		set_state(STATES.WIN)
+		
+func _on_Powerup_body_entered(body):
+	if body is PhysicsBody2D:
+		print("flame entered")
+		if powerups_count < 4:
+			powerups_count += 1
+

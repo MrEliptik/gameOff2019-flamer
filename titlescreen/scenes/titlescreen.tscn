@@ -88,15 +88,15 @@ font_data = ExtResource( 24 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ) ],
-"loop": false,
-"name": "burn",
-"speed": 18.0
-}, {
 "frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 26 ) ],
 "loop": true,
 "name": "burning_bottom",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ) ],
+"loop": false,
+"name": "burn",
+"speed": 18.0
 } ]
 
 [node name="Titlescreen" type="Control"]
@@ -112,7 +112,7 @@ script = ExtResource( 1 )
 position = Vector2( 642.345, 362.789 )
 scale = Vector2( 0.44368, 0.443182 )
 frames = SubResource( 1 )
-frame = 3
+frame = 5
 playing = true
 
 [node name="Selector1" type="TextureRect" parent="."]
@@ -233,7 +233,6 @@ position = Vector2( 259.479, 403.612 )
 scale = Vector2( 0.224724, 0.401212 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 3
 playing = true
 
 [node name="Letter_burn2" type="AnimatedSprite" parent="."]
@@ -241,6 +240,7 @@ position = Vector2( 323.34, 483.953 )
 scale = Vector2( 0.415495, 0.416484 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
+frame = 1
 playing = true
 
 [node name="Letter_burn3" type="AnimatedSprite" parent="."]
@@ -248,7 +248,7 @@ position = Vector2( 303.918, 563.647 )
 scale = Vector2( 0.362971, 0.401212 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 2
+frame = 3
 playing = true
 
 [node name="Letter_burn4" type="AnimatedSprite" parent="."]
@@ -256,7 +256,6 @@ position = Vector2( 248.181, 643.184 )
 scale = Vector2( 0.185218, 0.406303 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 3
 playing = true
 
 [node name="FadeIn" parent="." instance=ExtResource( 40 )]

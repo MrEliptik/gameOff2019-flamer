@@ -26,6 +26,10 @@ func _ready():
 func _input(e):
 	if not self.is_visible():
 		return
+		
+	if e.is_action_pressed("ui_restart"):
+		get_tree().paused = false
+		self.hide()
 	
 	if e is InputEventJoypadMotion:
 		y_val = Input.get_joy_axis(0, 1)
