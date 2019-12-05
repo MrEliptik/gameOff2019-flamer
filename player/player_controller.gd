@@ -35,7 +35,7 @@ var pre_dash_speed = 0
 var max_jumps = 2
 var jump_count = 0
 
-var powerups_count = 0
+var powerups_count = 4
 
 var nextLevel = ""
 
@@ -84,6 +84,22 @@ enum ORIENTATION{
 }
 var player_orientation = ORIENTATION.RIGHT
 
+func calculateAvgAirTime():
+	stats["avg_air_time"] += stats["air_time"]
+	stats["avg_air_time"] /= 2
+	
+func calculateMaxAirTime():
+	var currentAirTime = OS.get_ticks_msec() - air_time_begin
+	if currentAirTime > stats["max_air_time"]:
+		stats["max_air_time"] = currentAirTime
+		
+func calculateAirTime():
+	stats["air_time"] = OS.get_ticks_msec() - air_time_begin
+	return stats["air_time"]
+	
+func addScore(value):
+	stats["score"] += value
+
 func calculateScore():
 	return 0.25*stats["air_time"] + 0.5*stats["perfect_jumps"] + 0.15*stats["jump_count"] + 0.1*stats["platforms_hit"]
 
@@ -116,11 +132,8 @@ func _physics_process(delta):
 	
 	# Add vignetting every physics frame
 	add_vignette(delta * 0.01)
-	
-	var score = calculateScore()
-	stats["score"] += score
+	stats["score"] += delta
 	# Substract vignetting based on our score
-	print(-(score * 0.001))
 	#add_vignette(-(score * 0.001))
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
@@ -348,8 +361,13 @@ class JumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
-			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
+			player.addScore(player.calculateAirTime())
+			player.calculateMaxAirTime()
+			player.calculateAvgAirTime()
 			player.set_state(STATES.IDLE)
+		else:
+			player.calculateAirTime()
+			player.calculateMaxAirTime()
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -379,6 +397,7 @@ class JumpState:
 			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
 				print("perfect jump")
 				player.stats["perfect_jumps"]+=1
+			player.calculateAvgAirTime()
 	
 	func exit():
 		player.previous_state = player.state
@@ -405,8 +424,13 @@ class DoubleJumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
-			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
+			player.addScore(player.calculateAirTime())
+			player.calculateMaxAirTime()
+			player.calculateAvgAirTime()
 			player.set_state(STATES.IDLE)
+		else:
+			player.calculateAirTime()
+			player.calculateMaxAirTime()
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -430,6 +454,7 @@ class DoubleJumpState:
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif player.is_on_floor():
+			player.calculateAvgAirTime()
 			player.set_state(player.STATES.IDLE)
 	
 	func exit():
@@ -457,13 +482,18 @@ class AirLeftState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
-			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
+			player.calculateAvgAirTime()
+			player.addScore(player.calculateAirTime())
+			player.calculateMaxAirTime()
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
 			elif Input.is_action_pressed("ui_left"):
 				player.set_state(player.STATES.RUN_LEFT)
 			else:
 				player.set_state(player.STATES.IDLE)
+		else:
+			player.calculateAirTime()
+			player.calculateMaxAirTime()
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -515,13 +545,18 @@ class AirRightState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
-			player.stats["air_time"] = OS.get_ticks_msec() - player.air_time_begin
+			player.addScore(player.calculateAirTime())
+			player.calculateMaxAirTime()
+			player.calculateAvgAirTime()
 			if Input.is_action_pressed("ui_right"):
 				player.set_state(player.STATES.RUN_RIGHT)
 			elif Input.is_action_pressed("ui_left"):
 				player.set_state(player.STATES.RUN_LEFT)
 			else:
 				player.set_state(player.STATES.IDLE)
+		else:
+			player.calculateAirTime()
+			player.calculateMaxAirTime()
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -620,11 +655,13 @@ class DashRightState:
 		if player.dash_finished:
 			if Input.is_action_pressed("ui_right"):
 				if player.is_on_floor():
+					player.calculateAvgAirTime()
 					player.set_state(STATES.RUN_RIGHT)
 				else:
 					player.set_state(STATES.AIR_RIGHT)
 			elif Input.is_action_pressed("ui_left"):
 				if player.is_on_floor():
+					player.calculateAvgAirTime()
 					player.set_state(STATES.RUN_LEFT)
 				else:
 					player.set_state(STATES.AIR_LEFT)
