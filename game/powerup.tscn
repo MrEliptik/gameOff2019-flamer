@@ -12,7 +12,7 @@
 [ext_resource path="res://animations/flame_front_small/sprite_09.png" type="Texture" id=10]
 [ext_resource path="res://effects/lights.png" type="Texture" id=11]
 
-[sub_resource type="SpriteFrames" id=56]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
@@ -21,20 +21,20 @@ animations = [ {
 } ]
 
 [node name="Powerup" type="Area2D"]
-editor/display_folded = true
-position = Vector2( 2730.22, 368.686 )
+position = Vector2( -0.0577431, -0.107473 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-editor/display_folded = true
+position = Vector2( 2.42473, -10.0031 )
 polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2929, 2.39062, 13.2077, 2.48755, 10.686, 0.880127, 8.18591, 1.42065, 5.10916, -0.00610352, 3.54028, -3.94238, 5.28516, -5.9353, 8.55267 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="CollisionPolygon2D"]
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
-frames = SubResource( 56 )
-frame = 3
+frames = SubResource( 1 )
+frame = 8
 playing = true
 
 [node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 0.326096, 0.0396423 )
 texture = ExtResource( 11 )
 color = Color( 1, 0.603922, 0.0470588, 1 )

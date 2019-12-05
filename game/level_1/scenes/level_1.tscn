@@ -244,6 +244,8 @@ shape = SubResource( 5 )
 stream = ExtResource( 5 )
 
 [node name="Powerup" parent="." instance=ExtResource( 6 )]
+position = Vector2( 2727.28, 378.794 )
+gravity = 9.0
 
 [node name="Powerup2" type="Area2D" parent="."]
 editor/display_folded = true
@@ -256,7 +258,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.91479 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 8
+frame = 7
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup2"]
@@ -274,7 +276,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 6
+frame = 5
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup3"]
@@ -292,7 +294,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 4
+frame = 3
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup4"]

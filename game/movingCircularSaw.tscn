@@ -3,7 +3,7 @@
 [ext_resource path="res://game/circularSaw.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/movingCircularSaw.tres" type="Animation" id=2]
 
-[sub_resource type="Curve2D" id=8]
+[sub_resource type="Curve2D" id=1]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 6.24515, 10.3433, 0, 0, 0, 0, 6.37402, -145.461 )
 }
@@ -11,15 +11,15 @@ _data = {
 [node name="MovingCircularSaw" type="Node2D"]
 
 [node name="CircularSaw" parent="." instance=ExtResource( 1 )]
-position = Vector2( -0.0579748, -1.11905 )
+position = Vector2( 0.0259676, -102.603 )
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2( -6.30422, -10.1352 )
-curve = SubResource( 8 )
+curve = SubResource( 1 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2( 6.24625, 9.01615 )
-offset = 1.69748
+position = Vector2( 6.33019, -92.4676 )
+offset = 102.829
 rotate = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Path2D/PathFollow2D"]
