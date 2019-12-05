@@ -7,9 +7,6 @@
 [ext_resource path="res://effects/flame_selector.tscn" type="PackedScene" id=5]
 [ext_resource path="res://sounds/select2.wav" type="AudioStream" id=6]
 
-
-
-
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0

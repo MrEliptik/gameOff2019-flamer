@@ -233,6 +233,7 @@ position = Vector2( 259.479, 403.612 )
 scale = Vector2( 0.224724, 0.401212 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
+frame = 3
 playing = true
 
 [node name="Letter_burn2" type="AnimatedSprite" parent="."]
@@ -240,7 +241,6 @@ position = Vector2( 323.34, 483.953 )
 scale = Vector2( 0.415495, 0.416484 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 1
 playing = true
 
 [node name="Letter_burn3" type="AnimatedSprite" parent="."]
@@ -248,7 +248,7 @@ position = Vector2( 303.918, 563.647 )
 scale = Vector2( 0.362971, 0.401212 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 3
+frame = 2
 playing = true
 
 [node name="Letter_burn4" type="AnimatedSprite" parent="."]
@@ -256,6 +256,7 @@ position = Vector2( 248.181, 643.184 )
 scale = Vector2( 0.185218, 0.406303 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
+frame = 3
 playing = true
 
 [node name="FadeIn" parent="." instance=ExtResource( 40 )]
