@@ -39,6 +39,8 @@ var powerups_count = 4
 
 var nextLevel = ""
 
+onready var start_level = OS.get_ticks_msec()
+
 onready var powerups_sprites = [get_node("Powerup1"), get_node("Powerup2"), get_node("Powerup3"), get_node("Powerup4")]
 
 var stats = {
@@ -48,6 +50,7 @@ var stats = {
 	"jump_count":0,
 	"perfect_jumps":0,
 	"platforms_hit":0,
+	"level_time":0,
 	"score":0
 }
 
@@ -96,6 +99,9 @@ func calculateMaxAirTime():
 func calculateAirTime():
 	stats["air_time"] = OS.get_ticks_msec() - air_time_begin
 	return stats["air_time"]
+
+func calculateLevelTime():
+	stats["level_time"] = OS.get_ticks_msec() - start_level
 	
 func addScore(value):
 	stats["score"] += value
@@ -135,6 +141,9 @@ func _physics_process(delta):
 	stats["score"] += delta
 	# Substract vignetting based on our score
 	#add_vignette(-(score * 0.001))
+	
+	calculateLevelTime()
+	$Camera2D/CanvasLayer/HUD.updateStats(stats)
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	# Goes through every collision that happened
@@ -344,6 +353,7 @@ class JumpState:
 	
 	func _init(player):
 		self.player = player
+		#player.get_node("JumpSound").play(0)
 		player.air_time_begin = OS.get_ticks_msec()
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
@@ -407,12 +417,12 @@ class DoubleJumpState:
 	
 	func _init(player):
 		self.player = player
+		#player.get_node("JumpSound").play(0)
 		player.powerups_count -= 1
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 2
 		player.stats["jump_count"]+=1
-		player.get_node("Camera2D/CanvasLayer/HUD").updateStats(player.stats)
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
 		
@@ -747,6 +757,7 @@ class WinState:
 	
 	func _init(player):
 		self.player = player
+		player.get_node("Camera2D/CanvasLayer/HUD").hide()
 		player.get_node("Camera2D/CanvasLayer5/win_screen").setNextLevel(player.nextLevel)
 		player.get_node("Camera2D/CanvasLayer5/win_screen").setStats(player.stats)
 		self.player.velocity = Vector2(0, 0)
@@ -769,6 +780,7 @@ class WinState:
 	func input(e):
 		if e.is_action_pressed("ui_restart"): 	
 			player.get_tree().reload_current_scene()
+			
 	func exit():
 		player.previous_state = player.state
 
