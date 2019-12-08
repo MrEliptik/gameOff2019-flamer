@@ -4,7 +4,7 @@
 [ext_resource path="res://game/level_1/scenes/tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://effects/lights.png" type="Texture" id=3]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://music/level_1.wav" type="AudioStream" id=5]
+[ext_resource path="res://music/dark_ambiance.wav" type="AudioStream" id=5]
 [ext_resource path="res://game/powerup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://animations/flame_front_small/sprite_00.png" type="Texture" id=7]
 [ext_resource path="res://animations/flame_front_small/sprite_01.png" type="Texture" id=8]
@@ -242,6 +242,7 @@ shape = SubResource( 5 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+autoplay = true
 
 [node name="Powerup" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2727.28, 378.794 )
@@ -258,7 +259,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.91479 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 6
+frame = 2
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup2"]
@@ -276,7 +277,6 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 4
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup3"]
@@ -294,7 +294,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 2
+frame = 8
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup4"]
