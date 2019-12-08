@@ -28,6 +28,7 @@ onready var btns = [
 
 func _ready():
 	$MainTheme.play(0)
+	$MonoFireSound.play(0)
 	
 	$Menu/CenterRow/Buttons/PlayButton.grab_focus()
 	
@@ -135,12 +136,16 @@ func _on_button_pressed(scene_to_load):
 	leaving = true
 	if $Menu/CenterRow/Buttons/PlayButton.is_hovered() == true:	
 		# Fire burning
+		$IgnitionSound.play(0)
 		$Letter_burn1.play("burn")
 	elif $Menu/CenterRow/Buttons/TutorialButton.is_hovered() == true:
+		$IgnitionSound.play(0)
 		$Letter_burn2.play("burn")
 	elif $Menu/CenterRow/Buttons/OptionsButton.is_hovered() == true:
+		$IgnitionSound.play(0)
 		$Letter_burn3.play("burn")
 	elif $Menu/CenterRow/Buttons/ExitButton.is_hovered() == true:
+		$IgnitionSound.play(0)
 		$Letter_burn4.play("burn")
 	
 	if scene_to_load == "-1": 
