@@ -200,7 +200,7 @@ texture = ExtResource( 3 )
 color = Color( 0.960784, 0.862745, 0.741176, 1 )
 
 [node name="player" parent="." instance=ExtResource( 4 )]
-position = Vector2( 13.7969, 21.8528 )
+position = Vector2( -0.046875, 66.5579 )
 
 [node name="Spikes" type="Node" parent="."]
 editor/display_folded = true
@@ -258,7 +258,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.91479 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 7
+frame = 6
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup2"]
@@ -276,7 +276,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 5
+frame = 4
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup3"]
@@ -294,7 +294,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup4"]
@@ -303,11 +303,11 @@ color = Color( 1, 0.603922, 0.0470588, 1 )
 
 [node name="Ground" parent="." instance=ExtResource( 17 )]
 [connection signal="body_entered" from="FinishArea" to="player" method="_on_FinishArea_body_entered"]
-[connection signal="body_entered" from="Powerup" to="player" method="_on_Powerup_body_entered"]
 [connection signal="body_entered" from="Powerup" to="." method="_on_Powerup_body_entered"]
-[connection signal="body_entered" from="Powerup2" to="player" method="_on_Powerup_body_entered"]
+[connection signal="body_entered" from="Powerup" to="player" method="_on_Powerup_body_entered"]
 [connection signal="body_entered" from="Powerup2" to="." method="_on_Powerup2_body_entered"]
-[connection signal="body_entered" from="Powerup3" to="player" method="_on_Powerup_body_entered"]
+[connection signal="body_entered" from="Powerup2" to="player" method="_on_Powerup_body_entered"]
 [connection signal="body_entered" from="Powerup3" to="." method="_on_Powerup3_body_entered"]
-[connection signal="body_entered" from="Powerup4" to="player" method="_on_Powerup_body_entered"]
+[connection signal="body_entered" from="Powerup3" to="player" method="_on_Powerup_body_entered"]
 [connection signal="body_entered" from="Powerup4" to="." method="_on_Powerup4_body_entered"]
+[connection signal="body_entered" from="Powerup4" to="player" method="_on_Powerup_body_entered"]
