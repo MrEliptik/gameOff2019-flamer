@@ -39,6 +39,8 @@ var powerups_count = 4
 
 var nextLevel = ""
 
+var last_running_sound_pos = 0
+
 onready var start_level = OS.get_ticks_msec()
 
 onready var powerups_sprites = [get_node("Powerup1"), get_node("Powerup2"), get_node("Powerup3"), get_node("Powerup4")]
@@ -253,6 +255,12 @@ class IdleState:
 	
 	func update(delta):
 		player.velocity.y += delta * player.gravity
+		
+		if player.is_on_floor():
+			player.get_node("AnimatedSprite").play("idle")
+		else:
+			if player.velocity.y > 0:
+				player.get_node("AnimatedSprite").play("jump_fall")
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -266,6 +274,7 @@ class IdleState:
 			player.set_state(player.STATES.RUN_RIGHT)
 	
 	func exit():
+		player.last_time_touched_ground = OS.get_ticks_msec()
 		player.previous_state = player.state
 		
 class RunRightState:
@@ -273,6 +282,7 @@ class RunRightState:
 	
 	func _init(player):
 		self.player = player
+		player.get_node("RunningSound").play(player.last_running_sound_pos)
 		player.player_orientation = player.ORIENTATION.RIGHT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(false)
@@ -306,6 +316,9 @@ class RunRightState:
 			player.set_state(player.STATES.IDLE)
 	
 	func exit():
+		player.last_running_sound_pos = player.get_node("RunningSound").get_playback_position()
+		player.get_node("RunningSound").stop()
+		player.last_time_touched_ground = OS.get_ticks_msec()
 		player.previous_state = player.state
 		
 class RunLeftState:
@@ -313,6 +326,7 @@ class RunLeftState:
 	
 	func _init(player):
 		self.player = player
+		player.get_node("RunningSound").play(player.last_running_sound_pos)
 		player.player_orientation = player.ORIENTATION.LEFT
 		player.velocity.x = 0
 		player.get_node("AnimatedSprite").set_flip_h(true)
@@ -346,6 +360,9 @@ class RunLeftState:
 			player.set_state(player.STATES.IDLE)
 	
 	func exit():
+		player.last_running_sound_pos = player.get_node("RunningSound").get_playback_position()
+		player.last_time_touched_ground = OS.get_ticks_msec()
+		player.get_node("RunningSound").stop()
 		player.previous_state = player.state
 		
 class JumpState:
@@ -356,10 +373,10 @@ class JumpState:
 		#player.get_node("JumpSound").play(0)
 		player.air_time_begin = OS.get_ticks_msec()
 		player.get_node("AnimatedSprite").play("jump_up")
+		player.get_node("JumpParticles").emitting = true
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 1
 		player.stats["jump_count"]+=1
-		player.last_time_touched_ground =  OS.get_ticks_msec()
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
 		
@@ -406,6 +423,7 @@ class JumpState:
 		if player.is_on_floor():
 			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
 				print("perfect jump")
+				player.get_node("TwinkleParticles").emitting = true
 				player.stats["perfect_jumps"]+=1
 			player.calculateAvgAirTime()
 	
@@ -420,6 +438,7 @@ class DoubleJumpState:
 		#player.get_node("JumpSound").play(0)
 		player.powerups_count -= 1
 		player.get_node("AnimatedSprite").play("jump_up")
+		player.get_node("DJumpParticles").emitting = true
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 2
 		player.stats["jump_count"]+=1
@@ -464,6 +483,10 @@ class DoubleJumpState:
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif player.is_on_floor():
+			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+				print("perfect jump")
+				player.get_node("TwinkleParticles").emitting = true
+				player.stats["perfect_jumps"]+=1
 			player.calculateAvgAirTime()
 			player.set_state(player.STATES.IDLE)
 	
@@ -526,6 +549,11 @@ class AirLeftState:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			pass
+		elif player.is_on_floor():
+			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+				print("perfect jump")
+				player.get_node("TwinkleParticles").emitting = true
+				player.stats["perfect_jumps"]+=1
 		else:
 			pass
 			#player.set_state(player.STATES.FALL)
@@ -589,6 +617,11 @@ class AirRightState:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			pass
+		elif player.is_on_floor():
+			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+				print("perfect jump")
+				player.get_node("TwinkleParticles").emitting = true
+				player.stats["perfect_jumps"]+=1
 		else:
 			pass
 			#player.set_state(player.STATES.FALL)
@@ -619,7 +652,12 @@ class DashLeftState:
 		
 	func update(delta):
 		if player.dash_finished:
-			if Input.is_action_pressed("ui_right"):
+			if Input.is_action_pressed("ui_jump"):
+				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+					print("perfect jump")
+					player.get_node("TwinkleParticles").emitting = true
+					player.stats["perfect_jumps"]+=1
+			elif Input.is_action_pressed("ui_right"):
 				if player.is_on_floor():
 					player.set_state(STATES.RUN_RIGHT)
 				else:
@@ -736,6 +774,7 @@ class DeadState:
 		player.get_node("Camera2D").shake(1, 15, 20)
 		player.set_vignette(0.7)
 		player.get_node("Camera2D/CanvasLayer2/Dead_screen").visible = true
+		player.get_node("DeathSound").play(0)
 		
 		if player.DEBUG:
 			player.get_node("player_state").text = _get_name()
@@ -757,6 +796,7 @@ class WinState:
 	
 	func _init(player):
 		self.player = player
+		player.get_node("WinSound").play(0)
 		player.get_node("Camera2D/CanvasLayer/HUD").hide()
 		player.get_node("Camera2D/CanvasLayer5/win_screen").setNextLevel(player.nextLevel)
 		player.get_node("Camera2D/CanvasLayer5/win_screen").setStats(player.stats)
