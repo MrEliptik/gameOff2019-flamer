@@ -8,3 +8,4 @@ func updateStats(stats):
 	$HBoxContainer/HBoxContainer2/Value.text = str(stats["air_time"])
 	$HBoxContainer/HBoxContainer3/Value.text = str(stats["perfect_jumps"])
 	$HBoxContainer/HBoxContainer4/Value.text = str(stats["platforms_hit"])
+	$HBoxContainer/HBoxContainer5/Value.text = str(int(stats["level_time"]/1000))

@@ -17,7 +17,7 @@ margin_bottom = 20.0
 alignment = 1
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="HBoxContainer"]
-margin_right = 70.0
+margin_right = 260.0
 margin_bottom = 20.0
 alignment = 2
 
@@ -29,21 +29,22 @@ text = "Score: "
 
 [node name="Value" type="Label" parent="HBoxContainer/HBoxContainer1"]
 margin_left = 60.0
-margin_right = 70.0
+margin_right = 260.0
 margin_bottom = 20.0
+rect_min_size = Vector2( 200, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 74.0
-margin_right = 342.0
+margin_left = 264.0
+margin_right = 273.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 346.0
-margin_right = 435.0
+margin_left = 277.0
+margin_right = 556.0
 margin_bottom = 20.0
 alignment = 2
 
@@ -55,21 +56,49 @@ text = "Air Time: "
 
 [node name="Value" type="Label" parent="HBoxContainer/HBoxContainer2"]
 margin_left = 79.0
-margin_right = 89.0
+margin_right = 279.0
 margin_bottom = 20.0
+rect_min_size = Vector2( 200, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 
 [node name="HSeparator3" type="HSeparator" parent="HBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 439.0
-margin_right = 707.0
+margin_left = 560.0
+margin_right = 569.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 573.0
+margin_right = 822.0
+margin_bottom = 20.0
+alignment = 2
+
+[node name="Platform hits" type="Label" parent="HBoxContainer/HBoxContainer5"]
+margin_right = 45.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 2 )
+text = "Time: "
+
+[node name="Value" type="Label" parent="HBoxContainer/HBoxContainer5"]
+margin_left = 49.0
+margin_right = 249.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+
+[node name="HSeparator4" type="HSeparator" parent="HBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 826.0
+margin_right = 835.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 711.0
-margin_right = 849.0
+margin_left = 839.0
+margin_right = 1067.0
 margin_bottom = 20.0
 alignment = 2
 
@@ -81,21 +110,22 @@ text = "Perfect jump: "
 
 [node name="Value" type="Label" parent="HBoxContainer/HBoxContainer3"]
 margin_left = 128.0
-margin_right = 138.0
+margin_right = 228.0
 margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 
 [node name="HSeparator2" type="HSeparator" parent="HBoxContainer"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 853.0
-margin_right = 1121.0
+margin_left = 1071.0
+margin_right = 1080.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 1125.0
-margin_right = 1268.0
+margin_left = 1084.0
+margin_right = 1267.0
 margin_bottom = 20.0
 alignment = 2
 
@@ -107,7 +137,8 @@ text = "Platforms hit: "
 
 [node name="Value" type="Label" parent="HBoxContainer/HBoxContainer4"]
 margin_left = 133.0
-margin_right = 143.0
+margin_right = 183.0
 margin_bottom = 20.0
+rect_min_size = Vector2( 50, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
