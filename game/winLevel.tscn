@@ -1,10 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/winLevel.gd" type="Script" id=1]
 [ext_resource path="res://effects/flame_selector.tscn" type="PackedScene" id=2]
-[ext_resource path="res://fonts/vikingHell_64.tres" type="DynamicFont" id=3]
-[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=4]
-[ext_resource path="res://fonts/heller_64.tres" type="DynamicFont" id=5]
+[ext_resource path="res://fonts/Viking Hell.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/heller_64.tres" type="DynamicFont" id=4]
+[ext_resource path="res://fonts/Heller Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=6]
+
+[sub_resource type="DynamicFont" id=2]
+size = 96
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 84
+font_data = ExtResource( 5 )
 
 [node name="WinLevel" type="Control"]
 anchor_right = 1.0
@@ -20,22 +29,22 @@ rect_rotation = 0.0521974
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 68.0
+margin_bottom = 101.0
 alignment = 1
 
 [node name="Selector1" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 390.0
+margin_left = 299.0
 margin_top = 0.0
-margin_right = 454.0
+margin_right = 363.0
 margin_bottom = 64.0
 
 [node name="Level clear" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 458.0
-margin_right = 821.0
-margin_bottom = 68.0
+margin_left = 367.0
+margin_right = 913.0
+margin_bottom = 101.0
 rect_pivot_offset = Vector2( 3561.93, -69.727 )
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.188235, 0.541176, 0.317647, 1 )
 custom_colors/font_color_shadow = Color( 0.8, 0.964706, 0.764706, 1 )
 custom_constants/shadow_offset_x = 2
@@ -45,140 +54,265 @@ align = 1
 valign = 1
 
 [node name="Selector2" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 825.0
+margin_left = 917.0
 margin_top = 0.0
-margin_right = 889.0
+margin_right = 981.0
 margin_bottom = 64.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 138.0
+margin_top = 113.0
+margin_right = -143.0
+margin_bottom = -27.0
 alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 999.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 20, 50 )
+
+[node name="HBoxContainer0" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 54.0
+margin_right = 999.0
+margin_bottom = 118.0
+
+[node name="TIME" type="Label" parent="VBoxContainer2/HBoxContainer0"]
+margin_right = 140.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "TIME: "
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer0"]
+margin_left = 144.0
+margin_right = 999.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer0/HBoxContainer"]
+margin_right = 855.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "0"
+align = 2
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="VBoxContainer2"]
-editor/display_folded = true
-margin_top = 268.0
-margin_right = 1280.0
-margin_bottom = 288.0
-alignment = 1
+margin_top = 122.0
+margin_right = 999.0
+margin_bottom = 186.0
 
 [node name="Avg air time" type="Label" parent="VBoxContainer2/HBoxContainer1"]
-margin_left = 557.0
-margin_right = 708.0
-margin_bottom = 20.0
+margin_right = 478.0
+margin_bottom = 64.0
 custom_fonts/font = ExtResource( 4 )
-text = "Average air time; "
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "Average air time: "
+align = 1
 
-[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer1"]
-margin_left = 712.0
-margin_right = 722.0
-margin_bottom = 20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer1"]
+margin_left = 482.0
+margin_right = 999.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer1/HBoxContainer"]
+margin_right = 517.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
 text = "0"
+align = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
-editor/display_folded = true
-margin_top = 292.0
-margin_right = 1280.0
-margin_bottom = 312.0
-alignment = 1
+margin_top = 190.0
+margin_right = 999.0
+margin_bottom = 254.0
 
 [node name="Max air time" type="Label" parent="VBoxContainer2/HBoxContainer2"]
-margin_left = 575.0
-margin_right = 690.0
-margin_bottom = 20.0
+margin_right = 362.0
+margin_bottom = 64.0
 custom_fonts/font = ExtResource( 4 )
-text = "Max air time; "
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "Max air time: "
+align = 1
 
-[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer2"]
-margin_left = 694.0
-margin_right = 704.0
-margin_bottom = 20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2"]
+margin_left = 366.0
+margin_right = 999.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer2/HBoxContainer"]
+margin_right = 633.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
 text = "0"
+align = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2"]
-editor/display_folded = true
-margin_top = 316.0
-margin_right = 1280.0
-margin_bottom = 336.0
-alignment = 1
+margin_top = 258.0
+margin_right = 999.0
+margin_bottom = 322.0
 
 [node name="Jumps" type="Label" parent="VBoxContainer2/HBoxContainer3"]
-margin_left = 602.0
-margin_right = 663.0
-margin_bottom = 20.0
+margin_right = 197.0
+margin_bottom = 64.0
 custom_fonts/font = ExtResource( 4 )
-text = "Jumps; "
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "Jumps: "
+align = 1
 
-[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer3"]
-margin_left = 667.0
-margin_right = 677.0
-margin_bottom = 20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer3"]
+margin_left = 201.0
+margin_right = 999.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer3/HBoxContainer"]
+margin_right = 798.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
 text = "0"
+align = 2
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2"]
-editor/display_folded = true
-margin_top = 340.0
-margin_right = 1280.0
-margin_bottom = 360.0
-alignment = 1
+margin_top = 326.0
+margin_right = 999.0
+margin_bottom = 390.0
 
 [node name="Perfect jumps" type="Label" parent="VBoxContainer2/HBoxContainer4"]
-margin_left = 566.0
-margin_right = 699.0
-margin_bottom = 20.0
+margin_right = 425.0
+margin_bottom = 64.0
 custom_fonts/font = ExtResource( 4 )
-text = "perfect jumps; "
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "perfect jumps: "
+align = 1
 
-[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer4"]
-margin_left = 703.0
-margin_right = 713.0
-margin_bottom = 20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer4"]
+margin_left = 429.0
+margin_right = 999.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer4/HBoxContainer"]
+margin_right = 570.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
 text = "0"
+align = 2
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2"]
-editor/display_folded = true
-margin_top = 364.0
-margin_right = 1280.0
-margin_bottom = 384.0
-alignment = 1
+margin_top = 394.0
+margin_right = 999.0
+margin_bottom = 458.0
 
 [node name="Platform hits" type="Label" parent="VBoxContainer2/HBoxContainer5"]
-margin_left = 568.0
-margin_right = 697.0
-margin_bottom = 20.0
+margin_right = 409.0
+margin_bottom = 64.0
 custom_fonts/font = ExtResource( 4 )
-text = "Platform hits; "
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
+text = "Platform hits: "
+align = 1
 
-[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer5"]
-margin_left = 701.0
-margin_right = 711.0
-margin_bottom = 20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer5"]
+margin_left = 413.0
+margin_right = 999.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer5/HBoxContainer"]
+margin_right = 586.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.439216, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 2
 text = "0"
+align = 2
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 462.0
+margin_right = 999.0
+margin_bottom = 492.0
+rect_min_size = Vector2( 20, 30 )
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer2"]
-editor/display_folded = true
-margin_top = 388.0
-margin_right = 1280.0
-margin_bottom = 452.0
+margin_top = 496.0
+margin_right = 999.0
+margin_bottom = 580.0
 alignment = 1
 
 [node name="Score" type="Label" parent="VBoxContainer2/HBoxContainer6"]
-margin_left = 530.0
-margin_right = 713.0
-margin_bottom = 64.0
-custom_fonts/font = ExtResource( 5 )
+margin_left = 356.0
+margin_right = 596.0
+margin_bottom = 84.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.188235, 0.541176, 0.317647, 1 )
+custom_colors/font_color_shadow = Color( 0.8, 0.964706, 0.764706, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 1
 text = "Score: "
 
 [node name="Value" type="Label" parent="VBoxContainer2/HBoxContainer6"]
-margin_left = 717.0
-margin_right = 749.0
-margin_bottom = 64.0
-custom_fonts/font = ExtResource( 5 )
+margin_left = 600.0
+margin_right = 642.0
+margin_bottom = 84.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.188235, 0.541176, 0.317647, 1 )
+custom_colors/font_color_shadow = Color( 0.8, 0.964706, 0.764706, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 1
 text = "0"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -195,7 +329,7 @@ margin_right = 640.0
 margin_left = 514.0
 margin_right = 766.0
 margin_bottom = 20.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
 text = "Press any button to continue"
 
 [node name="BlinkTimer" type="Timer" parent="."]
