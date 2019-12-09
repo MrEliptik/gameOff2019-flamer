@@ -412,6 +412,7 @@ class JumpState:
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
 				player.powerups_count -= 1
+				player.get_node("Camera2D").zoom = Vector2(0.8, 0.8)
 				player.get_node("NormalToSlow").play(0)
 				player.get_node("SlowmoTimer").start()
 				player.get_node("SlowmoSoundTimer").start()
@@ -474,6 +475,7 @@ class DoubleJumpState:
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
 				player.powerups_count -= 1
+				player.get_node("Camera2D").zoom = Vector2(0.8, 0.8)
 				player.get_node("NormalToSlow").play(0)
 				player.get_node("SlowmoTimer").start()
 				player.get_node("SlowmoSoundTimer").start()
@@ -538,6 +540,7 @@ class AirLeftState:
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
 				player.powerups_count -= 1
+				player.get_node("Camera2D").zoom = Vector2(0.8, 0.8)
 				player.get_node("NormalToSlow").play(0)
 				player.get_node("SlowmoTimer").start()
 				player.get_node("SlowmoSoundTimer").start()
@@ -606,6 +609,7 @@ class AirRightState:
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
 				player.powerups_count -= 1
+				player.get_node("Camera2D").zoom = Vector2(0.8, 0.8)
 				player.get_node("NormalToSlow").play(0)
 				player.get_node("SlowmoTimer").start()
 				player.get_node("SlowmoSoundTimer").start()
@@ -840,6 +844,7 @@ func _on_GhostTimer_timeout():
 		this_ghost.scale = $AnimatedSprite.scale
 
 func _on_SlowmoTimer_timeout():
+	player.get_node("Camera2D").zoom = Vector2(1, 1)
 	slowmo_finished = true
 	print("slowmo finished")
 	Engine.time_scale = 1.0
