@@ -139,7 +139,7 @@ func _physics_process(delta):
 			sprite.visible = false
 	
 	# Add vignetting every physics frame
-	add_vignette(delta * 0.01)
+	add_vignette(delta * 0.015)
 	stats["score"] += delta
 	# Substract vignetting based on our score
 	#add_vignette(-(score * 0.001))
@@ -844,7 +844,7 @@ func _on_GhostTimer_timeout():
 		this_ghost.scale = $AnimatedSprite.scale
 
 func _on_SlowmoTimer_timeout():
-	player.get_node("Camera2D").zoom = Vector2(1, 1)
+	get_node("Camera2D").zoom = Vector2(1, 1)
 	slowmo_finished = true
 	print("slowmo finished")
 	Engine.time_scale = 1.0
