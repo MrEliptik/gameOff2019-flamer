@@ -21,3 +21,5 @@ func _on_Powerup4_body_entered(body):
 		$Powerup4.set_deferred("monitoring", false)
 		$Powerup4.visible = false
 
+func _on_FinishArea_body_entered(body):
+	$AudioStreamPlayer.stop()
