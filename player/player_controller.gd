@@ -101,6 +101,10 @@ func calculateMaxAirTime():
 func calculateAirTime():
 	stats["air_time"] = OS.get_ticks_msec() - air_time_begin
 	return stats["air_time"]
+	
+func calculateDeltaAirTime():
+	print((OS.get_ticks_msec() - air_time_begin) - stats["air_time"])
+	return (OS.get_ticks_msec() - air_time_begin) - stats["air_time"]
 
 func calculateLevelTime():
 	stats["level_time"] = OS.get_ticks_msec() - start_level
@@ -130,6 +134,8 @@ func add_vignette(value):
 	
 func _physics_process(delta):
 	
+	if get_state() == STATES.DEAD or get_state() == STATES.WIN: return
+	
 	var powerups_visible = powerups_count
 	for sprite in powerups_sprites:
 		if powerups_visible > 0:
@@ -145,6 +151,9 @@ func _physics_process(delta):
 	#add_vignette(-(score * 0.001))
 	
 	calculateLevelTime()
+	
+	print(vignette)
+	
 	$Camera2D/CanvasLayer/HUD.updateStats(stats)
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
@@ -389,11 +398,13 @@ class JumpState:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
 			player.addScore(player.calculateAirTime())
+			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 			player.calculateAvgAirTime()
 			player.set_state(STATES.IDLE)
 		else:
 			player.calculateAirTime()
+			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 	
 	func input(e):
@@ -455,11 +466,13 @@ class DoubleJumpState:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
 			player.addScore(player.calculateAirTime())
+			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 			player.calculateAvgAirTime()
 			player.set_state(STATES.IDLE)
 		else:
 			player.calculateAirTime()
+			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 	
 	func input(e):
@@ -528,6 +541,7 @@ class AirLeftState:
 				player.set_state(player.STATES.IDLE)
 		else:
 			player.calculateAirTime()
+			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 	
 	func input(e):
@@ -597,6 +611,7 @@ class AirRightState:
 				player.set_state(player.STATES.IDLE)
 		else:
 			player.calculateAirTime()
+			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 	
 	func input(e):
