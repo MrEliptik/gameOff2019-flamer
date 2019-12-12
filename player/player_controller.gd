@@ -14,6 +14,9 @@ export (int) var score = 0
 # In milliseconds
 const PERFECT_JUMP_INTERVAL = 800
 
+const PERFECT_JUMP_VIGNETTE = -0.01
+const PLATFORM_HIT_VIGNETTE = -0.005
+
 # In seconds
 const DASH_TIME = 1
 # Used to count up the time we are dashing
@@ -437,6 +440,7 @@ class JumpState:
 				print("perfect jump")
 				player.get_node("TwinkleParticles").emitting = true
 				player.stats["perfect_jumps"]+=1
+				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 			player.calculateAvgAirTime()
 	
 	func exit():
@@ -502,6 +506,7 @@ class DoubleJumpState:
 				print("perfect jump")
 				player.get_node("TwinkleParticles").emitting = true
 				player.stats["perfect_jumps"]+=1
+				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 			player.calculateAvgAirTime()
 			player.set_state(player.STATES.IDLE)
 	
@@ -571,6 +576,7 @@ class AirLeftState:
 				print("perfect jump")
 				player.get_node("TwinkleParticles").emitting = true
 				player.stats["perfect_jumps"]+=1
+				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 		else:
 			pass
 			#player.set_state(player.STATES.FALL)
@@ -641,6 +647,7 @@ class AirRightState:
 				print("perfect jump")
 				player.get_node("TwinkleParticles").emitting = true
 				player.stats["perfect_jumps"]+=1
+				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 		else:
 			pass
 			#player.set_state(player.STATES.FALL)
@@ -676,6 +683,7 @@ class DashLeftState:
 					print("perfect jump")
 					player.get_node("TwinkleParticles").emitting = true
 					player.stats["perfect_jumps"]+=1
+					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 			elif Input.is_action_pressed("ui_right"):
 				if player.is_on_floor():
 					player.set_state(STATES.RUN_RIGHT)
