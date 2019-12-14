@@ -382,7 +382,7 @@ class JumpState:
 	
 	func _init(player):
 		self.player = player
-		#player.get_node("JumpSound").play(0)
+		player.get_node("JumpSound").play(0)
 		player.air_time_begin = OS.get_ticks_msec()
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.get_node("JumpParticles").emitting = true
@@ -453,7 +453,8 @@ class DoubleJumpState:
 		self.player = player
 		#player.get_node("JumpSound").play(0)
 		player.powerups_count -= 1
-		player.get_node("AnimatedSprite").play("jump_up")
+		player.get_node("DJumpSound").play(0)
+		player.get_node("AnimatedSprite").play("double_jump")
 		player.get_node("DJumpParticles").emitting = true
 		player.velocity.y = -player.jump_speed
 		player.jump_count = 2
