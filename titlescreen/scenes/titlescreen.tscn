@@ -54,7 +54,6 @@ animations = [ {
 } ]
 
 [sub_resource type="AnimatedTexture" id=2]
-flags = 4
 frames = 10
 fps = 8.0
 frame_0/texture = ExtResource( 10 )
@@ -114,6 +113,7 @@ script = ExtResource( 1 )
 position = Vector2( 642.345, 362.789 )
 scale = Vector2( 0.44368, 0.443182 )
 frames = SubResource( 1 )
+frame = 3
 playing = true
 
 [node name="Selector1" type="TextureRect" parent="."]
@@ -227,7 +227,7 @@ margin_left = -156.0
 margin_top = -87.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 5 )
-text = "Version 1.0
+text = "Version 1.1
 MrEliptik"
 valign = 2
 
@@ -236,7 +236,7 @@ position = Vector2( 259.479, 403.612 )
 scale = Vector2( 0.224724, 0.401212 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 3
+frame = 1
 playing = true
 
 [node name="Letter_burn2" type="AnimatedSprite" parent="."]
@@ -244,6 +244,7 @@ position = Vector2( 323.34, 483.953 )
 scale = Vector2( 0.415495, 0.416484 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
+frame = 2
 playing = true
 
 [node name="Letter_burn3" type="AnimatedSprite" parent="."]
@@ -251,7 +252,6 @@ position = Vector2( 303.918, 563.647 )
 scale = Vector2( 0.362971, 0.401212 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 2
 playing = true
 
 [node name="Letter_burn4" type="AnimatedSprite" parent="."]
@@ -259,7 +259,7 @@ position = Vector2( 248.181, 643.184 )
 scale = Vector2( 0.185218, 0.406303 )
 frames = SubResource( 6 )
 animation = "burning_bottom"
-frame = 3
+frame = 1
 playing = true
 
 [node name="FadeIn" parent="." instance=ExtResource( 40 )]
