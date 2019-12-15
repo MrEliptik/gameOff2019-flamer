@@ -11,7 +11,7 @@
 [ext_resource path="res://animations/flame_front_small/sprite_08.png" type="Texture" id=9]
 [ext_resource path="res://animations/flame_front_small/sprite_09.png" type="Texture" id=10]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
@@ -19,13 +19,12 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve2D" id=1]
+[sub_resource type="Curve2D" id=2]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, -0.132248, -0.101864, 0, 0, 0, 0, -2.75927, -2.21344, 0, 0, 0, 0, 2.98008, -5.20788, 0, 0, 0, 0, -2.29584, -12.1593, 0, 0, 0, 0, 2.58795, -14.6546, 0, 0, 0, 0, -0.10869, -16.6511 )
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "up_down"
+[sub_resource type="Animation" id=3]
 length = 4.0
 loop = true
 tracks/0/type = "value"
@@ -35,7 +34,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.000199873, 2 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.99 ]
@@ -43,33 +42,31 @@ tracks/0/keys = {
 
 [node name="movingPowerups" type="Node2D"]
 
-[node name="KinematicBody2D" type="RigidBody2D" parent="."]
-position = Vector2( 1.35804, -2.7398 )
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 1.20195, -2.42857 )
 rotation = -1.56937
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 position = Vector2( -0.00823259, -0.0414238 )
 rotation = 1.5708
 scale = Vector2( 0.314744, 0.314744 )
-frames = SubResource( 3 )
-frame = 1
+frames = SubResource( 1 )
+frame = 8
 playing = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
-polygon = PoolVector2Array( -3.07651, -0.468948, -2.38774, -0.916016, -1.41429, -0.795741, -0.399992, -0.472758, 0.452349, 0.032946, -0.439535, 0.236982, -1.06791, 0.379813, -2.26417, 0.422069, -3.17711, 0.0786654 )
-
 [node name="Path2D" type="Path2D" parent="."]
-curve = SubResource( 1 )
+curve = SubResource( 2 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2( 1.35804, -2.7398 )
+position = Vector2( 1.20195, -2.42857 )
 rotation = -1.56937
-offset = 3.11758
+offset = 2.82265
 rotate = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Path2D/PathFollow2D"]
 remote_path = NodePath("../../../KinematicBody2D")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "up_down"
 playback_process_mode = 0
-anims/up_down = SubResource( 2 )
+anims/up_down = SubResource( 3 )

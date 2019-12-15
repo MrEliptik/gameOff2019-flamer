@@ -5,21 +5,20 @@
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 6.24515, 10.3433, 0, 0, 0, 0, 6.37402, -145.461 )
+"points": PoolVector2Array( 0, 0, 0, 0, 6.24515, 10.3433, 0, 0, 0, 0, 5.68433, -11.8939, 0, 0, 0, 0, 6.37402, -145.461 )
 }
 
 [node name="MovingCircularSaw" type="Node2D"]
 
 [node name="CircularSaw" parent="." instance=ExtResource( 1 )]
-position = Vector2( 0.0259676, -102.603 )
+position = Vector2( -0.0590701, 0.2081 )
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2( -6.30422, -10.1352 )
 curve = SubResource( 1 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2( 6.33019, -92.4676 )
-offset = 102.829
+position = Vector2( 6.24515, 10.3433 )
 rotate = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Path2D/PathFollow2D"]
