@@ -1,16 +1,408 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://titlescreen/scenes/Play.tscn" type="PackedScene" id=1]
+[ext_resource path="res://titlescreen/scenes/options.gd" type="Script" id=1]
+[ext_resource path="res://fonts/vikingHell_64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/heller_20.tres" type="DynamicFont" id=3]
+[ext_resource path="res://buttons/backButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://buttons/menuButton.gd" type="Script" id=5]
+[ext_resource path="res://music/cavern_ambiance.wav" type="AudioStream" id=6]
 
-[node name="Options" instance=ExtResource( 1 )]
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = true
 
-[node name="VBoxContainer" parent="CenterContainer" index="0"]
-margin_left = 834.0
-margin_right = 1086.0
+[sub_resource type="StyleBoxEmpty" id=2]
 
-[node name="Label" parent="CenterContainer/VBoxContainer" index="0"]
-margin_right = 252.0
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxLine" id=4]
+color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="Shader" id=5]
+code = "// define shader type
+shader_type canvas_item;
+
+// Variable accessible outside of the shader
+uniform float vignette_radius;
+
+void fragment(){
+	// Put the input pixel in a variable
+	vec2 uv = UV;
+	
+    // Pixel is drawn black
+    // edit uv here and then put it back to
+    // the out variable COLOR
+    //COLOR.rgb = vec3(0); // 0 black, 1 white
+
+}
+
+	// Sample the texture
+	//vec4 tex_color = texture(TEXTURE, UV);
+	
+	//float len = length(UV - vec2(0.5));
+
+    //COLOR = vec4(tex_color.rgb * vec3(1.0 - len), 0.1);"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/vignette_radius = null
+
+[node name="Options" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0313726, 0.027451, 0.027451, 0.870588 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 319.0
+margin_top = 17.0
+margin_right = -325.0
+margin_bottom = -143.0
+
+[node name="HboxContainer" type="HBoxContainer" parent="VBoxContainer"]
+editor/display_folded = true
+margin_right = 636.0
+margin_bottom = 68.0
+alignment = 1
+
+[node name="Options" type="Label" parent="VBoxContainer/HboxContainer"]
+margin_left = 220.0
+margin_right = 416.0
+margin_bottom = 68.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.807843, 0.262745, 0.262745, 1 )
+custom_colors/font_color_shadow = Color( 0.541176, 0.0470588, 0.0470588, 1 )
+custom_constants/shadow_offset_x = 5
+custom_constants/line_spacing = 1
+custom_constants/shadow_offset_y = 2
 text = "OPTIONS"
+align = 1
+valign = 1
 
-[node name="Button" parent="CenterContainer/VBoxContainer" index="1"]
-margin_right = 252.0
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+modulate = Color( 0, 0, 0, 0 )
+margin_top = 72.0
+margin_right = 636.0
+margin_bottom = 122.0
+rect_min_size = Vector2( 100, 50 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+editor/display_folded = true
+margin_top = 126.0
+margin_right = 636.0
+margin_bottom = 318.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Display" type="Label" parent="VBoxContainer/VBoxContainer"]
+margin_right = 636.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 3 )
+text = "DISPLAY"
+align = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+editor/display_folded = true
+margin_top = 24.0
+margin_right = 636.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 80 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WindowMode" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 30.0
+margin_right = 116.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 3 )
+text = "WINDOW MODE"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 120.0
+margin_right = 145.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 25, 0 )
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 149.0
+margin_top = 30.0
+margin_right = 636.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+editor/display_folded = true
+margin_top = 108.0
+margin_right = 636.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 0, 80 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Resolution" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_top = 30.0
+margin_right = 91.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 3 )
+text = "Resolution"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 95.0
+margin_right = 145.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 50, 0 )
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 149.0
+margin_top = 30.0
+margin_right = 636.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "1920x1080"
+align = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+margin_top = 192.0
+margin_right = 636.0
+margin_bottom = 192.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+modulate = Color( 0, 0, 0, 0 )
+margin_top = 322.0
+margin_right = 636.0
+margin_bottom = 372.0
+rect_min_size = Vector2( 100, 50 )
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 376.0
+margin_right = 636.0
+margin_bottom = 560.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Sound" type="Label" parent="VBoxContainer/VBoxContainer2"]
+margin_right = 636.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 3 )
+text = "SOUND"
+align = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+margin_top = 24.0
+margin_right = 636.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Master" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
+margin_top = 15.0
+margin_right = 63.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 3 )
+text = "MASTER"
+
+[node name="HSlider_master" type="HSlider" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
+margin_left = 67.0
+margin_right = 527.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 100.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Value" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
+margin_left = 531.0
+margin_top = 15.0
+margin_right = 556.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 3 )
+text = "100"
+
+[node name="CheckButton_master" type="CheckButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
+margin_left = 560.0
+margin_right = 636.0
+margin_bottom = 50.0
+custom_styles/focus = SubResource( 2 )
+pressed = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+margin_top = 78.0
+margin_right = 636.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Music" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_top = 15.0
+margin_right = 62.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 3 )
+text = "MUSIC   "
+
+[node name="HSlider_music" type="HSlider" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 66.0
+margin_right = 527.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 100.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Value" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 531.0
+margin_top = 15.0
+margin_right = 556.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 3 )
+text = "100"
+
+[node name="CheckButton_music" type="CheckButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 560.0
+margin_right = 636.0
+margin_bottom = 50.0
+custom_styles/focus = SubResource( 2 )
+pressed = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+margin_top = 132.0
+margin_right = 636.0
+margin_bottom = 184.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Effects" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_top = 16.0
+margin_right = 65.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 3 )
+text = "EFFECTS"
+
+[node name="HSlider_effects" type="HSlider" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 69.0
+margin_right = 527.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 100.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Value" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 531.0
+margin_top = 16.0
+margin_right = 556.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 3 )
+text = "100"
+
+[node name="CheckButton_effects" type="CheckButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 560.0
+margin_right = 636.0
+margin_bottom = 52.0
+custom_styles/focus = SubResource( 3 )
+pressed = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_left = 19.0
+margin_top = 641.0
+margin_right = 1328.0
+margin_bottom = 703.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+
+[node name="BackButton" parent="HBoxContainer3" instance=ExtResource( 4 )]
+margin_left = 221.0
+margin_right = 581.0
+margin_bottom = 62.0
+
+[node name="CancelButton" type="Button" parent="HBoxContainer3"]
+margin_left = 585.0
+margin_right = 945.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 360, 60 )
+size_flags_vertical = 0
+custom_styles/focus = SubResource( 4 )
+flat = true
+align = 2
+script = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="HBoxContainer3/CancelButton"]
+material = SubResource( 6 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -163.427
+margin_top = 3.17334
+margin_right = -163.427
+margin_bottom = 11.1733
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.807843, 0.262745, 0.262745, 1 )
+custom_colors/font_color_shadow = Color( 0.541176, 0.0470588, 0.0470588, 1 )
+custom_constants/shadow_offset_x = 5
+custom_constants/line_spacing = 1
+custom_constants/shadow_offset_y = 2
+text = "Reset"
+align = 2
+valign = 2
+
+[node name="ApplyButton" type="Button" parent="HBoxContainer3"]
+margin_left = 949.0
+margin_right = 1309.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 360, 60 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_styles/focus = SubResource( 4 )
+flat = true
+script = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="HBoxContainer3/ApplyButton"]
+material = SubResource( 6 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -279.026
+margin_top = -0.0835571
+margin_right = -279.026
+margin_bottom = 7.91644
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0901961, 0.647059, 0.203922, 1 )
+custom_colors/font_color_shadow = Color( 0.0117647, 0.419608, 0.121569, 1 )
+custom_constants/shadow_offset_x = 5
+custom_constants/line_spacing = 1
+custom_constants/shadow_offset_y = 2
+text = "Apply"
+align = 2
+valign = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+bus = "Music"
+[connection signal="value_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/HSlider_master" to="." method="_on_HSlider_master_value_changed"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer2/HBoxContainer3/CheckButton_master" to="." method="_on_CheckButton_master_toggled"]
+[connection signal="value_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer/HSlider_music" to="." method="_on_HSlider_music_value_changed"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer2/HBoxContainer/CheckButton_music" to="." method="_on_CheckButton_music_toggled"]
+[connection signal="value_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer2/HSlider_effects" to="." method="_on_HSlider_effects_value_changed"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer2/HBoxContainer2/CheckButton_effects" to="." method="_on_CheckButton_effects_toggled"]
+[connection signal="pressed" from="HBoxContainer3/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="HBoxContainer3/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="pressed" from="HBoxContainer3/ApplyButton" to="." method="_on_ApplyButton_pressed"]
