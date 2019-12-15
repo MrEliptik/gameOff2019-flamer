@@ -31,7 +31,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 1 )
-frame = 8
+frame = 1
 playing = true
 
 [node name="Light2D" type="Light2D" parent="."]
