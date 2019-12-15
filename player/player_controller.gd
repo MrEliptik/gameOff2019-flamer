@@ -148,14 +148,10 @@ func _physics_process(delta):
 			sprite.visible = false
 	
 	# Add vignetting every physics frame
-	add_vignette(delta * 0.015)
+	add_vignette(delta * 0.02)
 	stats["score"] += delta
-	# Substract vignetting based on our score
-	#add_vignette(-(score * 0.001))
 	
 	calculateLevelTime()
-	
-	print(vignette)
 	
 	$Camera2D/CanvasLayer/HUD.updateStats(stats)
 	
@@ -451,9 +447,9 @@ class DoubleJumpState:
 	
 	func _init(player):
 		self.player = player
-		#player.get_node("JumpSound").play(0)
 		player.powerups_count -= 1
-		player.get_node("DJumpSound").play(0)
+		#player.get_node("DJumpSound").play(0)
+		player.get_node("DJumpTimer").start()
 		player.get_node("AnimatedSprite").play("double_jump")
 		player.get_node("DJumpParticles").emitting = true
 		player.velocity.y = -player.jump_speed
@@ -894,4 +890,15 @@ func _on_Powerup_body_entered(body):
 		print("flame entered")
 		if powerups_count < 4:
 			powerups_count += 1
-
+			
+func _on_DJumpTimer_timeout():
+	if get_state() == STATES.DOUBLE_JUMP:
+		# make a copy of the ghost obj
+		var this_ghost = preload("res://effects/ghost.tscn").instance()
+		# give the ghost a parent
+		get_parent().add_child(this_ghost)
+		this_ghost.position = position
+		this_ghost.texture = $AnimatedSprite.frames.get_frame($AnimatedSprite.animation, $AnimatedSprite.frame)
+		this_ghost.flip_h = $AnimatedSprite.flip_h
+		this_ghost.scale = $AnimatedSprite.scale
+		this_ghost.modulate = Color(0, 0, 1) # blue shade

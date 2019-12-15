@@ -1,5 +1,7 @@
 extends Control
 
+onready var switcher = get_node("/root/scene_switcher")
+
 var scene_path_to_load
 
 const SCALE_FACTOR_X = 1.15
@@ -156,7 +158,8 @@ func _on_button_pressed(scene_to_load):
 		$FadeIn.fade_in()
 
 func _on_FadeIn_fade_finished():
-	get_tree().change_scene(scene_path_to_load)
+	if scene_path_to_load == "res://game/tutorial/scenes/Tutorial.tscn": return
+	switcher.switch_scene(scene_path_to_load)
 	
 func scaleLabel(label, scale_x, scale_y):
 	label.rect_scale.x = scale_x

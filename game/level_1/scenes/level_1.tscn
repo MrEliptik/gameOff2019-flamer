@@ -243,6 +243,7 @@ shape = SubResource( 5 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 autoplay = true
+bus = "Music"
 
 [node name="Powerup" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2727.28, 378.794 )
@@ -259,7 +260,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.91479 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup2"]
@@ -277,6 +278,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
+frame = 1
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup3"]
@@ -294,7 +296,7 @@ polygon = PoolVector2Array( -6.51611, 12.8927, -3.76807, 15.2929, 0.547852, 15.2
 position = Vector2( -2.10449, 7.28455 )
 scale = Vector2( 0.512833, 0.512833 )
 frames = SubResource( 6 )
-frame = 8
+frame = 9
 playing = true
 
 [node name="Light2D" type="Light2D" parent="Powerup4"]
@@ -302,6 +304,7 @@ texture = ExtResource( 3 )
 color = Color( 1, 0.603922, 0.0470588, 1 )
 
 [node name="Ground" parent="." instance=ExtResource( 17 )]
+[connection signal="body_entered" from="FinishArea" to="." method="_on_FinishArea_body_entered"]
 [connection signal="body_entered" from="FinishArea" to="player" method="_on_FinishArea_body_entered"]
 [connection signal="body_entered" from="Powerup" to="." method="_on_Powerup_body_entered"]
 [connection signal="body_entered" from="Powerup" to="player" method="_on_Powerup_body_entered"]

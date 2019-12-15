@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://titlescreen/scripts/titlescreen.gd" type="Script" id=1]
 [ext_resource path="res://backgrounds/city_night/sprite_0.png" type="Texture" id=2]
@@ -83,11 +83,14 @@ font_path = "res://fonts/Viking Hell.otf"
 size = 256
 font_data = SubResource( 3 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="StyleBoxLine" id=5]
+color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="DynamicFont" id=6]
 size = 20
 font_data = ExtResource( 24 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 26 ) ],
 "loop": true,
@@ -110,10 +113,10 @@ margin_bottom = -1.36035
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 642.345, 362.789 )
-scale = Vector2( 0.44368, 0.443182 )
+position = Vector2( 641.391, 361.465 )
+scale = Vector2( 0.444379, 0.444285 )
 frames = SubResource( 1 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="Selector1" type="TextureRect" parent="."]
@@ -189,7 +192,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
-editor/display_folded = true
 margin_right = 360.0
 margin_bottom = 396.0
 size_flags_horizontal = 3
@@ -201,22 +203,25 @@ alignment = 1
 margin_top = 48.0
 margin_right = 360.0
 margin_bottom = 108.0
+custom_styles/focus = SubResource( 5 )
 
 [node name="TutorialButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 21 )]
 margin_top = 128.0
 margin_right = 360.0
 margin_bottom = 188.0
+custom_styles/focus = SubResource( 5 )
 
 [node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 22 )]
 margin_top = 208.0
 margin_right = 360.0
 margin_bottom = 268.0
-scene_to_load = "res://options.tscn"
+custom_styles/focus = SubResource( 5 )
 
 [node name="ExitButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 23 )]
 margin_top = 288.0
 margin_right = 360.0
 margin_bottom = 348.0
+custom_styles/focus = SubResource( 5 )
 
 [node name="Version" type="Label" parent="."]
 anchor_left = 1.0
@@ -226,7 +231,7 @@ anchor_bottom = 1.0
 margin_left = -156.0
 margin_top = -87.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Version 1.1
 MrEliptik"
 valign = 2
@@ -234,7 +239,7 @@ valign = 2
 [node name="Letter_burn1" type="AnimatedSprite" parent="."]
 position = Vector2( 259.479, 403.612 )
 scale = Vector2( 0.224724, 0.401212 )
-frames = SubResource( 6 )
+frames = SubResource( 7 )
 animation = "burning_bottom"
 frame = 1
 playing = true
@@ -242,7 +247,7 @@ playing = true
 [node name="Letter_burn2" type="AnimatedSprite" parent="."]
 position = Vector2( 323.34, 483.953 )
 scale = Vector2( 0.415495, 0.416484 )
-frames = SubResource( 6 )
+frames = SubResource( 7 )
 animation = "burning_bottom"
 frame = 2
 playing = true
@@ -250,14 +255,14 @@ playing = true
 [node name="Letter_burn3" type="AnimatedSprite" parent="."]
 position = Vector2( 303.918, 563.647 )
 scale = Vector2( 0.362971, 0.401212 )
-frames = SubResource( 6 )
+frames = SubResource( 7 )
 animation = "burning_bottom"
 playing = true
 
 [node name="Letter_burn4" type="AnimatedSprite" parent="."]
 position = Vector2( 248.181, 643.184 )
 scale = Vector2( 0.185218, 0.406303 )
-frames = SubResource( 6 )
+frames = SubResource( 7 )
 animation = "burning_bottom"
 frame = 1
 playing = true
@@ -269,18 +274,22 @@ visible = false
 stream = ExtResource( 41 )
 volume_db = 6.0
 mix_target = 2
+bus = "Effects"
 
 [node name="MainTheme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 42 )
+bus = "Music"
 
 [node name="MonoFireSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 43 )
 volume_db = -8.078
 autoplay = true
+bus = "Effects"
 
 [node name="IgnitionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 44 )
 volume_db = -2.019
+bus = "Effects"
 [connection signal="focus_entered" from="Menu/CenterRow/Buttons/PlayButton" to="." method="_on_PlayButton_focus_entered"]
 [connection signal="focus_entered" from="Menu/CenterRow/Buttons/TutorialButton" to="." method="_on_TutorialButton_focus_entered"]
 [connection signal="focus_entered" from="Menu/CenterRow/Buttons/OptionsButton" to="." method="_on_OptionsButton_focus_entered"]
