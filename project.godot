@@ -21,6 +21,10 @@ boot_splash/fullsize=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 
+[autoload]
+
+scene_switcher="*res://scene_switcher.gd"
+
 [display]
 
 window/size/width=1280
