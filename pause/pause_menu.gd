@@ -5,6 +5,8 @@ const SCALE_FACTOR_Y = 1.15
 
 const JOY_DEADZONE = 0.2
 
+onready var switcher = get_node("/root/scene_switcher")
+
 var y_val = 0
 var index_select = 0
 
@@ -16,7 +18,7 @@ var direction = null
 
 onready var btns = [
 	get_node("CenterContainer/VBoxContainer/Resume"), 
-	get_node("CenterContainer/VBoxContainer/OptionsButton"),
+	#get_node("CenterContainer/VBoxContainer/OptionsButton"),
 	get_node("CenterContainer/VBoxContainer/MainMenuButton")
 ]
 
@@ -104,13 +106,15 @@ func _on_Resume_pressed():
 	self.hide()
 	
 func _on_OptionsButton_pressed():
-	get_tree().paused = false
 	self.hide()
+	get_tree().paused = false
+	switcher.switch_scene("res://titlescreen/scenes/options.tscn")
+	
 
 func _on_MainMenuButton_pressed():
 	get_tree().paused = false
 	self.hide()
-	get_tree().change_scene("res://titlescreen/scenes/titlescreen.tscn")
+	switcher.switch_scene("res://titlescreen/scenes/titlescreen.tscn")
 
 
 func _on_Resume_focus_entered():
