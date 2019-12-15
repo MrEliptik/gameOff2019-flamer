@@ -54,6 +54,10 @@ func setCurrentValues():
 	$VBoxContainer/VBoxContainer2/HBoxContainer/HSlider_music.value = db2linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))*100
 	$VBoxContainer/VBoxContainer2/HBoxContainer2/HSlider_effects.value = db2linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Effects")))*100
 	
+	$VBoxContainer/VBoxContainer2/HBoxContainer3/CheckButton_master.pressed = !AudioServer.is_bus_mute(AudioServer.get_bus_index("Master"))
+	$VBoxContainer/VBoxContainer2/HBoxContainer2/CheckButton_effects.pressed = !AudioServer.is_bus_mute(AudioServer.get_bus_index("Effects"))
+	$VBoxContainer/VBoxContainer2/HBoxContainer/CheckButton_music.pressed = !AudioServer.is_bus_mute(AudioServer.get_bus_index("Music"))
+	
 	$VBoxContainer/VBoxContainer/HBoxContainer/OptionButton.select(resolutions.find(OS.get_window_size()))
 	
 	# Fullscreen
@@ -105,6 +109,9 @@ func _on_CheckButton_effects_toggled(button_pressed):
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Effects"), !button_pressed)
 
 func _on_ApplyButton_pressed():
+	$VBoxContainer/VBoxContainer2/Applied.show()
+	$AppliedTimer.start()
+	
 	########### WINDOW MODE ###############
 	var mode = window_modes_str[$VBoxContainer/VBoxContainer/HBoxContainer2/OptionButton.get_selected_id()]
 	if mode == "borderless_window":
@@ -128,3 +135,9 @@ func _on_CancelButton_pressed():
 
 func _on_BackButton_pressed():
 	switcher.return_to_last()
+
+func _on_AppliedTimer_timeout():
+	$VBoxContainer/VBoxContainer2/Applied.hide()
+
+func _on_button_focus_entered():
+	$SelectSound.play(0)

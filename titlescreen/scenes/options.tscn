@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://titlescreen/scenes/options.gd" type="Script" id=1]
 [ext_resource path="res://fonts/vikingHell_64.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://buttons/backButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://buttons/menuButton.gd" type="Script" id=5]
 [ext_resource path="res://music/cavern_ambiance.wav" type="AudioStream" id=6]
+[ext_resource path="res://sounds/select2.wav" type="AudioStream" id=7]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -61,7 +62,6 @@ anchor_bottom = 1.0
 color = Color( 0.0313726, 0.027451, 0.027451, 0.870588 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 319.0
@@ -191,9 +191,10 @@ margin_bottom = 372.0
 rect_min_size = Vector2( 100, 50 )
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+editor/display_folded = true
 margin_top = 376.0
 margin_right = 636.0
-margin_bottom = 560.0
+margin_bottom = 582.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -205,23 +206,24 @@ text = "SOUND"
 align = 1
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+editor/display_folded = true
 margin_top = 24.0
 margin_right = 636.0
-margin_bottom = 74.0
+margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Master" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
-margin_top = 15.0
+margin_top = 10.0
 margin_right = 63.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "MASTER"
 
 [node name="HSlider_master" type="HSlider" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
 margin_left = 67.0
 margin_right = 527.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 value = 100.0
@@ -230,37 +232,38 @@ ticks_on_borders = true
 
 [node name="Value" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
 margin_left = 531.0
-margin_top = 15.0
+margin_top = 10.0
 margin_right = 556.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "100"
 
 [node name="CheckButton_master" type="CheckButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer3"]
 margin_left = 560.0
 margin_right = 636.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 custom_styles/focus = SubResource( 2 )
 pressed = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
-margin_top = 78.0
+editor/display_folded = true
+margin_top = 68.0
 margin_right = 636.0
-margin_bottom = 128.0
+margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Music" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_top = 15.0
+margin_top = 10.0
 margin_right = 62.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "MUSIC   "
 
 [node name="HSlider_music" type="HSlider" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 66.0
 margin_right = 527.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 value = 100.0
@@ -269,37 +272,38 @@ ticks_on_borders = true
 
 [node name="Value" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 531.0
-margin_top = 15.0
+margin_top = 10.0
 margin_right = 556.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "100"
 
 [node name="CheckButton_music" type="CheckButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 560.0
 margin_right = 636.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 custom_styles/focus = SubResource( 2 )
 pressed = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
-margin_top = 132.0
+editor/display_folded = true
+margin_top = 112.0
 margin_right = 636.0
-margin_bottom = 184.0
+margin_bottom = 152.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Effects" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_top = 16.0
+margin_top = 10.0
 margin_right = 65.0
-margin_bottom = 36.0
+margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "EFFECTS"
 
 [node name="HSlider_effects" type="HSlider" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
 margin_left = 69.0
 margin_right = 527.0
-margin_bottom = 52.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 value = 100.0
@@ -308,21 +312,37 @@ ticks_on_borders = true
 
 [node name="Value" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
 margin_left = 531.0
-margin_top = 16.0
+margin_top = 10.0
 margin_right = 556.0
-margin_bottom = 36.0
+margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "100"
 
 [node name="CheckButton_effects" type="CheckButton" parent="VBoxContainer/VBoxContainer2/HBoxContainer2"]
 margin_left = 560.0
 margin_right = 636.0
-margin_bottom = 52.0
+margin_bottom = 40.0
 custom_styles/focus = SubResource( 3 )
 pressed = true
 
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer/VBoxContainer2"]
+modulate = Color( 0, 0, 0, 0 )
+margin_top = 156.0
+margin_right = 636.0
+margin_bottom = 206.0
+rect_min_size = Vector2( 100, 50 )
+
+[node name="Applied" type="Label" parent="VBoxContainer/VBoxContainer2"]
+visible = false
+margin_top = 210.0
+margin_right = 636.0
+margin_bottom = 230.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0.666667, 0.137255, 1 )
+text = "Options applied"
+align = 1
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="."]
-editor/display_folded = true
 margin_left = 19.0
 margin_top = 641.0
 margin_right = 1328.0
@@ -337,6 +357,7 @@ margin_right = 581.0
 margin_bottom = 62.0
 
 [node name="CancelButton" type="Button" parent="HBoxContainer3"]
+editor/display_folded = true
 margin_left = 585.0
 margin_right = 945.0
 margin_bottom = 60.0
@@ -366,6 +387,7 @@ align = 2
 valign = 2
 
 [node name="ApplyButton" type="Button" parent="HBoxContainer3"]
+editor/display_folded = true
 margin_left = 949.0
 margin_right = 1309.0
 margin_bottom = 60.0
@@ -385,7 +407,7 @@ margin_top = -0.0835571
 margin_right = -279.026
 margin_bottom = 7.91644
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.0901961, 0.647059, 0.203922, 1 )
+custom_colors/font_color = Color( 0, 0.666667, 0.137255, 1 )
 custom_colors/font_color_shadow = Color( 0.0117647, 0.419608, 0.121569, 1 )
 custom_constants/shadow_offset_x = 5
 custom_constants/line_spacing = 1
@@ -397,12 +419,22 @@ valign = 2
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 bus = "Music"
+
+[node name="AppliedTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SelectSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
 [connection signal="value_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer3/HSlider_master" to="." method="_on_HSlider_master_value_changed"]
 [connection signal="toggled" from="VBoxContainer/VBoxContainer2/HBoxContainer3/CheckButton_master" to="." method="_on_CheckButton_master_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer/HSlider_music" to="." method="_on_HSlider_music_value_changed"]
 [connection signal="toggled" from="VBoxContainer/VBoxContainer2/HBoxContainer/CheckButton_music" to="." method="_on_CheckButton_music_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VBoxContainer2/HBoxContainer2/HSlider_effects" to="." method="_on_HSlider_effects_value_changed"]
 [connection signal="toggled" from="VBoxContainer/VBoxContainer2/HBoxContainer2/CheckButton_effects" to="." method="_on_CheckButton_effects_toggled"]
+[connection signal="focus_entered" from="HBoxContainer3/BackButton" to="." method="_on_button_focus_entered"]
 [connection signal="pressed" from="HBoxContainer3/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="focus_entered" from="HBoxContainer3/CancelButton" to="." method="_on_button_focus_entered"]
 [connection signal="pressed" from="HBoxContainer3/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="focus_entered" from="HBoxContainer3/ApplyButton" to="." method="_on_button_focus_entered"]
 [connection signal="pressed" from="HBoxContainer3/ApplyButton" to="." method="_on_ApplyButton_pressed"]
+[connection signal="timeout" from="AppliedTimer" to="." method="_on_AppliedTimer_timeout"]
