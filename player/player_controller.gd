@@ -282,7 +282,6 @@ class IdleState:
 			player.set_state(player.STATES.RUN_RIGHT)
 	
 	func exit():
-		player.last_time_touched_ground = OS.get_ticks_msec()
 		player.previous_state = player.state
 		
 class RunRightState:
@@ -396,6 +395,7 @@ class JumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.addScore(player.calculateAirTime())
 			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
@@ -413,6 +413,13 @@ class JumpState:
 		elif e.is_action_pressed("ui_jump"):
 			if player.powerups_count > 0:
 				player.set_state(player.STATES.DOUBLE_JUMP)
+			if player.is_on_floor():
+				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+					print("perfect jump")
+					player.get_node("TwinkleParticles").emitting = true
+					player.stats["perfect_jumps"]+=1
+					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
+				player.calculateAvgAirTime()
 		elif e.is_action_pressed("ui_dash"):
 			if player.powerups_count > 0:
 				if player.player_orientation == player.ORIENTATION.RIGHT:
@@ -431,13 +438,6 @@ class JumpState:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
-		if player.is_on_floor():
-			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-				print("perfect jump")
-				player.get_node("TwinkleParticles").emitting = true
-				player.stats["perfect_jumps"]+=1
-				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
-			player.calculateAvgAirTime()
 	
 	func exit():
 		player.previous_state = player.state
@@ -448,8 +448,8 @@ class DoubleJumpState:
 	func _init(player):
 		self.player = player
 		player.powerups_count -= 1
-		#player.get_node("DJumpSound").play(0)
-		player.get_node("DJumpTimer").start()
+		player.get_node("DJumpSound").play(0)
+		#player.get_node("DJumpTimer").start()
 		player.get_node("AnimatedSprite").play("double_jump")
 		player.get_node("DJumpParticles").emitting = true
 		player.velocity.y = -player.jump_speed
@@ -466,6 +466,7 @@ class DoubleJumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.addScore(player.calculateAirTime())
 			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
@@ -494,16 +495,17 @@ class DoubleJumpState:
 				player.get_node("SlowmoTimer").start()
 				player.get_node("SlowmoSoundTimer").start()
 				Engine.time_scale = 0.1
-		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
-			player.set_state(player.STATES.AIR_LEFT)
-		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
-			player.set_state(player.STATES.AIR_RIGHT)
-		elif player.is_on_floor():
+		elif e.is_action_pressed("ui_jump"):
 			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
 				print("perfect jump")
 				player.get_node("TwinkleParticles").emitting = true
 				player.stats["perfect_jumps"]+=1
 				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
+		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
+			player.set_state(player.STATES.AIR_LEFT)
+		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
+			player.set_state(player.STATES.AIR_RIGHT)
+		elif player.is_on_floor():
 			player.calculateAvgAirTime()
 			player.set_state(player.STATES.IDLE)
 	
@@ -532,6 +534,7 @@ class AirLeftState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.calculateAvgAirTime()
 			player.addScore(player.calculateAirTime())
 			player.calculateMaxAirTime()
@@ -551,6 +554,12 @@ class AirLeftState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
+			if player.is_on_floor():
+				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+					print("perfect jump")
+					player.get_node("TwinkleParticles").emitting = true
+					player.stats["perfect_jumps"]+=1
+					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 			if player.powerups_count > 0:
 				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
@@ -569,11 +578,7 @@ class AirLeftState:
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			pass
 		elif player.is_on_floor():
-			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-				print("perfect jump")
-				player.get_node("TwinkleParticles").emitting = true
-				player.stats["perfect_jumps"]+=1
-				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
+			pass
 		else:
 			pass
 			#player.set_state(player.STATES.FALL)
@@ -603,6 +608,7 @@ class AirRightState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
+			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.addScore(player.calculateAirTime())
 			player.calculateMaxAirTime()
 			player.calculateAvgAirTime()
@@ -622,6 +628,12 @@ class AirRightState:
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
+			if player.is_on_floor():
+				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
+					print("perfect jump")
+					player.get_node("TwinkleParticles").emitting = true
+					player.stats["perfect_jumps"]+=1
+					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 			if player.powerups_count > 0:
 				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
@@ -640,11 +652,7 @@ class AirRightState:
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			pass
 		elif player.is_on_floor():
-			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-				print("perfect jump")
-				player.get_node("TwinkleParticles").emitting = true
-				player.stats["perfect_jumps"]+=1
-				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
+			pass
 		else:
 			pass
 			#player.set_state(player.STATES.FALL)
