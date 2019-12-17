@@ -6,9 +6,10 @@ func setNextLevel(level):
 	nextLevel = level
 
 func _process(delta):
-	if Input.is_action_pressed("ui_restart") or Input.is_action_just_pressed("ui_dash") \
-	or Input.is_action_just_pressed("ui_jump") or Input.is_action_just_pressed("ui_slowmo"):
-		get_tree().change_scene(nextLevel)
+	if self.is_visible():
+		if Input.is_action_pressed("ui_restart") or Input.is_action_just_pressed("ui_dash") \
+		or Input.is_action_just_pressed("ui_jump") or Input.is_action_just_pressed("ui_slowmo"):
+			get_tree().change_scene(nextLevel)
 
 func setStats(stats):
 	$VBoxContainer2/HBoxContainer0/HBoxContainer/Value.text = str(int(stats["level_time"]/1000))
