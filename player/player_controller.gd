@@ -12,7 +12,7 @@ export (int) var gravity = 1600
 export (int) var score = 0
 
 # In milliseconds
-const PERFECT_JUMP_INTERVAL = 800
+const PERFECT_JUMP_INTERVAL = 100
 
 const PERFECT_JUMP_VIGNETTE = -0.01
 const PLATFORM_HIT_VIGNETTE = -0.005
@@ -106,7 +106,7 @@ func calculateAirTime():
 	return stats["air_time"]
 	
 func calculateDeltaAirTime():
-	print((OS.get_ticks_msec() - air_time_begin) - stats["air_time"])
+	#print((OS.get_ticks_msec() - air_time_begin) - stats["air_time"])
 	return (OS.get_ticks_msec() - air_time_begin) - stats["air_time"]
 
 func calculateLevelTime():
@@ -152,6 +152,8 @@ func _physics_process(delta):
 	stats["score"] += delta
 	
 	calculateLevelTime()
+	
+	#print(last_time_touched_ground)
 	
 	$Camera2D/CanvasLayer/HUD.updateStats(stats)
 	
@@ -325,7 +327,6 @@ class RunRightState:
 	func exit():
 		player.last_running_sound_pos = player.get_node("RunningSound").get_playback_position()
 		player.get_node("RunningSound").stop()
-		player.last_time_touched_ground = OS.get_ticks_msec()
 		player.previous_state = player.state
 		
 class RunLeftState:
@@ -368,7 +369,6 @@ class RunLeftState:
 	
 	func exit():
 		player.last_running_sound_pos = player.get_node("RunningSound").get_playback_position()
-		player.last_time_touched_ground = OS.get_ticks_msec()
 		player.get_node("RunningSound").stop()
 		player.previous_state = player.state
 		
@@ -379,6 +379,12 @@ class JumpState:
 		self.player = player
 		player.get_node("JumpSound").play(0)
 		player.air_time_begin = OS.get_ticks_msec()
+		print(OS.get_ticks_msec() - player.last_time_touched_ground)
+		if (OS.get_ticks_msec() - player.last_time_touched_ground) < player.PERFECT_JUMP_INTERVAL:
+			print("perfect jump from jump")
+			player.get_node("TwinkleParticles").emitting = true
+			player.stats["perfect_jumps"]+=1
+			player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 		player.get_node("AnimatedSprite").play("jump_up")
 		player.get_node("JumpParticles").emitting = true
 		player.velocity.y = -player.jump_speed
@@ -395,31 +401,28 @@ class JumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
-			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.addScore(player.calculateAirTime())
-			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 			player.calculateAvgAirTime()
 			player.set_state(STATES.IDLE)
+			player.last_time_touched_ground = OS.get_ticks_msec()
 		else:
 			player.calculateAirTime()
-			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
+		player.add_vignette(-delta*0.01)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
 		elif e.is_action_pressed("ui_jump"):
-			if player.powerups_count > 0:
-				player.set_state(player.STATES.DOUBLE_JUMP)
 			if player.is_on_floor():
-				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-					print("perfect jump")
-					player.get_node("TwinkleParticles").emitting = true
-					player.stats["perfect_jumps"]+=1
-					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
+				player.last_time_touched_ground = OS.get_ticks_msec()
+				player.addScore(player.calculateAirTime())
+				player.calculateMaxAirTime()
 				player.calculateAvgAirTime()
+			elif player.powerups_count > 0:
+				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_dash"):
 			if player.powerups_count > 0:
 				if player.player_orientation == player.ORIENTATION.RIGHT:
@@ -466,16 +469,15 @@ class DoubleJumpState:
 		if player.velocity.y > 0:
 			player.get_node("AnimatedSprite").play("jump_fall")
 		if player.is_on_floor():
-			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.addScore(player.calculateAirTime())
-			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
 			player.calculateAvgAirTime()
+			player.last_time_touched_ground = OS.get_ticks_msec()
 			player.set_state(STATES.IDLE)
 		else:
 			player.calculateAirTime()
-			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
+		player.add_vignette(-delta*0.01)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
@@ -487,6 +489,10 @@ class DoubleJumpState:
 					player.set_state(player.STATES.DASH_RIGHT)
 				elif player.player_orientation == player.ORIENTATION.LEFT:
 					player.set_state(player.STATES.DASH_LEFT)
+		elif e.is_action_pressed("ui_jump"):
+			if player.is_on_floor():
+				player.last_time_touched_ground = OS.get_ticks_msec()
+				player.set_state(player.STATES.JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
 				player.powerups_count -= 1
@@ -495,19 +501,16 @@ class DoubleJumpState:
 				player.get_node("SlowmoTimer").start()
 				player.get_node("SlowmoSoundTimer").start()
 				Engine.time_scale = 0.1
-		elif e.is_action_pressed("ui_jump"):
-			if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-				print("perfect jump")
-				player.get_node("TwinkleParticles").emitting = true
-				player.stats["perfect_jumps"]+=1
-				player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif player.is_on_floor():
+			player.addScore(player.calculateAirTime())
+			player.calculateMaxAirTime()
 			player.calculateAvgAirTime()
-			player.set_state(player.STATES.IDLE)
+			player.set_state(player.STATES.IDLE)						
+			
 	
 	func exit():
 		player.previous_state = player.state
@@ -546,21 +549,21 @@ class AirLeftState:
 				player.set_state(player.STATES.IDLE)
 		else:
 			player.calculateAirTime()
-			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
+		player.add_vignette(-delta*0.01)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
-		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
+		elif e.is_action_pressed("ui_jump"):
 			if player.is_on_floor():
-				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-					print("perfect jump")
-					player.get_node("TwinkleParticles").emitting = true
-					player.stats["perfect_jumps"]+=1
-					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
-			if player.powerups_count > 0:
+				player.addScore(player.calculateAirTime())
+				player.calculateMaxAirTime()
+				player.calculateAvgAirTime()
+				player.last_time_touched_ground = OS.get_ticks_msec()
+				player.set_state(player.STATES.JUMP)
+			if player.powerups_count > 0 and player.jump_count < player.max_jumps:
 				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
@@ -576,8 +579,6 @@ class AirLeftState:
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
 			player.set_state(player.STATES.AIR_RIGHT)
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
-			pass
-		elif player.is_on_floor():
 			pass
 		else:
 			pass
@@ -620,21 +621,21 @@ class AirRightState:
 				player.set_state(player.STATES.IDLE)
 		else:
 			player.calculateAirTime()
-			player.add_vignette(-delta*0.01)
 			player.calculateMaxAirTime()
+		player.add_vignette(-delta*0.01)
 	
 	func input(e):
 		if e.is_action_pressed("ui_restart"):
 			player.get_tree().paused = true
 			player.get_node("Camera2D/CanvasLayer4/Menu").show()
-		elif e.is_action_pressed("ui_jump") and player.jump_count < player.max_jumps:
+		elif e.is_action_pressed("ui_jump"):
 			if player.is_on_floor():
-				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-					print("perfect jump")
-					player.get_node("TwinkleParticles").emitting = true
-					player.stats["perfect_jumps"]+=1
-					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
-			if player.powerups_count > 0:
+				player.addScore(player.calculateAirTime())
+				player.calculateMaxAirTime()
+				player.calculateAvgAirTime()
+				player.last_time_touched_ground = OS.get_ticks_msec()
+				player.set_state(player.STATES.JUMP)
+			if player.powerups_count > 0 and player.jump_count < player.max_jumps:
 				player.set_state(player.STATES.DOUBLE_JUMP)
 		elif e.is_action_pressed("ui_slowmo"):
 			if player.powerups_count > 0:
@@ -650,8 +651,6 @@ class AirRightState:
 		elif e.is_action_pressed("ui_left") or Input.get_action_strength("ui_left") > 0.01:
 			player.set_state(player.STATES.AIR_LEFT)
 		elif e.is_action_pressed("ui_right") or Input.get_action_strength("ui_right") > 0.01:
-			pass
-		elif player.is_on_floor():
 			pass
 		else:
 			pass
@@ -683,19 +682,19 @@ class DashLeftState:
 		
 	func update(delta):
 		if player.dash_finished:
-			if Input.is_action_pressed("ui_jump"):
-				if OS.get_ticks_msec() - player.last_time_touched_ground < player.PERFECT_JUMP_INTERVAL:
-					print("perfect jump")
-					player.get_node("TwinkleParticles").emitting = true
-					player.stats["perfect_jumps"]+=1
-					player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
-			elif Input.is_action_pressed("ui_right"):
+			if Input.is_action_pressed("ui_right"):
 				if player.is_on_floor():
+					player.addScore(player.calculateAirTime())
+					player.calculateMaxAirTime()
+					player.calculateAvgAirTime()
 					player.set_state(STATES.RUN_RIGHT)
 				else:
 					player.set_state(STATES.AIR_RIGHT)
 			elif Input.is_action_pressed("ui_left"):
 				if player.is_on_floor():
+					player.addScore(player.calculateAirTime())
+					player.calculateMaxAirTime()
+					player.calculateAvgAirTime()
 					player.set_state(STATES.RUN_LEFT)
 				else:
 					player.set_state(STATES.AIR_LEFT)
