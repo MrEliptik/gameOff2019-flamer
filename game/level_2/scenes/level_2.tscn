@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://game/level_2/scenes/level_2.gd" type="Script" id=1]
 [ext_resource path="res://game/level_1/scenes/tileset.tres" type="TileSet" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://game/circularSaw.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/movingCircularSaw.tres" type="Animation" id=10]
 [ext_resource path="res://game/movingCircularSaw.tscn" type="PackedScene" id=11]
+[ext_resource path="res://music/cavern_ambiance.wav" type="AudioStream" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 62.1225, 3.21021 )
@@ -402,10 +403,15 @@ position = Vector2( 4290.85, 1710.25 )
 
 [node name="MovingCircularSaw6" parent="." instance=ExtResource( 11 )]
 position = Vector2( 4492.25, 1709.3 )
-[connection signal="body_entered" from="Powerup" to="." method="_on_Powerup_body_entered"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
+volume_db = 1.486
+autoplay = true
 [connection signal="body_entered" from="Powerup" to="player" method="_on_Powerup_body_entered"]
-[connection signal="body_entered" from="Powerup2" to="." method="_on_Powerup2_body_entered"]
+[connection signal="body_entered" from="Powerup" to="." method="_on_Powerup_body_entered"]
 [connection signal="body_entered" from="Powerup2" to="player" method="_on_Powerup_body_entered"]
+[connection signal="body_entered" from="Powerup2" to="." method="_on_Powerup2_body_entered"]
 [connection signal="body_entered" from="FinishArea_level2" to="player" method="_on_FinishArea_level2_body_entered"]
 
 [editable path="MovingPlatforms/MovingPlatform"]

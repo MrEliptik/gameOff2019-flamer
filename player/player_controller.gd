@@ -38,7 +38,7 @@ var pre_dash_speed = 0
 var max_jumps = 2
 var jump_count = 0
 
-var powerups_count = 4
+var powerups_count = 0
 
 var nextLevel = ""
 
@@ -148,7 +148,7 @@ func _physics_process(delta):
 			sprite.visible = false
 	
 	# Add vignetting every physics frame
-	add_vignette(delta * 0.02)
+	add_vignette(delta * 0.025)
 	stats["score"] += delta
 	
 	calculateLevelTime()
@@ -181,7 +181,8 @@ func _physics_process(delta):
 		elif collision.collider is StaticBody2D:
 			set_state(STATES.DEAD)
 		else:
-			print(collision.collider)
+			pass
+			#print(collision.collider)
 	
 	state.update(delta)
 	$Camera2D/CanvasLayer/HUD.updateStats(stats)
@@ -379,9 +380,9 @@ class JumpState:
 		self.player = player
 		player.get_node("JumpSound").play(0)
 		player.air_time_begin = OS.get_ticks_msec()
-		print(OS.get_ticks_msec() - player.last_time_touched_ground)
+		#print(OS.get_ticks_msec() - player.last_time_touched_ground)
 		if (OS.get_ticks_msec() - player.last_time_touched_ground) < player.PERFECT_JUMP_INTERVAL:
-			print("perfect jump from jump")
+			#print("perfect jump from jump")
 			player.get_node("TwinkleParticles").emitting = true
 			player.stats["perfect_jumps"]+=1
 			player.add_vignette(player.PERFECT_JUMP_VIGNETTE)
@@ -857,7 +858,7 @@ class WinState:
 
 func _on_DashTimer_timeout():
 	dash_finished = true
-	print("dash timeout")
+	#print("dash timeout")
 
 func _on_GhostTimer_timeout():
 	if get_state() == STATES.DASH_RIGHT or get_state() == STATES.DASH_LEFT:
@@ -873,7 +874,7 @@ func _on_GhostTimer_timeout():
 func _on_SlowmoTimer_timeout():
 	get_node("Camera2D").zoom = Vector2(1, 1)
 	slowmo_finished = true
-	print("slowmo finished")
+	#print("slowmo finished")
 	Engine.time_scale = 1.0
 
 
@@ -882,19 +883,19 @@ func _on_SlowmoSoundTimer_timeout():
 
 func _on_FinishArea_body_entered(body):
 	if body is PhysicsBody2D:
-		print("entered")
+		#print("entered")
 		nextLevel = "res://game/level_2/scenes/level_2.tscn"
 		set_state(STATES.WIN)
 
 func _on_FinishArea_level2_body_entered(body):
 	if body is PhysicsBody2D:
-		print("entered")
+		#print("entered")
 		nextLevel = "titlescreen/scenes/titlescreen.tscn"
 		set_state(STATES.WIN)
 		
 func _on_Powerup_body_entered(body):
 	if body is PhysicsBody2D:
-		print("flame entered")
+		#print("flame entered")
 		if powerups_count < 4:
 			powerups_count += 1
 			

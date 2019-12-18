@@ -15,7 +15,7 @@ onready var effects_vol = 100
 
 
 func _ready():
-	print("Display size: ", display_size)
+	#print("Display size: ", display_size)
 	
 	for resolution in resolutions_str:
 		$VBoxContainer/VBoxContainer/HBoxContainer/OptionButton.add_item(resolution)
